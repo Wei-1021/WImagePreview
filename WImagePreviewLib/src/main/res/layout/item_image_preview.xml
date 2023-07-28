@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_image_preview_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.wei.wimagepreviewlib.wight.ZoomImageView
+        android:id="@+id/item_image_preview_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_close_30" />
+
+</RelativeLayout>
