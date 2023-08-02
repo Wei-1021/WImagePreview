@@ -1,1 +1,2 @@
 # WImagePreview
+本项目是基于ViewPager2构建的一个Android图片预览组件
