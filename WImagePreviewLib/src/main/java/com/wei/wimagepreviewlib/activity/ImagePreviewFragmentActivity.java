@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
@@ -22,6 +23,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.wei.wimagepreviewlib.R;
 import com.wei.wimagepreviewlib.adapter.ImagePreviewAdapter;
 import com.wei.wimagepreviewlib.utils.KeyConst;
+import com.wei.wimagepreviewlib.utils.WeakDataHolder;
 
 import java.util.List;
 
@@ -53,7 +55,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     /**
      * 图片集合
      */
-    private List<Uri> imageList;
+    private List<Object> imageList;
     /**
      * 设置当前显示的item定位
      */
@@ -115,9 +117,15 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private void initViewPager() {
         viewPager2 = findViewById(R.id.image_view_pager_2);
-        imageList = intent.getParcelableArrayListExtra(KeyConst.IMAGE_URI_LIST);
+        imageList = (List<Object>) WeakDataHolder.getInstance().getData(KeyConst.IMAGE_URI_LIST);
         if (imageList == null) {
-            super.onDestroy();
+            Toast.makeText(this, "无法获取图片", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        if (!(imageList.get(0) instanceof Uri || imageList.get(0) instanceof String)) {
+            Toast.makeText(this, "图片类型不正确", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }

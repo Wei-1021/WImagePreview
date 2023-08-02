@@ -24,14 +24,19 @@ import java.util.List;
  */
 public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapter.imagePreviewAdapterHolder> {
 
-    private Context context;
+    private Context mContext;
 
-    private List<Uri> imageList = new ArrayList<>();
+    private List<Object> mImageList = new ArrayList<>();
 
-    public ImagePreviewAdapter(Context context, List<Uri> imageList) {
-        this.context = context;
-        this.imageList = imageList;
+    public ImagePreviewAdapter(Context context, List<Object> imageList) {
+        if (imageList.get(0) instanceof Uri ||
+                imageList.get(0) instanceof String) {
+            this.mImageList = imageList;
+        }
+
+        this.mContext = context;
     }
+
 
     @NonNull
     @Override
@@ -45,14 +50,16 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull imagePreviewAdapterHolder holder, int position) {
-        Glide.with(context)
-                .load(imageList.get(position))
-                .into(holder.mImageView);
+        if (mImageList.get(0) instanceof Uri || mImageList.get(0) instanceof String) {
+            Glide.with(mContext)
+                    .load(mImageList.get(position))
+                    .into(holder.mImageView);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return imageList == null ? 0 : imageList.size();
+        return mImageList == null ? 0 : mImageList.size();
     }
 
     static class imagePreviewAdapterHolder extends RecyclerView.ViewHolder {

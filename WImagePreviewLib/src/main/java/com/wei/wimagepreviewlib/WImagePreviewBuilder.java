@@ -2,27 +2,25 @@ package com.wei.wimagepreviewlib;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.wei.wimagepreviewlib.activity.ImagePreviewFragmentActivity;
 import com.wei.wimagepreviewlib.utils.KeyConst;
+import com.wei.wimagepreviewlib.utils.WeakDataHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 图片预览构建类
  */
-public class ImagePreviewBuilder {
+public class WImagePreviewBuilder {
 
     private Context mContext;
     private Intent intent;
 
-    private ImagePreviewBuilder(@NonNull Context context) {
+    private WImagePreviewBuilder(@NonNull Context context) {
         this.mContext = context;
         intent = new Intent();
     }
@@ -33,8 +31,8 @@ public class ImagePreviewBuilder {
      * @param context
      * @return
      */
-    public static ImagePreviewBuilder load(@NonNull Context context) {
-        return new ImagePreviewBuilder(context);
+    public static WImagePreviewBuilder load(@NonNull Context context) {
+        return new WImagePreviewBuilder(context);
     }
 
     /**
@@ -43,8 +41,8 @@ public class ImagePreviewBuilder {
      * @param fragment
      * @return
      */
-    public static ImagePreviewBuilder load(@NonNull Fragment fragment) {
-        return new ImagePreviewBuilder(fragment.getContext());
+    public static WImagePreviewBuilder load(@NonNull Fragment fragment) {
+        return new WImagePreviewBuilder(fragment.getContext());
     }
 
     /**
@@ -53,20 +51,13 @@ public class ImagePreviewBuilder {
      * @param imgList 图片集合
      * @return
      */
-    public <T> ImagePreviewBuilder setData(List<T> imgList) {
+    public <T> WImagePreviewBuilder setData(List<T> imgList) {
         if (imgList == null || imgList.isEmpty()) {
             return this;
         }
 
-        if (imgList.get(0) instanceof Uri) {
-            intent.putParcelableArrayListExtra(KeyConst.IMAGE_URI_LIST, new ArrayList<Parcelable>((List<Uri>) imgList));
-        } else if (imgList.get(0) instanceof String) {
-            List<Uri> uriList = new ArrayList<>();
-            for (T img : imgList) {
-                uriList.add(Uri.parse((String) img));
-            }
-            intent.putParcelableArrayListExtra(KeyConst.IMAGE_URI_LIST, new ArrayList<Parcelable>(uriList));
-        }
+        // 改用WeakReference存储图片路径集合，防止因图片太多导致intent在传输时崩溃
+        WeakDataHolder.getInstance().saveData(KeyConst.IMAGE_URI_LIST, imgList);
 
         return this;
     }
@@ -77,7 +68,7 @@ public class ImagePreviewBuilder {
      * @param position
      * @return
      */
-    public ImagePreviewBuilder setPosition(int position) {
+    public WImagePreviewBuilder setPosition(int position) {
         intent.putExtra(KeyConst.VIEWPAGER2_ITEM_POSITION, position);
         return this;
     }
@@ -90,7 +81,7 @@ public class ImagePreviewBuilder {
      *                    垂直滚动：{@code ViewPager2.ORIENTATION_VERTICAL}
      * @return
      */
-    public ImagePreviewBuilder setOrientation(int orientation) {
+    public WImagePreviewBuilder setOrientation(int orientation) {
         intent.putExtra(KeyConst.VIEWPAGER2_ORIENTATION, orientation);
         return this;
     }
@@ -101,7 +92,7 @@ public class ImagePreviewBuilder {
      * @param isAllowImage true：允许；false：不允许
      * @return
      */
-    public ImagePreviewBuilder setAllowMove(boolean isAllowImage) {
+    public WImagePreviewBuilder setAllowMove(boolean isAllowImage) {
         intent.putExtra(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, isAllowImage);
         return this;
     }
@@ -112,7 +103,7 @@ public class ImagePreviewBuilder {
      * @param isFullscreen 单位毫秒
      * @return GPreviewBuilder
      */
-    public ImagePreviewBuilder setFullscreen(boolean isFullscreen) {
+    public WImagePreviewBuilder setFullscreen(boolean isFullscreen) {
         intent.putExtra(KeyConst.IS_FULLSCREEN, isFullscreen);
         return this;
     }
@@ -123,7 +114,7 @@ public class ImagePreviewBuilder {
      * @param isShowClose
      * @return
      */
-    public ImagePreviewBuilder setShowClose(boolean isShowClose) {
+    public WImagePreviewBuilder setShowClose(boolean isShowClose) {
         intent.putExtra(KeyConst.IS_SHOW_CLOSE, isShowClose);
         return this;
     }
@@ -134,7 +125,7 @@ public class ImagePreviewBuilder {
      * @param pageTransformer
      * @return
      */
-    public ImagePreviewBuilder setPageTransformer(int pageTransformer) {
+    public WImagePreviewBuilder setPageTransformer(int pageTransformer) {
         intent.putExtra(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER, pageTransformer);
         return this;
     }
