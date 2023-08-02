@@ -87,7 +87,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_image_preview);
+        setContentView(R.layout.w_fragment_image_preview);
 
         prefs = getApplicationContext().getSharedPreferences(KeyConst.APP_SHARED_PREFERENCES, MODE_PRIVATE);
         prefsEditor = prefs.edit();

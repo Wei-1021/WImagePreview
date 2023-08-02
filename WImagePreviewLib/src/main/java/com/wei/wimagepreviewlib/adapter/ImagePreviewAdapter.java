@@ -44,7 +44,7 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapte
         return new imagePreviewAdapterHolder(
                 LayoutInflater.from(
                         parent.getContext()
-                ).inflate(R.layout.item_image_preview, parent, false)
+                ).inflate(R.layout.w_item_image_preview, parent, false)
         );
     }
 
