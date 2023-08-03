@@ -22,6 +22,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.wei.wimagepreviewlib.R;
 import com.wei.wimagepreviewlib.adapter.ImagePreviewAdapter;
+import com.wei.wimagepreviewlib.listener.OnPageListener;
 import com.wei.wimagepreviewlib.utils.KeyConst;
 import com.wei.wimagepreviewlib.utils.WeakDataHolder;
 
@@ -52,6 +53,14 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      * 图片预览ViewPager2适配器
      */
     private ImagePreviewAdapter imagePreviewAdapter;
+    /**
+     * 页面监听器
+     */
+    private OnPageListener onPageListener;
+    /**
+     * 当前图片定位
+     */
+    private int currentPosition = 0;
     /**
      * 图片集合
      */
@@ -100,6 +109,11 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         isFullscreen = intent.getBooleanExtra(KeyConst.IS_FULLSCREEN, true);
         isShowClose = intent.getBooleanExtra(KeyConst.IS_SHOW_CLOSE, true);
         pageTransformer = intent.getIntExtra(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER, 10);
+        onPageListener = (OnPageListener) WeakDataHolder.getInstance().getData(KeyConst.ON_PAGE_LISTENER);
+        currentPosition = showPosition;
+        if (onPageListener != null) {
+            onPageListener.onOpen(showPosition);
+        }
         initClose();
         initViewPager();
         if (isFullscreen) {
@@ -148,14 +162,29 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
                 if (showIsAllowMove) {
                     boolean isAllowMove = prefs.getBoolean(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
                     viewPager2.setUserInputEnabled(isAllowMove);
-                    Log.i("ImagePreviewFragment", "onPageScrolled: " + isAllowMove);
+
+                    if (onPageListener != null) {
+                        onPageListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+                if (onPageListener != null) {
+                    onPageListener.onPageScrollStateChanged(state);
                 }
             }
 
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                textView.setText((position + 1) + "/" + imgLen);
+                currentPosition = position + 1;
+                textView.setText(currentPosition + "/" + imgLen);
+                if (onPageListener != null) {
+                    onPageListener.onPageSelected(position);
+                }
             }
         });
     }
@@ -167,6 +196,10 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         if (isShowClose) {
             closeBtn = findViewById(R.id.image_view_pager_close);
             closeBtn.setOnClickListener(view -> {
+                if (onPageListener != null) {
+                    onPageListener.onClose(imageList.get(currentPosition), currentPosition);
+                }
+
                 finish();
             });
         } else {
@@ -200,6 +233,11 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             boolean isAllowMove = prefs.getBoolean(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
             viewPager2.setUserInputEnabled(isAllowMove);
         }
+
+        if (onPageListener != null) {
+            onPageListener.onClick(imageList.get(currentPosition), currentPosition);
+        }
+
         return super.dispatchTouchEvent(ev);
     }
 

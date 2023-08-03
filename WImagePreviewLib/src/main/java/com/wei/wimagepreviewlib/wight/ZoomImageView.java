@@ -168,6 +168,7 @@ public class ZoomImageView extends ImageView {
 
     /**
      * 手指触碰事件
+     *
      * @param event The motion event.
      * @return
      */
@@ -196,6 +197,7 @@ public class ZoomImageView extends ImageView {
 
                 break;
         }
+
         return true;
     }
 
@@ -375,6 +377,7 @@ public class ZoomImageView extends ImageView {
             currentX += event.getX(i);
             currentY += event.getY(i);
         }
+
         currentX /= pointCount;
         currentY /= pointCount;
         // 当屏幕被触碰的点的数量变化时，将最新算出来的中心点看作是被点击的点
@@ -383,6 +386,7 @@ public class ZoomImageView extends ImageView {
             clickPoint.y = currentY;
             lastFingerNum = event.getPointerCount();
         }
+
         // 将移动手指时，实时计算出来的中心点坐标，减去被点击点的坐标就得到了需要移动的距离
         float moveX = currentX - clickPoint.x;
         float moveY = currentY - clickPoint.y;
@@ -412,7 +416,6 @@ public class ZoomImageView extends ImageView {
     private void showCenter() {
         float scalex = viewSize.x / imageSize.x;
         float scaley = viewSize.y / imageSize.y;
-
         float scale = Math.min(scalex, scaley);
         scaleImage(new PointF(scale, scale));
 
@@ -426,6 +429,7 @@ public class ZoomImageView extends ImageView {
             bitmapOriginPoint.x = viewSize.x / 2 - scaleSize.x / 2;
             bitmapOriginPoint.y = 0;
         }
+
         // 保存下最初的缩放比例
         originScale.set(scale, scale);
         doubleFingerScale = scale;

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.wei.wimagepreviewlib.activity.ImagePreviewFragmentActivity;
+import com.wei.wimagepreviewlib.listener.OnPageListener;
 import com.wei.wimagepreviewlib.utils.KeyConst;
 import com.wei.wimagepreviewlib.utils.WeakDataHolder;
 
@@ -127,6 +128,17 @@ public class WImagePreviewBuilder {
      */
     public WImagePreviewBuilder setPageTransformer(int pageTransformer) {
         intent.putExtra(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER, pageTransformer);
+        return this;
+    }
+
+    /**
+     * 监听器
+     *
+     * @param listener
+     * @return
+     */
+    public WImagePreviewBuilder setOnPageListener(OnPageListener listener) {
+        WeakDataHolder.getInstance().saveData(KeyConst.ON_PAGE_LISTENER, listener);
         return this;
     }
 
