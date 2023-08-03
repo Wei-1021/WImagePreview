@@ -3,7 +3,7 @@
 [![](https://jitpack.io/v/Wei-1021/WImagePreview.svg)](https://jitpack.io/#Wei-1021/WImagePreview)
 
 # 如何导入
-## 1.在项目根目录下的build.gradle添加（7.0以上的在settings.gradle中添加）
+## 1.在项目根目录下的build.gradle添加（高版本的Gradle的在settings.gradle中添加）
 ```
 allprojects {
     repositories {

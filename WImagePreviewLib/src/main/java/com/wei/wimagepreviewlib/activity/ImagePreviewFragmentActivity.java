@@ -110,6 +110,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         isShowClose = intent.getBooleanExtra(KeyConst.IS_SHOW_CLOSE, true);
         pageTransformer = intent.getIntExtra(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER, 10);
         onPageListener = (OnPageListener) WeakDataHolder.getInstance().getData(KeyConst.ON_PAGE_LISTENER);
+
         currentPosition = showPosition;
         if (onPageListener != null) {
             onPageListener.onOpen(showPosition);
@@ -180,8 +181,8 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                currentPosition = position + 1;
-                textView.setText(currentPosition + "/" + imgLen);
+                currentPosition = position;
+                textView.setText((currentPosition + 1) + "/" + imgLen);
                 if (onPageListener != null) {
                     onPageListener.onPageSelected(position);
                 }
