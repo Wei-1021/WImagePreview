@@ -101,7 +101,7 @@ public class WImagePreviewBuilder {
     /**
      * 设置是否全屏
      *
-     * @param isFullscreen 单位毫秒
+     * @param isFullscreen 是否全屏
      * @return GPreviewBuilder
      */
     public WImagePreviewBuilder setFullscreen(boolean isFullscreen) {
