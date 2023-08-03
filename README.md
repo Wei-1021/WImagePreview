@@ -2,7 +2,7 @@
 本项目是基于ViewPager2构建的一个Android图片预览组件\
 [![](https://jitpack.io/v/Wei-1021/WImagePreview.svg)](https://jitpack.io/#Wei-1021/WImagePreview)
 
-# 使用方式
+# 如何导入
 ## 1.在项目根目录下的build.gradle添加（7.0以上的在settings.gradle中添加）
 ```
 allprojects {
@@ -19,3 +19,18 @@ dependencies {
 }
 ```
 
+# 使用方式
+#### 以下为使用示例，不代表所有功能：
+```
+WImagePreviewBuilder
+    .load(MainActivity.this)
+    .setData(imageList)
+    .setPosition(position)
+    .setOnPageListener(new OnPageListener() {
+        @Override
+        public void onClick(Object o, int position) {
+            super.onClick(o, position);
+        }
+    })
+    .start();
+```
