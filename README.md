@@ -48,8 +48,10 @@ WImagePreviewBuilder
 | setFullscreen(boolean isFullscreen)               | 否        | 设置是否全屏<br/>true：全屏（默认）；<br/>false：非全屏                                                                                    |
 | setShowClose(boolean isShowClose)                 | 否        | 是否显示关闭按钮<br/>true：显示（默认）；<br/>false：不显示                                                                                  |
 | setPageTransformer(int pageTransformer)           | 否        | 设置ViewPager2页面间距（默认为10）                                                                                                  |
+| setOnPageListener(OnPageListener listener)           | 否        | 监听器，对应下方监听方法                                                                                               |
 
 ### 监听方法 
+以下所有方法均在OnPageListener类中
 | 方法                                                                               | 描述                                                               |
 |----------------------------------------------------------------------------------|------------------------------------------------------------------|
 | onOpen(int position)                                                             | 页面打开事件监听器<br/> position：打开页面时，显示的第一张图片的定位                        |
