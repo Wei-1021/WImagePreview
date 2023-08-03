@@ -54,9 +54,9 @@ WImagePreviewBuilder
 以下所有方法均在OnPageListener类中
 | 方法                                                                               | 描述                                                               |
 |----------------------------------------------------------------------------------|------------------------------------------------------------------|
-| onOpen(int position)                                                             | 页面打开事件监听器<br/> position：打开页面时，显示的第一张图片的定位                        |
-| onClick(Object o, int position)                                                  | 页面点击事件监听器<br/>o：图片对象（Uri或String类型） <br/> position：点击页面时，所显示图片的定位 |
-| onClose(Object o, int position)                                                  | 页面关闭事件监听器<br/>o：图片对象（Uri或String类型） <br/> position：关闭页面时，所显示图片的定位 |
-| onPageScrolled(int position, float positionOffset, @Px int positionOffsetPixels) | 页面滑动事件监听器。请参照ViewPager2的onPageScrolled                           |
-| onPageSelected(int position)                                                     | 页面选择事件监听器，打开页面，切换图片时会触发。请参照ViewPager2的onPageSelected             |
-| onPageScrollStateChanged(@ViewPager2.ScrollState int state)                      | 页面滑动状态更改事件监听器。请参照ViewPager2的onPageScrollStateChanged             |
+| onOpen(int position)                                                             | 页面打开事件监听<br/> position：打开页面时，显示的第一张图片的定位                        |
+| onClick(Object o, int position)                                                  | 页面点击事件监听<br/>o：图片对象（Uri或String类型） <br/> position：点击页面时，所显示图片的定位 |
+| onClose(Object o, int position)                                                  | 页面关闭事件监听<br/>o：图片对象（Uri或String类型） <br/> position：关闭页面时，所显示图片的定位 |
+| onPageScrolled(int position, float positionOffset, @Px int positionOffsetPixels) | 页面滑动事件监听。请参照ViewPager2的onPageScrolled                           |
+| onPageSelected(int position)                                                     | 页面选择事件监听，打开页面，切换图片时会触发。请参照ViewPager2的onPageSelected             |
+| onPageScrollStateChanged(@ViewPager2.ScrollState int state)                      | 页面滑动状态更改事件监听。请参照ViewPager2的onPageScrollStateChanged             |
