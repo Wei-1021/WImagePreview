@@ -8,6 +8,10 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        maven {
+            url "https://jitpack.io"
+            allowInsecureProtocol = true // 如果 url 为 http 协议，需要添加此项；https 可不用
+        }
         google()
         mavenCentral()
     }
