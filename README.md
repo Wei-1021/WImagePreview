@@ -55,15 +55,15 @@ WImagePreviewBuilder
 
 ### 动画：PageTransformer
 #### 常量 
-| 名称                          | 描述  |
-|-----------------------------|-----|
-| PAGE_TRANSFORM_ZOOM_OUT     | 景深  |
-| PAGE_TRANSFORM_DEPTH        | 叠层  |
-| PAGE_TRANSFORM_FLIP         | 翻转  |
-| PAGE_TRANSFORM_PUSH         | 推压  |
-| PAGE_TRANSFORM_ROTATE       | 旋转  |
-| PAGE_TRANSFORM_SQUARE_BOX   | 方块  |
-| PAGE_TRANSFORM_WIND_MILL    | 风车  |
+| 名称                          | 描述  | 效果演示                    |
+|-----------------------------|-----|-------------------------|
+| PAGE_TRANSFORM_ZOOM_OUT     | 景深  | ![景深](image/景深-min.gif) |
+| PAGE_TRANSFORM_DEPTH        | 叠层  | ![叠层](image/叠层-min.gif) |
+| PAGE_TRANSFORM_FLIP         | 翻转  | ![翻转](image/翻转-min.gif) |
+| PAGE_TRANSFORM_PUSH         | 推压  | ![推压](image/推压-min.gif) |
+| PAGE_TRANSFORM_ROTATE       | 旋转  | ![旋转](image/旋转-min.gif) |
+| PAGE_TRANSFORM_SQUARE_BOX   | 方块  | ![方块](image/方块-min.gif) |
+| PAGE_TRANSFORM_WIND_MILL    | 风车  | ![风车](image/风车-min.gif) |
 
 ##### 使用方式
 ```
@@ -78,13 +78,13 @@ WImagePreviewBuilder
 #### 动画类
 | 动画类                    | 描述  |
 |------------------------|-----|
-| ZoomOutPageTransformer | 景深  |
-| DepthPageTransformer   | 叠层  |
-| FlipTransformer        | 翻转  |
-| PushTransformer        | 推压  |
-| RotationTransformer    | 旋转  |
-| SquareBoxTransformer   | 方块  |
-| WindMillTransformer    | 风车  |
+| ZoomOutPageTransformer | 景深  | 
+| DepthPageTransformer   | 叠层  | 
+| FlipTransformer        | 翻转  |  
+| PushTransformer        | 推压  |  
+| RotationTransformer    | 旋转  |  
+| SquareBoxTransformer   | 方块  |  
+| WindMillTransformer    | 风车  |  
 
 也可以通过实现ViewPager2.PageTransformer接口自定义动画。如
 ```
