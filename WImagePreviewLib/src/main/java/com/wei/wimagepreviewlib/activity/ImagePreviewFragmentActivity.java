@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -25,6 +24,7 @@ import com.wei.wimagepreviewlib.adapter.ImagePreviewAdapter;
 import com.wei.wimagepreviewlib.listener.OnPageListener;
 import com.wei.wimagepreviewlib.utils.KeyConst;
 import com.wei.wimagepreviewlib.utils.WeakDataHolder;
+import com.wei.wimagepreviewlib.R;
 
 import java.util.List;
 
@@ -88,7 +88,11 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     /**
      * ViewPager2页面间距
      */
-    private int pageTransformer = 10;
+    private int pageMargin = 10;
+    /**
+     * 页面切换动画
+     */
+    private ViewPager2.PageTransformer pageTransformer;
 
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor prefsEditor;
@@ -97,21 +101,9 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.w_fragment_image_preview);
-
-        prefs = getApplicationContext().getSharedPreferences(KeyConst.APP_SHARED_PREFERENCES, MODE_PRIVATE);
-        prefsEditor = prefs.edit();
-
-        intent = getIntent();
         textView = findViewById(R.id.image_view_pager_num_indicator);
-        showPosition = intent.getIntExtra(KeyConst.VIEWPAGER2_ITEM_POSITION, 0);
-        showOrientation = intent.getIntExtra(KeyConst.VIEWPAGER2_ORIENTATION, ViewPager2.ORIENTATION_HORIZONTAL);
-        showIsAllowMove = intent.getBooleanExtra(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
-        isFullscreen = intent.getBooleanExtra(KeyConst.IS_FULLSCREEN, true);
-        isShowClose = intent.getBooleanExtra(KeyConst.IS_SHOW_CLOSE, true);
-        pageTransformer = intent.getIntExtra(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER, 10);
-        onPageListener = (OnPageListener) WeakDataHolder.getInstance().getData(KeyConst.ON_PAGE_LISTENER);
 
-        currentPosition = showPosition;
+        initParam();
         if (onPageListener != null) {
             onPageListener.onOpen(showPosition);
         }
@@ -127,32 +119,52 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         super.onBackPressed();
     }
 
+    public void initParam() {
+        prefs = getApplicationContext().getSharedPreferences(KeyConst.APP_SHARED_PREFERENCES, MODE_PRIVATE);
+        prefsEditor = prefs.edit();
+        intent = getIntent();
+
+        showPosition = intent.getIntExtra(KeyConst.VIEWPAGER2_ITEM_POSITION, 0);
+        showOrientation = intent.getIntExtra(KeyConst.VIEWPAGER2_ORIENTATION, ViewPager2.ORIENTATION_HORIZONTAL);
+        showIsAllowMove = intent.getBooleanExtra(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
+        isFullscreen = intent.getBooleanExtra(KeyConst.IS_FULLSCREEN, true);
+        isShowClose = intent.getBooleanExtra(KeyConst.IS_SHOW_CLOSE, true);
+        pageMargin = intent.getIntExtra(KeyConst.VIEW_PAGER2_PAGE_MARGIN, 10);
+        onPageListener = (OnPageListener) WeakDataHolder.getInstance().getData(KeyConst.ON_PAGE_LISTENER);
+        pageTransformer = (ViewPager2.PageTransformer) WeakDataHolder.getInstance().getData(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER);
+        currentPosition = showPosition;
+    }
+
     /**
      * 初始化ViewPager2
      */
     private void initViewPager() {
-        viewPager2 = findViewById(R.id.image_view_pager_2);
         imageList = (List<Object>) WeakDataHolder.getInstance().getData(KeyConst.IMAGE_URI_LIST);
         if (imageList == null) {
             Toast.makeText(this, "无法获取图片", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
-
         if (!(imageList.get(0) instanceof Uri || imageList.get(0) instanceof String)) {
             Toast.makeText(this, "图片类型不正确", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
+        int imgLen = imageList.size();
+        textView.setText((showPosition + 1) + "/" + imgLen);
+
+        viewPager2 = findViewById(R.id.image_view_pager_2);
         imagePreviewAdapter = new ImagePreviewAdapter(this, imageList);
         viewPager2.setAdapter(imagePreviewAdapter);
         viewPager2.setCurrentItem(showPosition);
         viewPager2.setOrientation(showOrientation);
         viewPager2.setUserInputEnabled(showIsAllowMove);
-        viewPager2.setPageTransformer(new MarginPageTransformer(pageTransformer));
-        int imgLen = imageList.size();
-        textView.setText((showPosition + 1) + "/" + imgLen);
+        if (pageTransformer != null) {
+            viewPager2.setPageTransformer(pageTransformer);
+        } else {
+            viewPager2.setPageTransformer(new MarginPageTransformer(pageMargin));
+        }
 
         // viewPager2滑动监听
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {

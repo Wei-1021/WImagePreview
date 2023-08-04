@@ -5,9 +5,11 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.wei.wimagepreviewlib.activity.ImagePreviewFragmentActivity;
 import com.wei.wimagepreviewlib.listener.OnPageListener;
+import com.wei.wimagepreviewlib.transformer.PageTransformer;
 import com.wei.wimagepreviewlib.utils.KeyConst;
 import com.wei.wimagepreviewlib.utils.WeakDataHolder;
 
@@ -121,13 +123,42 @@ public class WImagePreviewBuilder {
     }
 
     /**
-     * 设置ViewPager2页面间距
+     * 设置ViewPager2页面间距 <br/>
+     * <b>setPageMargin()</b>和<b>setPageTransformer()</b>只能设置其中一个，<br/>
+     * 如果两个都设置，则只有<b>setPageTransformer()</b>生效
      *
-     * @param pageTransformer
+     * @param pageMargin
+     * @return
+     */
+    public WImagePreviewBuilder setPageMargin(int pageMargin) {
+        intent.putExtra(KeyConst.VIEW_PAGER2_PAGE_MARGIN, pageMargin);
+        return this;
+    }
+
+    /**
+     * 设置页面切换动画<br/>
+     * <b>setPageMargin()</b>和<b>setPageTransformer()</b>只能设置其中一个，<br/>
+     * 如果两个都设置，则只有<b>setPageTransformer()</b>生效
+     *
+     * @param pageTransformer 动画类型;详见{@link PageTransformer}中的静态变量
      * @return
      */
     public WImagePreviewBuilder setPageTransformer(int pageTransformer) {
-        intent.putExtra(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER, pageTransformer);
+        setPageTransformer(PageTransformer.init(pageTransformer));
+        return this;
+    }
+
+    /**
+     * 设置页面切换动画<br/>
+     * <b>setPageMargin()</b>和<b>setPageTransformer()</b>只能设置其中一个，<br/>
+     * 如果两个都设置，则只有<b>setPageTransformer()</b>生效
+     *
+     * @param pageTransformer 动画类型;详见{@link PageTransformer}，
+     *                        或者可以通过实现 {@link ViewPager2.PageTransformer}接口进行自定义动画
+     * @return
+     */
+    public WImagePreviewBuilder setPageTransformer(ViewPager2.PageTransformer pageTransformer) {
+        WeakDataHolder.getInstance().saveData(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER, pageTransformer);
         return this;
     }
 
