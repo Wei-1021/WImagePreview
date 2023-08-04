@@ -90,6 +90,10 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private int pageMargin = 10;
     /**
+     * 预加载个数
+     */
+    private int offscreenPageLimit;
+    /**
      * 页面切换动画
      */
     private ViewPager2.PageTransformer pageTransformer;
@@ -130,6 +134,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         isFullscreen = intent.getBooleanExtra(KeyConst.IS_FULLSCREEN, true);
         isShowClose = intent.getBooleanExtra(KeyConst.IS_SHOW_CLOSE, true);
         pageMargin = intent.getIntExtra(KeyConst.VIEW_PAGER2_PAGE_MARGIN, 10);
+        offscreenPageLimit = intent.getIntExtra(KeyConst.VIEWPAGER2_OFFSCREEN_PAGE_LIMIT, ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
         currentPosition = showPosition;
 
         Object onPageListenerObj = WeakDataHolder.getInstance().getData(KeyConst.ON_PAGE_LISTENER);
@@ -164,6 +169,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         viewPager2.setCurrentItem(showPosition);
         viewPager2.setOrientation(showOrientation);
         viewPager2.setUserInputEnabled(showIsAllowMove);
+        viewPager2.setOffscreenPageLimit(offscreenPageLimit);
         if (pageTransformer != null) {
             viewPager2.setPageTransformer(pageTransformer);
         } else {

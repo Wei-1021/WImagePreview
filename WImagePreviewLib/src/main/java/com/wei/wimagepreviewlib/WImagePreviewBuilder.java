@@ -32,7 +32,7 @@ public class WImagePreviewBuilder {
      * 加载预览组件
      *
      * @param context
-     * @return
+     * @return WImagePreviewBuilder
      */
     public static WImagePreviewBuilder load(@NonNull Context context) {
         return new WImagePreviewBuilder(context);
@@ -42,7 +42,7 @@ public class WImagePreviewBuilder {
      * 加载预览组件
      *
      * @param fragment
-     * @return
+     * @return WImagePreviewBuilder
      */
     public static WImagePreviewBuilder load(@NonNull Fragment fragment) {
         return new WImagePreviewBuilder(fragment.getContext());
@@ -52,7 +52,7 @@ public class WImagePreviewBuilder {
      * 设置图片集合数据
      *
      * @param imgList 图片集合
-     * @return
+     * @return WImagePreviewBuilder
      */
     public <T> WImagePreviewBuilder setData(List<T> imgList) {
         if (imgList == null || imgList.isEmpty()) {
@@ -69,7 +69,7 @@ public class WImagePreviewBuilder {
      * 设置图片下标定位
      *
      * @param position
-     * @return
+     * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setPosition(int position) {
         intent.putExtra(KeyConst.VIEWPAGER2_ITEM_POSITION, position);
@@ -82,7 +82,7 @@ public class WImagePreviewBuilder {
      * @param orientation 方向； <br/>
      *                    水平滚动：{@code ViewPager2.ORIENTATION_HORIZONTAL}；<br/>
      *                    垂直滚动：{@code ViewPager2.ORIENTATION_VERTICAL}
-     * @return
+     * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setOrientation(int orientation) {
         intent.putExtra(KeyConst.VIEWPAGER2_ORIENTATION, orientation);
@@ -93,7 +93,7 @@ public class WImagePreviewBuilder {
      * 设置是否允许滑动ViewPager2
      *
      * @param isAllowImage true：允许；false：不允许
-     * @return
+     * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setAllowMove(boolean isAllowImage) {
         intent.putExtra(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, isAllowImage);
@@ -104,7 +104,7 @@ public class WImagePreviewBuilder {
      * 设置是否全屏
      *
      * @param isFullscreen 是否全屏
-     * @return GPreviewBuilder
+     * @return WImagePreviewBuilder GPreviewBuilder
      */
     public WImagePreviewBuilder setFullscreen(boolean isFullscreen) {
         intent.putExtra(KeyConst.IS_FULLSCREEN, isFullscreen);
@@ -115,7 +115,7 @@ public class WImagePreviewBuilder {
      * 是否显示关闭按钮
      *
      * @param isShowClose
-     * @return
+     * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setShowClose(boolean isShowClose) {
         intent.putExtra(KeyConst.IS_SHOW_CLOSE, isShowClose);
@@ -128,7 +128,7 @@ public class WImagePreviewBuilder {
      * 如果两个都设置，则只有<b>setPageTransformer()</b>生效
      *
      * @param pageMargin
-     * @return
+     * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setPageMargin(int pageMargin) {
         intent.putExtra(KeyConst.VIEW_PAGER2_PAGE_MARGIN, pageMargin);
@@ -141,7 +141,7 @@ public class WImagePreviewBuilder {
      * 如果两个都设置，则只有<b>setPageTransformer()</b>生效
      *
      * @param pageTransformer 动画类型;详见{@link com.wei.wimagepreviewlib.transformer.PageTransformer}中的常量
-     * @return
+     * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setPageTransformer(int pageTransformer) {
         setPageTransformer(PageTransformer.initPageTransformer(pageTransformer));
@@ -155,7 +155,7 @@ public class WImagePreviewBuilder {
      *
      * @param pageTransformer 动画类型;详见{@link com.wei.wimagepreviewlib.transformer.PageTransformer}，
      *                        或者可以通过实现 {@link ViewPager2.PageTransformer}接口进行自定义动画
-     * @return
+     * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setPageTransformer(ViewPager2.PageTransformer pageTransformer) {
         WeakDataHolder.getInstance().saveData(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER, pageTransformer);
@@ -163,10 +163,20 @@ public class WImagePreviewBuilder {
     }
 
     /**
+     * 设置预加载个数
+     * @param offscreenPageLimit 预加载个数
+     * @return WImagePreviewBuilder
+     */
+    public WImagePreviewBuilder setOffscreenPageLimit(int offscreenPageLimit) {
+        intent.putExtra(KeyConst.VIEWPAGER2_OFFSCREEN_PAGE_LIMIT, offscreenPageLimit);
+        return this;
+    }
+    
+    /**
      * 监听器
      *
      * @param listener
-     * @return
+     * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setOnPageListener(OnPageListener listener) {
         WeakDataHolder.getInstance().saveData(KeyConst.ON_PAGE_LISTENER, listener);

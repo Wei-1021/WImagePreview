@@ -19,6 +19,10 @@ public class KeyConst {
      */
     public static final String VIEWPAGER2_ITEM_POSITION = "_W_VIEWPAGER2_ITEM_POSITION_";
     /**
+     * 键值--ViewPager2预加载个数
+     */
+    public static final String VIEWPAGER2_OFFSCREEN_PAGE_LIMIT = "_W_VIEWPAGER2_OFFSCREEN_PAGE_LIMIT";
+    /**
      * 键值--当前ViewPager2滚动方向
      */
     public static final String VIEWPAGER2_ORIENTATION = "_W_VIEWPAGER2_ORIENTATION_";

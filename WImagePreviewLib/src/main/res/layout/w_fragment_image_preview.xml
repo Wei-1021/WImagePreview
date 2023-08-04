@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/image_view_pager_2"
@@ -20,7 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="10dp"
-        android:text="9999/9999"
+        android:text="0/0"
+        android:textColor="@color/white"
         android:textAlignment="center"
         tools:ignore="RtlCompat" />
 
@@ -33,7 +35,7 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/background_translucent_0"
         android:padding="8dp"
-        android:src="@drawable/ic_close_30"
+        android:src="@drawable/ic_close_white_30"
         android:visibility="visible" />
 
 </FrameLayout>
