@@ -20,7 +20,8 @@ dependencies {
 ```
 
 # 使用方式
-#### 以下为使用示例，不代表所有功能：
+### 使用示例：
+以下为使用示例，不代表所有功能
 ```
 WImagePreviewBuilder
     .load(MainActivity.this)
