@@ -64,6 +64,7 @@ WImagePreviewBuilder
 | PAGE_TRANSFORM_ROTATE       | 旋转  | ![旋转](image/旋转-min.gif) |
 | PAGE_TRANSFORM_SQUARE_BOX   | 方块  | ![方块](image/方块-min.gif) |
 | PAGE_TRANSFORM_WIND_MILL    | 风车  | ![风车](image/风车-min.gif) |
+| 无    | 无动画  | ![风车](image/无动画.gif) |
 
 ##### 使用方式
 ```
