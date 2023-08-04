@@ -44,11 +44,11 @@ WImagePreviewBuilder
 | setPosition(int position)                         | <b>是</b> | 设置图片下标定位                                                                                                                 |
 | start()                                           | <b>是</b> | 启动组件                                                                                                                     |
 | setOrientation(int orientation)                   | 否        | 设置滚动方向<br/>水平滚动：ViewPager2.ORIENTATION_HORIZONTAL（默认）；<br/>垂直滚动：ViewPager2.ORIENTATION_VERTICAL。                         |
-| setAllowMove(boolean isAllowImage)                | 否        | 设置是否允许滑动，设置禁止滑动后，与之相关的三个监听器（onPageScrolled、onPageSelected、onPageScrollStateChanged）将无法生效。<br/>true：允许（默认）；<br/>false：不允许 |
+| setAllowMove(boolean isAllowImage)                | 否        | 设置是否允许滑动，设置禁止滑动后，与之相关的三个监听方法（onPageScrolled、onPageSelected、onPageScrollStateChanged）将无法生效。<br/>true：允许（默认）；<br/>false：不允许 |
 | setFullscreen(boolean isFullscreen)               | 否        | 设置是否全屏<br/>true：全屏（默认）；<br/>false：非全屏                                                                                    |
 | setShowClose(boolean isShowClose)                 | 否        | 是否显示关闭按钮<br/>true：显示（默认）；<br/>false：不显示                                                                                  |
 | setPageTransformer(int pageTransformer)           | 否        | 设置ViewPager2页面间距（默认为10）                                                                                                  |
-| setOnPageListener(OnPageListener listener)           | 否        | 监听器，对应下方监听方法                                                                                               |
+| setOnPageListener(OnPageListener listener)           | 否        | 设置监听器，对应下方监听方法                                                                                               |
 
 ### 监听方法 
 以下所有方法均在OnPageListener类中
