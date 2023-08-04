@@ -144,7 +144,7 @@ public class WImagePreviewBuilder {
      * @return
      */
     public WImagePreviewBuilder setPageTransformer(int pageTransformer) {
-        setPageTransformer(PageTransformer.init(pageTransformer));
+        setPageTransformer(PageTransformer.initPageTransformer(pageTransformer));
         return this;
     }
 

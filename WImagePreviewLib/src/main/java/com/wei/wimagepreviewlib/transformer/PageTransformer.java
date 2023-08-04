@@ -41,20 +41,11 @@ public class PageTransformer {
     public static final int PAGE_TRANSFORM_WIND_MILL = 7;
 
     /**
-     * 初始化
-     *
-     * @param type 动画类型;详见{@link PageTransformer}中的静态变量
-     */
-    public static ViewPager2.PageTransformer init(int type) {
-        return new PageTransformer().initPageTransformer(type);
-    }
-
-    /**
      * 初始化动画类型
      *
      * @param type 动画类型;详见{@link PageTransformer}中的静态变量
      */
-    public ViewPager2.PageTransformer initPageTransformer(int type) {
+    public static ViewPager2.PageTransformer initPageTransformer(int type) {
         switch (type) {
             case PAGE_TRANSFORM_ZOOM_OUT:
                 return new ZoomOutPageTransformer();
@@ -80,7 +71,7 @@ public class PageTransformer {
      *
      * @author weizhanjie
      */
-    public class ZoomOutPageTransformer implements ViewPager2.PageTransformer {
+    public static class ZoomOutPageTransformer implements ViewPager2.PageTransformer {
         private static final float MIN_SCALE = 0.85f;
         private static final float MIN_ALPHA = 0.5f;
 
@@ -124,7 +115,7 @@ public class PageTransformer {
      *
      * @author weizhanjie
      */
-    public class DepthPageTransformer implements ViewPager2.PageTransformer {
+    public static class DepthPageTransformer implements ViewPager2.PageTransformer {
         private static final float MIN_SCALE = 0.75f;
 
         @Override
@@ -171,7 +162,7 @@ public class PageTransformer {
      *
      * @author weizhanjie
      */
-    public class FlipTransformer implements ViewPager2.PageTransformer {
+    public static class FlipTransformer implements ViewPager2.PageTransformer {
 
         @Override
         public void transformPage(@NonNull View view, float position) {
@@ -201,7 +192,7 @@ public class PageTransformer {
      *
      * @author weizhanjie
      */
-    public class PushTransformer implements ViewPager2.PageTransformer {
+    public static class PushTransformer implements ViewPager2.PageTransformer {
 
         @Override
         public void transformPage(@NonNull View view, float position) {
@@ -219,7 +210,7 @@ public class PageTransformer {
      *
      * @author weizhanjie
      */
-    public class RotationTransformer implements ViewPager2.PageTransformer {
+    public static class RotationTransformer implements ViewPager2.PageTransformer {
 
         private static final float MAX_ROTATION = 90f;
         private static final float MIN_SCALE = 0.9f;
@@ -263,7 +254,7 @@ public class PageTransformer {
      *
      * @author weizhanjie
      */
-    public class SquareBoxTransformer implements ViewPager2.PageTransformer {
+    public static class SquareBoxTransformer implements ViewPager2.PageTransformer {
         private static final float MAX_ROTATION = 90f;
         private static final float MIN_SCALE = 0.9f;
 
@@ -305,7 +296,7 @@ public class PageTransformer {
      *
      * @author weizhanjie
      */
-    public class WindMillTransformer implements ViewPager2.PageTransformer {
+    public static class WindMillTransformer implements ViewPager2.PageTransformer {
 
         @Override
         public void transformPage(@NonNull View view, float position) {
