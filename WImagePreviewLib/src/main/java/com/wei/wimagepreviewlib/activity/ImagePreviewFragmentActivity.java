@@ -130,9 +130,13 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         isFullscreen = intent.getBooleanExtra(KeyConst.IS_FULLSCREEN, true);
         isShowClose = intent.getBooleanExtra(KeyConst.IS_SHOW_CLOSE, true);
         pageMargin = intent.getIntExtra(KeyConst.VIEW_PAGER2_PAGE_MARGIN, 10);
-        onPageListener = (OnPageListener) WeakDataHolder.getInstance().getData(KeyConst.ON_PAGE_LISTENER);
-        pageTransformer = (ViewPager2.PageTransformer) WeakDataHolder.getInstance().getData(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER);
         currentPosition = showPosition;
+
+        Object onPageListenerObj = WeakDataHolder.getInstance().getData(KeyConst.ON_PAGE_LISTENER);
+        onPageListener = onPageListenerObj == null ? null : (OnPageListener) onPageListenerObj;
+
+        Object pageTransformerObj = WeakDataHolder.getInstance().getData(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER);
+        pageTransformer = pageTransformerObj == null ? null :(ViewPager2.PageTransformer) pageTransformerObj;
     }
 
     /**
