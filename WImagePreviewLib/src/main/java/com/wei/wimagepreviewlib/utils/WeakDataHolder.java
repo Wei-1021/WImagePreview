@@ -44,6 +44,9 @@ public class WeakDataHolder {
      */
     public Object getData(String id) {
         WeakReference<Object> weakReference = map.get(id);
+        if (weakReference == null) {
+            return null;
+        }
         return weakReference.get();
     }
 }
