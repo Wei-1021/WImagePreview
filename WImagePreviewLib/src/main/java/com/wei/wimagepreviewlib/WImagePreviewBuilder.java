@@ -140,7 +140,7 @@ public class WImagePreviewBuilder {
      * <b>setPageMargin()</b>和<b>setPageTransformer()</b>只能设置其中一个，<br/>
      * 如果两个都设置，则只有<b>setPageTransformer()</b>生效
      *
-     * @param pageTransformer 动画类型;详见{@link com.wei.wimagepreviewlib.transformer.PageTransformer}中的静态变量
+     * @param pageTransformer 动画类型;详见{@link com.wei.wimagepreviewlib.transformer.PageTransformer}中的常量
      * @return
      */
     public WImagePreviewBuilder setPageTransformer(int pageTransformer) {

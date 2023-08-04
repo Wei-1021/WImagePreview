@@ -43,7 +43,7 @@ public class PageTransformer {
     /**
      * 初始化动画类型
      *
-     * @param type 动画类型;详见{@link PageTransformer}中的静态变量
+     * @param type 动画类型;详见{@link PageTransformer}中的常量
      */
     public static ViewPager2.PageTransformer initPageTransformer(int type) {
         switch (type) {
