@@ -125,11 +125,16 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         super.onBackPressed();
     }
 
+    /**
+     * 初始化参数
+     */
     public void initParam() {
+        // 配置SharedPreferences
         prefs = getApplicationContext().getSharedPreferences(KeyConst.APP_SHARED_PREFERENCES, MODE_PRIVATE);
         prefsEditor = prefs.edit();
         intent = getIntent();
 
+        // 获取组件配置属性参数
         showPosition = intent.getIntExtra(KeyConst.VIEWPAGER2_ITEM_POSITION, 0);
         showOrientation = intent.getIntExtra(KeyConst.VIEWPAGER2_ORIENTATION, ViewPager2.ORIENTATION_HORIZONTAL);
         showIsAllowMove = intent.getBooleanExtra(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
@@ -138,10 +143,10 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         pageMargin = intent.getIntExtra(KeyConst.VIEW_PAGER2_PAGE_MARGIN, 10);
         offscreenPageLimit = intent.getIntExtra(KeyConst.VIEWPAGER2_OFFSCREEN_PAGE_LIMIT, ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
         currentPosition = showPosition;
-
+        // 监听器参数
         Object onPageListenerObj = WeakDataHolder.getInstance().getData(KeyConst.ON_PAGE_LISTENER);
         onPageListener = onPageListenerObj == null ? null : (OnPageListener) onPageListenerObj;
-
+        // 页面翻页动画参数
         Object pageTransformerObj = WeakDataHolder.getInstance().getData(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER);
         pageTransformer = pageTransformerObj == null ? null :(ViewPager2.PageTransformer) pageTransformerObj;
     }
