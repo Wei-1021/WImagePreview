@@ -29,11 +29,7 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapte
     private List<Object> mImageList = new ArrayList<>();
 
     public ImagePreviewAdapter(Context context, List<Object> imageList) {
-        if (imageList.get(0) instanceof Uri ||
-                imageList.get(0) instanceof String) {
-            this.mImageList = imageList;
-        }
-
+        this.mImageList = imageList;
         this.mContext = context;
     }
 

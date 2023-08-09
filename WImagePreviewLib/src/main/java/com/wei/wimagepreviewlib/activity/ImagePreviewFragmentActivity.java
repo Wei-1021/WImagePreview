@@ -9,29 +9,21 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowInsetsController;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.wei.wimagepreviewlib.R;
 import com.wei.wimagepreviewlib.adapter.ImagePreviewAdapter;
+import com.wei.wimagepreviewlib.exception.WImagePreviewException;
 import com.wei.wimagepreviewlib.listener.OnPageListener;
 import com.wei.wimagepreviewlib.utils.KeyConst;
 import com.wei.wimagepreviewlib.utils.WeakDataHolder;
-import com.wei.wimagepreviewlib.R;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -111,16 +103,20 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.w_fragment_image_preview);
-        textView = findViewById(R.id.image_view_pager_num_indicator);
+        try {
+            textView = findViewById(R.id.image_view_pager_num_indicator);
 
-        initParam();
-        if (onPageListener != null) {
-            onPageListener.onOpen(showPosition);
-        }
-        initClose();
-        initViewPager();
-        if (isFullscreen) {
-            initStatusBar();
+            initParam();
+            if (onPageListener != null) {
+                onPageListener.onOpen(showPosition);
+            }
+            initClose();
+            initViewPager();
+            if (isFullscreen) {
+                initStatusBar();
+            }
+        } catch (WImagePreviewException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -153,24 +149,24 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     /**
      * 初始化ViewPager2
      */
-    private void initViewPager() {
+    private void initViewPager() throws WImagePreviewException {
         imageList = (List<Object>) WeakDataHolder.getInstance().getData(KeyConst.IMAGE_URI_LIST);
-        if (imageList == null) {
-            Toast.makeText(this, "无法获取图片", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
+        if (imageList == null || imageList.isEmpty()) {
+            // 无法获取图片
+            throw new WImagePreviewException("Unable to get image file;The minimum length of the image array is 1, actual 0.");
         }
         if (!(imageList.get(0) instanceof Uri || imageList.get(0) instanceof String)) {
-            Toast.makeText(this, "图片类型不正确", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
+            // 图片类型不正确， URI and String
+            throw new WImagePreviewException("Invalid image file type, currently only supports URI and String types.");
         }
 
+        // 初始化数字指示器
         int imgLen = imageList.size();
         textView.setText((showPosition + 1) + "/" + imgLen);
 
+        // ViewPager2配置
         viewPager2 = findViewById(R.id.image_view_pager_2);
-        imagePreviewAdapter = new ImagePreviewAdapter(this, imageList);
+        imagePreviewAdapter = new ImagePreviewAdapter(ImagePreviewFragmentActivity.this, imageList);
         viewPager2.setAdapter(imagePreviewAdapter);
         viewPager2.setCurrentItem(showPosition);
         viewPager2.setOrientation(showOrientation);
