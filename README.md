@@ -1,9 +1,12 @@
 # WImagePreview
 本项目是基于ViewPager2构建的一个Android图片预览组件\
-[![](https://jitpack.io/v/Wei-1021/WImagePreview.svg)](https://jitpack.io/#Wei-1021/WImagePreview)
+[![](https://jitpack.io/v/Wei-1021/WImagePreview.svg)](https://jitpack.io/#Wei-1021/WImagePreview)\
+仓库：\
+[![](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Wei-1021/WImagePreview)
+[![](https://img.shields.io/badge/Gitee-c71d23?style=for-the-badge&logo=gitee&logoColor=white)](https://gitee.com/weizhanjie/WImagePreview)
 
 # 如何导入
-## 1.在项目根目录下的build.gradle添加（高版本的Gradle的在settings.gradle中添加）
+## 1.在项目根目录下的build.gradle添加
 ```
 allprojects {
     repositories {
@@ -117,3 +120,6 @@ WImagePreviewBuilder
 | onPageScrolled(int position, float positionOffset, @Px int positionOffsetPixels) | 页面滑动事件监听。请参照ViewPager2的onPageScrolled                             |
 | onPageSelected(int position)                                                     | 页面选择事件监听，打开页面，切换图片时会触发。请参照ViewPager2的onPageSelected               |
 | onPageScrollStateChanged(@ViewPager2.ScrollState int state)                      | 页面滑动状态更改事件监听。请参照ViewPager2的onPageScrollStateChanged               |
+
+# 注意事项
+本项目图片加载库依赖Glide，依赖版本为4.12.0，若要导入本组件，您项目中的Glide版本建议不要低于4.12.0，否则可能会因为版本冲突而出现问题。
