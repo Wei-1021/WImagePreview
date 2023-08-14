@@ -58,16 +58,16 @@ WImagePreviewBuilder
 
 ### 动画：PageTransformer
 #### 常量 
-| 名称                          | 描述  | 效果演示                    |
-|-----------------------------|-----|-------------------------|
-| PAGE_TRANSFORM_ZOOM_OUT     | 景深  | ![景深](image/景深-min.gif) |
-| PAGE_TRANSFORM_DEPTH        | 叠层  | ![叠层](image/叠层-min.gif) |
-| PAGE_TRANSFORM_FLIP         | 翻转  | ![翻转](image/翻转-min.gif) |
-| PAGE_TRANSFORM_PUSH         | 推压  | ![推压](image/推压-min.gif) |
-| PAGE_TRANSFORM_ROTATE       | 旋转  | ![旋转](image/旋转-min.gif) |
-| PAGE_TRANSFORM_SQUARE_BOX   | 方块  | ![方块](image/方块-min.gif) |
-| PAGE_TRANSFORM_WIND_MILL    | 风车  | ![风车](image/风车-min.gif) |
-| 无    | 无动画  | ![风车](image/无动画.gif) |
+| 名称                        | 描述     | 效果演示                    |
+|---------------------------|--------|-------------------------|
+| PAGE_TRANSFORM_ZOOM_OUT   | 景深     | ![景深](image/景深-min.gif) |
+| PAGE_TRANSFORM_DEPTH      | 叠层     | ![叠层](image/叠层-min.gif) |
+| PAGE_TRANSFORM_FLIP       | 翻转     | ![翻转](image/翻转-min.gif) |
+| PAGE_TRANSFORM_PUSH       | 推压     | ![推压](image/推压-min.gif) |
+| PAGE_TRANSFORM_ROTATE     | 旋转     | ![旋转](image/旋转-min.gif) |
+| PAGE_TRANSFORM_SQUARE_BOX | 方块     | ![方块](image/方块-min.gif) |
+| PAGE_TRANSFORM_WIND_MILL  | 风车     | ![风车](image/风车-min.gif) |
+| 无                         | 无动画    | ![无动画](image/无动画.gif)   |
 
 ##### 使用方式
 ```
@@ -112,14 +112,14 @@ WImagePreviewBuilder
 ```
 
 ### 监听方法：OnPageListener
-| 方法                                                                               | 描述                                                                |
-|----------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| onOpen(int position)                                                             | 页面打开事件监听<br/> position：打开页面时，显示的第一张图片的定位                          |
-| onClick(Object o, int position)                                                  | 页面点击事件监听<br/>o：图片对象（Uri或String类型） <br/> position：点击页面时，所显示图片的定位   |
-| onClose(Object o, int position)                                                  | 页面关闭事件监听<br/>o：图片对象（Uri或String类型） <br/> position：关闭页面时，所显示图片的定位   |
-| onPageScrolled(int position, float positionOffset, @Px int positionOffsetPixels) | 页面滑动事件监听。请参照ViewPager2的onPageScrolled                             |
-| onPageSelected(int position)                                                     | 页面选择事件监听，打开页面，切换图片时会触发。请参照ViewPager2的onPageSelected               |
-| onPageScrollStateChanged(@ViewPager2.ScrollState int state)                      | 页面滑动状态更改事件监听。请参照ViewPager2的onPageScrollStateChanged               |
+| 方法                                                                               | 描述                                                              |
+|----------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| onOpen(int position)                                                             | 页面打开事件监听<br/> position：打开页面时，显示的第一张图片的定位                        |
+| onClick(Object o, int position)                                                  | 页面点击事件监听<br/>o：图片对象（Uri或String类型） <br/> position：点击页面时，所显示图片的定位 |
+| onClose(Object o, int position)                                                  | 页面关闭事件监听<br/>o：图片对象（Uri或String类型） <br/> position：关闭页面时，所显示图片的定位 |
+| onPageScrolled(int position, float positionOffset, @Px int positionOffsetPixels) | 页面滑动事件监听。请参照ViewPager2的onPageScrolled                           |
+| onPageSelected(int position)                                                     | 页面选择事件监听，打开页面，切换图片时会触发。请参照ViewPager2的onPageSelected             |
+| onPageScrollStateChanged(@ViewPager2.ScrollState int state)                      | 页面滑动状态更改事件监听。请参照ViewPager2的onPageScrollStateChanged             |
 
 # 注意事项
 本项目图片加载库依赖Glide，依赖版本为4.12.0，若要导入本组件，您项目中的Glide版本建议不要低于4.12.0，否则可能会因为版本冲突而出现问题。

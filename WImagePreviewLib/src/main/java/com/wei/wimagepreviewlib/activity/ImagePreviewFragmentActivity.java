@@ -84,6 +84,10 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private boolean isShowClose = true;
     /**
+     * 是否显示数字指示器
+     */
+    private boolean isShowNumIndicator = true;
+    /**
      * ViewPager2页面间距
      */
     private int pageMargin = 10;
@@ -138,6 +142,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         showPosition = intent.getIntExtra(KeyConst.VIEWPAGER2_ITEM_POSITION, 0);
         showOrientation = intent.getIntExtra(KeyConst.VIEWPAGER2_ORIENTATION, ViewPager2.ORIENTATION_HORIZONTAL);
         showIsAllowMove = intent.getBooleanExtra(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
+        isShowNumIndicator = intent.getBooleanExtra(KeyConst.VIEWPAGER2_SHOW_NUM_INDICATOR, true);
         isFullscreen = intent.getBooleanExtra(KeyConst.IS_FULLSCREEN, true);
         isShowClose = intent.getBooleanExtra(KeyConst.IS_SHOW_CLOSE, true);
         pageMargin = intent.getIntExtra(KeyConst.VIEW_PAGER2_PAGE_MARGIN, 10);
@@ -160,14 +165,19 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             // 无法获取图片
             throw new WImagePreviewException("Unable to get image file;The minimum length of the image array is 1, actual 0.");
         }
-        if (!(imageList.get(0) instanceof Uri || imageList.get(0) instanceof String)) {
+        Object firstImg = imageList.get(0);
+        if (!(firstImg instanceof Uri || firstImg instanceof String)) {
             // 图片类型不正确， URI and String
             throw new WImagePreviewException("Invalid image file type, currently only supports URI and String types.");
         }
 
         // 初始化数字指示器
         int imgLen = imageList.size();
-        textView.setText((showPosition + 1) + "/" + imgLen);
+        if (isShowNumIndicator) {
+            textView.setText((showPosition + 1) + "/" + imgLen);
+        } else {
+            textView.setVisibility(View.GONE);
+        }
 
         // ViewPager2配置
         viewPager2 = findViewById(R.id.image_view_pager_2);
@@ -211,7 +221,9 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 currentPosition = position;
-                textView.setText((currentPosition + 1) + "/" + imgLen);
+                if (isShowNumIndicator) {
+                    textView.setText((currentPosition + 1) + "/" + imgLen);
+                }
                 if (onPageListener != null) {
                     onPageListener.onPageSelected(position);
                 }

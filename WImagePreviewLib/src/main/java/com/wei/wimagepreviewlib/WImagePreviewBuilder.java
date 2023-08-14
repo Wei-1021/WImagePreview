@@ -77,6 +77,17 @@ public class WImagePreviewBuilder {
     }
 
     /**
+     * 设置是否显示数字指示器
+     *
+     * @param isShowNumIndicator
+     * @return WImagePreviewBuilder
+     */
+    public WImagePreviewBuilder setShowNumIndicator(boolean isShowNumIndicator) {
+        intent.putExtra(KeyConst.VIEWPAGER2_SHOW_NUM_INDICATOR, isShowNumIndicator);
+        return this;
+    }
+
+    /**
      * 设置滚动方向
      *
      * @param orientation 方向； <br/>

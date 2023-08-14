@@ -46,11 +46,9 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull imagePreviewAdapterHolder holder, int position) {
-        if (mImageList.get(0) instanceof Uri || mImageList.get(0) instanceof String) {
-            Glide.with(mContext)
-                    .load(mImageList.get(position))
-                    .into(holder.mImageView);
-        }
+        Glide.with(mContext)
+                .load(mImageList.get(position))
+                .into(holder.mImageView);
     }
 
     @Override

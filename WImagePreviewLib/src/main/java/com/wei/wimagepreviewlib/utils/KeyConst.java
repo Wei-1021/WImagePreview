@@ -19,6 +19,10 @@ public class KeyConst {
      */
     public static final String VIEWPAGER2_ITEM_POSITION = "_W_VIEWPAGER2_ITEM_POSITION_";
     /**
+     * 键值--是否显示数字指示器
+     */
+    public static final String VIEWPAGER2_SHOW_NUM_INDICATOR = "_W_VIEWPAGER2_SHOW_NUM_INDICATOR_";
+    /**
      * 键值--ViewPager2预加载个数
      */
     public static final String VIEWPAGER2_OFFSCREEN_PAGE_LIMIT = "_W_VIEWPAGER2_OFFSCREEN_PAGE_LIMIT";
