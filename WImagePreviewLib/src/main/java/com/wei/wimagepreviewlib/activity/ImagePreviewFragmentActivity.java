@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -13,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -163,18 +165,18 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         imageList = (List<Object>) WeakDataHolder.getInstance().getData(KeyConst.IMAGE_URI_LIST);
         if (imageList == null || imageList.isEmpty()) {
             // 无法获取图片
-            throw new WImagePreviewException("Unable to get image file;The minimum length of the image array is 1, actual 0.");
+            WImagePreviewException.setExceptionByType(this, WImagePreviewException.ExceptionType.IMAGE_LIST_EMPTY);
         }
         Object firstImg = imageList.get(0);
         if (!(firstImg instanceof Uri || firstImg instanceof String)) {
             // 图片类型不正确， URI and String
-            throw new WImagePreviewException("Invalid image file type, currently only supports URI and String types.");
+            WImagePreviewException.setExceptionByType(this, WImagePreviewException.ExceptionType.IMAGE_TYPE_INVALID);
         }
 
         // 初始化数字指示器
         int imgLen = imageList.size();
         if (isShowNumIndicator) {
-            textView.setText((showPosition + 1) + "/" + imgLen);
+            textView.setText(getString(R.string.num_indicator_text, (showPosition + 1), imgLen));
         } else {
             textView.setVisibility(View.GONE);
         }
@@ -221,12 +223,14 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 currentPosition = position;
+
                 if (isShowNumIndicator) {
-                    textView.setText((currentPosition + 1) + "/" + imgLen);
+                    textView.setText(getString(R.string.num_indicator_text, (currentPosition + 1), imgLen));
                 }
                 if (onPageListener != null) {
                     onPageListener.onPageSelected(position);
                 }
+
             }
         });
     }

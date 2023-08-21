@@ -9,17 +9,21 @@ import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.wei.wimagepreviewlib.utils.BigDecimalUtil;
 import com.wei.wimagepreviewlib.utils.KeyConst;
 
 import java.math.BigDecimal;
 
-
-public class ZoomImageView extends ImageView {
+/**
+ * 图片视图控件
+ *
+ * @author weizhanjie
+ */
+public class ZoomImageView extends AppCompatImageView {
 
     /**
      * 缩放的三个状态

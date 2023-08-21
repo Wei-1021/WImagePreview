@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 支持的图片类型（注意：不是图片格式） -->
+    <string-array name="support_image_type">
+        <item>android.net.Uri</item>
+        <item>java.lang.String</item>
+        <item>android.graphics.Bitmap</item>
+        <item>java.io.File</item>
+        <item>android.graphics.Drawable</item>
+        <item>java.lang.Integer</item>
+        <item>byte[]</item>
+    </string-array>
+</resources>

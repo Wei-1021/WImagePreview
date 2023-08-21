@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.wei.wimagepreviewlib.activity.ImagePreviewFragmentActivity;
+import com.wei.wimagepreviewlib.exception.WImagePreviewException;
 import com.wei.wimagepreviewlib.listener.OnPageListener;
 import com.wei.wimagepreviewlib.transformer.PageTransformer;
 import com.wei.wimagepreviewlib.utils.KeyConst;
@@ -22,6 +23,8 @@ public class WImagePreviewBuilder {
 
     private Context mContext;
     private Intent intent;
+
+    private int imgListSize = 0;
 
     private WImagePreviewBuilder(@NonNull Context context) {
         this.mContext = context;
@@ -59,6 +62,8 @@ public class WImagePreviewBuilder {
             return this;
         }
 
+        imgListSize = imgList.size();
+
         // 改用WeakReference存储图片路径集合，防止因图片太多导致intent在传输时崩溃
         WeakDataHolder.getInstance().saveData(KeyConst.IMAGE_URI_LIST, imgList);
 
@@ -72,6 +77,16 @@ public class WImagePreviewBuilder {
      * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setPosition(int position) {
+        if (position < 0) {
+            String msg = mContext.getString(R.string.exception_array_out_of_bounds);
+            String indexMsg = mContext.getString(R.string.exception_array_index, position);
+            throw new WImagePreviewException(msg + indexMsg, new ArrayIndexOutOfBoundsException(-1));
+        } else if (position > imgListSize) {
+            String msg = mContext.getString(R.string.exception_array_out_of_bounds);
+            String indexMsg = mContext.getString(R.string.exception_array_index_size, position, imgListSize);
+            throw new WImagePreviewException(msg + indexMsg, new ArrayIndexOutOfBoundsException());
+        }
+
         intent.putExtra(KeyConst.VIEWPAGER2_ITEM_POSITION, position);
         return this;
     }
@@ -91,11 +106,16 @@ public class WImagePreviewBuilder {
      * 设置滚动方向
      *
      * @param orientation 方向； <br/>
-     *                    水平滚动：{@code ViewPager2.ORIENTATION_HORIZONTAL}；<br/>
-     *                    垂直滚动：{@code ViewPager2.ORIENTATION_VERTICAL}
+     *                    水平滚动：{@link androidx.viewpager2.widget.ViewPager2#ORIENTATION_HORIZONTAL}；<br/>
+     *                    垂直滚动：{@link androidx.viewpager2.widget.ViewPager2#ORIENTATION_VERTICAL}
      * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setOrientation(int orientation) {
+        if (orientation != ViewPager2.ORIENTATION_HORIZONTAL && orientation != ViewPager2.ORIENTATION_VERTICAL) {
+            String msg = mContext.getString(R.string.exception_illegal_argument, String.valueOf(orientation));
+            throw new WImagePreviewException(msg, new IllegalArgumentException(String.valueOf(orientation)));
+        }
+
         intent.putExtra(KeyConst.VIEWPAGER2_ORIENTATION, orientation);
         return this;
     }

@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">WImagePreview</string>
+
+    <string name="num_indicator_text">%1$d/%2$d</string>
+
+    <!-- 异常消息 -->
+    <!-- 图片为空 -->
+    <string name="exception_image_empty">Unable to get image file;</string>
+    <!-- 图片集合为空 -->
+    <string name="exception_image_list_empty">The minimum length of the image array is 1, actual 0;</string>
+    <!-- 图片类型无效 -->
+    <string name="exception_image_type_invalid">Invalid image file type;</string>
+    <!-- 图片集合越界 -->
+    <string name="exception_array_out_of_bounds">Array index out of bounds;</string>
+    <string name="exception_array_index">Index: %1$d;</string>
+    <string name="exception_array_index_size">Index: %1$d, size: %2$d;</string>
+    <!-- 未知参数 -->
+    <string name="exception_illegal_argument">Illegal argument: %s;</string>
 </resources>
