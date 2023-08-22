@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">WImagePreview</string>
+
+    <string name="banner_image_1">https://ss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a6efce1b9d16fdfabf36882ab08f8c5495ee7b9f.jpg</string>
+    <string name="banner_image_2">https://ss3.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/0824ab18972bd40797d8db1179899e510fb3093a.jpg</string>
+    <string name="banner_image_3">https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2647888545,3751969263&amp;fm=224&amp;gp=0.jpg</string>
 </resources>

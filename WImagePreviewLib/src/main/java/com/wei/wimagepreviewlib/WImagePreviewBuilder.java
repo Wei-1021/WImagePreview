@@ -1,5 +1,6 @@
 package com.wei.wimagepreviewlib;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -195,6 +196,7 @@ public class WImagePreviewBuilder {
 
     /**
      * 设置预加载个数
+     *
      * @param offscreenPageLimit 预加载个数
      * @return WImagePreviewBuilder
      */
@@ -202,7 +204,33 @@ public class WImagePreviewBuilder {
         intent.putExtra(KeyConst.VIEWPAGER2_OFFSCREEN_PAGE_LIMIT, offscreenPageLimit);
         return this;
     }
-    
+
+    /**
+     * 设置预览组件进场动画
+     *
+     * @param enterAnim 目标页面的进场动画
+     * @param exitAnim  当前页面的退场动画
+     * @return
+     */
+    public WImagePreviewBuilder setInAnim(int enterAnim, int exitAnim) {
+        intent.putExtra(KeyConst.PAGER2_PAGE_IN_ENTER_ANIM, enterAnim);
+        intent.putExtra(KeyConst.PAGER2_PAGE_IN_EXIT_ANIM, exitAnim);
+        return this;
+    }
+
+    /**
+     * 设置预览组件退场动画
+     *
+     * @param enterAnim 上一个页面的进场动画
+     * @param exitAnim  当前页面的退场动画
+     * @return
+     */
+    public WImagePreviewBuilder setOutAnim(int enterAnim, int exitAnim) {
+        intent.putExtra(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, enterAnim);
+        intent.putExtra(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, exitAnim);
+        return this;
+    }
+
     /**
      * 监听器
      *
@@ -217,6 +245,7 @@ public class WImagePreviewBuilder {
     public void start() {
         intent.setClass(mContext, ImagePreviewFragmentActivity.class);
         mContext.startActivity(intent);
+        ((Activity) mContext).overridePendingTransition(R.anim.in_center_zoom, R.anim.out_fade);
         intent = null;
         mContext = null;
     }

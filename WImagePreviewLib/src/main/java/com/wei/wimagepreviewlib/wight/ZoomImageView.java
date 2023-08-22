@@ -8,8 +8,11 @@ import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
@@ -42,6 +45,8 @@ public class ZoomImageView extends AppCompatImageView {
          */
         TOW_FINGER_ZOOM
     }
+
+    private Context context;
 
     private Matrix matrix = new Matrix();
     /**
@@ -149,6 +154,8 @@ public class ZoomImageView extends AppCompatImageView {
     }
 
     private void init(Context context) {
+        this.context = context;
+
         setScaleType(ScaleType.MATRIX);
         matrix = new Matrix();
 

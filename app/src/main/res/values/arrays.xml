@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="image_list">
+        <item>@string/banner_image_1</item>
+        <item>@string/banner_image_2</item>
+        <item>@string/banner_image_3</item>
+    </string-array>
+</resources>

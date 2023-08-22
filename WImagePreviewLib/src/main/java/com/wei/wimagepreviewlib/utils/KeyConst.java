@@ -43,6 +43,22 @@ public class KeyConst {
      */
     public static final String VIEW_PAGER2_PAGE_TRANSFORMER = "_W_VIEW_PAGER2_PAGE_TRANSFORMER_";
     /**
+     * 键值--ViewPager2进场动画
+     */
+    public static final String PAGER2_PAGE_IN_ENTER_ANIM = "_W_PAGER2_PAGE_IN_ENTER_ANIM_";
+    /**
+     * 键值--ViewPager2页面进场前所在页面的退场动画
+     */
+    public static final String PAGER2_PAGE_IN_EXIT_ANIM = "_W_PAGER2_PAGE_IN_EXIT_ANIM_";
+    /**
+     * 键值--ViewPager2上一页面的进场动画
+     */
+    public static final String PAGER2_PAGE_OUT_ENTER_ANIM = "_W_PAGER2_PAGE_OUT_ENTER_ANIM_";
+    /**
+     * 键值--ViewPager2页面退场动画
+     */
+    public static final String PAGER2_PAGE_OUT_EXIT_ANIM = "_W_PAGER2_PAGE_OUT_EXIT_ANIM_";
+    /**
      * 键值--页面监听器
      */
     public static final String ON_PAGE_LISTENER = "_W_ON_PAGE_LISTENER_";

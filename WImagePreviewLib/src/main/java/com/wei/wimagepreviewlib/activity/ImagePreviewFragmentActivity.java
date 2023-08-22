@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
@@ -129,6 +131,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        exitActivity();
     }
 
     /**
@@ -161,7 +164,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     /**
      * 初始化ViewPager2
      */
-    private void initViewPager() throws WImagePreviewException {
+    private void initViewPager() {
         imageList = (List<Object>) WeakDataHolder.getInstance().getData(KeyConst.IMAGE_URI_LIST);
         if (imageList == null || imageList.isEmpty()) {
             // 无法获取图片
@@ -246,7 +249,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
                     onPageListener.onClose(imageList.get(currentPosition), currentPosition);
                 }
 
-                finish();
+                exitActivity();
             });
         } else {
             closeBtn.setVisibility(View.GONE);
@@ -258,21 +261,22 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private void initStatusBar() {
         Window window = getWindow();
-        // 设置透明状态栏
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            // 实现状态栏图标(文字颜色暗色为View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
+        // 透明状态栏
+        window.setStatusBarColor(Color.TRANSPARENT);
+        // 沉浸式状态栏
+        WindowCompat.setDecorFitsSystemWindows(window, false);
+        WindowCompat.getInsetsController(window, window.getDecorView())
+                .setAppearanceLightNavigationBars(true);
 
-            //19表示4.4
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //虚拟键盘也透明
-            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
+//        // 设置透明状态栏
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+////            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+//            // 实现状态栏图标(文字颜色暗色为View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+//            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            window.setStatusBarColor(Color.TRANSPARENT);
+//        }
     }
 
     @Override
@@ -290,5 +294,12 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         return super.dispatchTouchEvent(ev);
     }
 
+    /**
+     * 退出
+     */
+    private void exitActivity() {
+        finish();
+        overridePendingTransition(R.anim.in_center_zoom, R.anim.out_left_top);
+    }
 
 }
