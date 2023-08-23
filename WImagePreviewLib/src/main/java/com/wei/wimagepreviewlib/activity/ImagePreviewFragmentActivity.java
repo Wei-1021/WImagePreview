@@ -27,6 +27,7 @@ import com.wei.wimagepreviewlib.adapter.ImagePreviewAdapter;
 import com.wei.wimagepreviewlib.exception.WImagePreviewException;
 import com.wei.wimagepreviewlib.listener.OnPageListener;
 import com.wei.wimagepreviewlib.utils.KeyConst;
+import com.wei.wimagepreviewlib.utils.WAnim;
 import com.wei.wimagepreviewlib.utils.WeakDataHolder;
 import java.util.List;
 
@@ -100,6 +101,14 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private int offscreenPageLimit;
     /**
+     * 上一个页面的进场动画
+     */
+    private int outPageEnterAnim;
+    /**
+     * 当前页面的退场动画
+     */
+    private int outPageExitAnim;
+    /**
      * 页面切换动画
      */
     private ViewPager2.PageTransformer pageTransformer;
@@ -152,6 +161,8 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         isShowClose = intent.getBooleanExtra(KeyConst.IS_SHOW_CLOSE, true);
         pageMargin = intent.getIntExtra(KeyConst.VIEW_PAGER2_PAGE_MARGIN, 10);
         offscreenPageLimit = intent.getIntExtra(KeyConst.VIEWPAGER2_OFFSCREEN_PAGE_LIMIT, ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
+        outPageEnterAnim = intent.getIntExtra(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, 0);
+        outPageExitAnim = intent.getIntExtra(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, 0);
         currentPosition = showPosition;
         // 监听器参数
         Object onPageListenerObj = WeakDataHolder.getInstance().getData(KeyConst.ON_PAGE_LISTENER);
@@ -295,11 +306,13 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     }
 
     /**
-     * 退出
+     * 退出页面
      */
     private void exitActivity() {
         finish();
-        overridePendingTransition(R.anim.in_center_zoom, R.anim.out_left_top);
+        if (outPageEnterAnim != 0 && outPageExitAnim != 0) {
+            overridePendingTransition(outPageEnterAnim, outPageExitAnim);
+        }
     }
 
 }

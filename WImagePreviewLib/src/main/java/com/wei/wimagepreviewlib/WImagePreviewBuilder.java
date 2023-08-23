@@ -13,6 +13,7 @@ import com.wei.wimagepreviewlib.exception.WImagePreviewException;
 import com.wei.wimagepreviewlib.listener.OnPageListener;
 import com.wei.wimagepreviewlib.transformer.PageTransformer;
 import com.wei.wimagepreviewlib.utils.KeyConst;
+import com.wei.wimagepreviewlib.utils.WAnim;
 import com.wei.wimagepreviewlib.utils.WeakDataHolder;
 
 import java.util.List;
@@ -24,8 +25,9 @@ public class WImagePreviewBuilder {
 
     private Context mContext;
     private Intent intent;
-
     private int imgListSize = 0;
+    private int enterAnim;
+    private int exitAnim;
 
     private WImagePreviewBuilder(@NonNull Context context) {
         this.mContext = context;
@@ -155,9 +157,10 @@ public class WImagePreviewBuilder {
     }
 
     /**
-     * 设置ViewPager2页面间距 <br/>
-     * <b>setPageMargin()</b>和<b>setPageTransformer()</b>只能设置其中一个，<br/>
-     * 如果两个都设置，则只有<b>setPageTransformer()</b>生效
+     * 设置ViewPager2页面间距。<br/>
+     * {@link WImagePreviewBuilder#setPageMargin}和
+     * {@link WImagePreviewBuilder#setPageTransformer}只能设置其中一个，
+     * 如果两个都设置，则只有{@link WImagePreviewBuilder#setPageTransformer}生效
      *
      * @param pageMargin
      * @return WImagePreviewBuilder
@@ -168,9 +171,10 @@ public class WImagePreviewBuilder {
     }
 
     /**
-     * 设置页面切换动画<br/>
-     * <b>setPageMargin()</b>和<b>setPageTransformer()</b>只能设置其中一个，<br/>
-     * 如果两个都设置，则只有<b>setPageTransformer()</b>生效
+     * 设置页面切换动画。<br/>
+     * {@link WImagePreviewBuilder#setPageMargin}和
+     * {@link WImagePreviewBuilder#setPageTransformer}只能设置其中一个，
+     * 如果两个都设置，则只有{@link WImagePreviewBuilder#setPageTransformer}生效
      *
      * @param pageTransformer 动画类型;详见{@link com.wei.wimagepreviewlib.transformer.PageTransformer}中的常量
      * @return WImagePreviewBuilder
@@ -181,9 +185,10 @@ public class WImagePreviewBuilder {
     }
 
     /**
-     * 设置页面切换动画<br/>
-     * <b>setPageMargin()</b>和<b>setPageTransformer()</b>只能设置其中一个，<br/>
-     * 如果两个都设置，则只有<b>setPageTransformer()</b>生效
+     * 设置页面切换动画。<br/>
+     * {@link WImagePreviewBuilder#setPageMargin}和
+     * {@link WImagePreviewBuilder#setPageTransformer}只能设置其中一个，
+     * 如果两个都设置，则只有{@link WImagePreviewBuilder#setPageTransformer}生效
      *
      * @param pageTransformer 动画类型;详见{@link com.wei.wimagepreviewlib.transformer.PageTransformer}，
      *                        或者可以通过实现 {@link ViewPager2.PageTransformer}接口进行自定义动画
@@ -206,23 +211,87 @@ public class WImagePreviewBuilder {
     }
 
     /**
+     * 组件进出场动画。预设了八种进出场动画的组合，
+     * 若动画效果不符合需求，可以使用{@link WImagePreviewBuilder#setInAnim}和
+     * {@link WImagePreviewBuilder#setOutAnim}自由搭配。<br/>
+     * <table class="striped">
+     * <thead>
+     *     <tr style="vertical-align:top">
+     *         <th scope="col">常量</th>
+     *         <th scope="col">描述</th>
+     *     </tr>
+     * </thead>
+     * <tbody>
+     *     <tr><th scope="row">ALL_BOTTOM_IN_TOP_OUT</th><td>下进上出</td></tr>
+     *     <tr><th scope="row">ALL_TOP_IN_BOTTOM_OUT</th><td>上进下出</td></tr>
+     *     <tr><th scope="row">ALL_LEFT_IN_RIGHT_OUT</th><td>左进右出</td></tr>
+     *     <tr><th scope="row">ALL_RIGHT_IN_LEFT_OUT</th><td>右进左出</td></tr>
+     *     <tr><th scope="row">ALL_CENTER_IN_FADE_OUT</th><td>中间缩放进场，透明淡出</td></tr>
+     *     <tr><th scope="row">ALL_OUTSIDE_IN_FADE_OUT</th><td>外围缩放进场（从外往里），透明淡出</td></tr>
+     *     <tr><th scope="row">ALL_LEFT_TOP_IN_RIGHT_BTM_OUT</th><td>左上进，右下出</td></tr>
+     *     <tr><th scope="row">ALL_ROTATE_IN_FADE_OUT</th><td>旋转缩放进，透明淡出</td></tr>
+     * </tbody>
+     * </table>
+     *
+     * @param anim 进出场动画;详见{@link WAnim}类中ALL_*格式的常量
+     */
+    public WImagePreviewBuilder setAnim(int anim) {
+        switch (anim) {
+            case WAnim.ALL_BOTTOM_IN_TOP_OUT:
+                setInAnim(WAnim.IN_BOTTOM_TO_TOP, WAnim.OUT_BOTTOM_TO_TOP);
+                setOutAnim(WAnim.IN_TOP_TOP_BOTTOM, WAnim.OUT_TOP_TO_BOTTOM);
+                break;
+            case WAnim.ALL_TOP_IN_BOTTOM_OUT:
+                setInAnim(WAnim.IN_TOP_TOP_BOTTOM, WAnim.OUT_TOP_TO_BOTTOM);
+                setOutAnim(WAnim.IN_BOTTOM_TO_TOP, WAnim.OUT_BOTTOM_TO_TOP);
+                break;
+            case WAnim.ALL_LEFT_IN_RIGHT_OUT:
+                setInAnim(WAnim.IN_LEFT_TO_RIGHT, WAnim.OUT_LEFT_TO_RIGHT);
+                setOutAnim(WAnim.IN_RIGHT_TO_LEFT, WAnim.OUT_RIGHT_TO_LEFT);
+                break;
+            case WAnim.ALL_RIGHT_IN_LEFT_OUT:
+                setInAnim(WAnim.IN_RIGHT_TO_LEFT, WAnim.OUT_RIGHT_TO_LEFT);
+                setOutAnim(WAnim.IN_LEFT_TO_RIGHT, WAnim.OUT_LEFT_TO_RIGHT);
+                break;
+            case WAnim.ALL_CENTER_IN_FADE_OUT:
+                setInAnim(WAnim.IN_CENTER_ZOOM, WAnim.OUT_FADE);
+                setOutAnim(WAnim.IN_OUTSIDE_SCALE, WAnim.OUT_CENTER_ZOOM);
+                break;
+            case WAnim.ALL_OUTSIDE_IN_FADE_OUT:
+                setInAnim(WAnim.IN_OUTSIDE_SCALE, WAnim.OUT_FADE);
+                setOutAnim(WAnim.IN_OUTSIDE_SCALE, WAnim.OUT_FADE);
+                break;
+            case WAnim.ALL_LEFT_TOP_IN_RIGHT_BTM_OUT:
+                setInAnim(WAnim.IN_LEFT_TOP_ZOOM, WAnim.OUT_RIGHT_BOTTOM);
+                setOutAnim(WAnim.IN_LEFT_TOP_ZOOM, WAnim.OUT_RIGHT_BOTTOM);
+                break;
+            case WAnim.ALL_ROTATE_IN_FADE_OUT:
+                setInAnim(WAnim.IN_ROTATE_SCALE_MOVE, WAnim.OUT_FADE);
+                setOutAnim(WAnim.IN_ROTATE_SCALE_MOVE, WAnim.OUT_FADE);
+                break;
+        }
+
+        return this;
+    }
+
+    /**
      * 设置预览组件进场动画
      *
-     * @param enterAnim 目标页面的进场动画
-     * @param exitAnim  当前页面的退场动画
+     * @param enterAnim 目标页面的进场动画;详见{@link WAnim}类中IN_*格式的常量
+     * @param exitAnim  当前页面的退场动画;详见{@link WAnim}类中OUT_*格式的常量
      * @return
      */
     public WImagePreviewBuilder setInAnim(int enterAnim, int exitAnim) {
-        intent.putExtra(KeyConst.PAGER2_PAGE_IN_ENTER_ANIM, enterAnim);
-        intent.putExtra(KeyConst.PAGER2_PAGE_IN_EXIT_ANIM, exitAnim);
+        this.enterAnim = enterAnim;
+        this.exitAnim = exitAnim;
         return this;
     }
 
     /**
      * 设置预览组件退场动画
      *
-     * @param enterAnim 上一个页面的进场动画
-     * @param exitAnim  当前页面的退场动画
+     * @param enterAnim 上一个页面的进场动画;详见{@link WAnim}类中IN_*格式的常量
+     * @param exitAnim  当前页面的退场动画;详见{@link WAnim}类中OUT_*格式的常量
      * @return
      */
     public WImagePreviewBuilder setOutAnim(int enterAnim, int exitAnim) {
@@ -245,7 +314,9 @@ public class WImagePreviewBuilder {
     public void start() {
         intent.setClass(mContext, ImagePreviewFragmentActivity.class);
         mContext.startActivity(intent);
-        ((Activity) mContext).overridePendingTransition(R.anim.in_center_zoom, R.anim.out_fade);
+        if (enterAnim != 0 && exitAnim != 0) {
+            ((Activity) mContext).overridePendingTransition(enterAnim, exitAnim);
+        }
         intent = null;
         mContext = null;
     }

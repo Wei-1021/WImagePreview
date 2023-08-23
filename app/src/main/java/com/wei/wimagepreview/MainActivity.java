@@ -10,6 +10,7 @@ import android.view.Window;
 
 import com.bumptech.glide.Glide;
 import com.wei.wimagepreviewlib.WImagePreviewBuilder;
+import com.wei.wimagepreviewlib.utils.WAnim;
 
 import java.util.Arrays;
 
@@ -18,15 +19,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Window window = getWindow();
-        // 透明状态栏
-        window.setStatusBarColor(Color.TRANSPARENT);
-        // 沉浸式状态栏
-        WindowCompat.setDecorFitsSystemWindows(window, false);
-        WindowCompat.getInsetsController(window, window.getDecorView())
-                .setAppearanceLightNavigationBars(false);
-
         setContentView(R.layout.activity_main);
 
         AppCompatImageView imageView = findViewById(R.id.image_view);
@@ -39,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
                     .setData(Arrays.asList(imageList))
                     .setPosition(0)
                     .setOffscreenPageLimit(1)
+                    .setAnim(WAnim.ALL_OUTSIDE_IN_FADE_OUT)
                     .start();
         });
     }
