@@ -138,7 +138,7 @@ public class WImagePreviewBuilder {
      * 设置是否全屏
      *
      * @param isFullscreen 是否全屏
-     * @return WImagePreviewBuilder GPreviewBuilder
+     * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setFullscreen(boolean isFullscreen) {
         intent.putExtra(KeyConst.IS_FULLSCREEN, isFullscreen);
@@ -212,12 +212,12 @@ public class WImagePreviewBuilder {
 
     /**
      * 组件进出场动画。预设了八种进出场动画的组合，
-     * 若动画效果不符合需求，可以使用{@link WImagePreviewBuilder#setInAnim}和
+     * 若这八种预设的动画效果不满足您的需求，可以使用{@link WImagePreviewBuilder#setInAnim}和
      * {@link WImagePreviewBuilder#setOutAnim}自由搭配。<br/>
      * <table class="striped">
      * <thead>
      *     <tr style="vertical-align:top">
-     *         <th scope="col">常量</th>
+     *         <th scope="col">常量参数</th>
      *         <th scope="col">描述</th>
      *     </tr>
      * </thead>
@@ -226,9 +226,9 @@ public class WImagePreviewBuilder {
      *     <tr><th scope="row">ALL_TOP_IN_BOTTOM_OUT</th><td>上进下出</td></tr>
      *     <tr><th scope="row">ALL_LEFT_IN_RIGHT_OUT</th><td>左进右出</td></tr>
      *     <tr><th scope="row">ALL_RIGHT_IN_LEFT_OUT</th><td>右进左出</td></tr>
-     *     <tr><th scope="row">ALL_CENTER_IN_FADE_OUT</th><td>中间缩放进场，透明淡出</td></tr>
-     *     <tr><th scope="row">ALL_OUTSIDE_IN_FADE_OUT</th><td>外围缩放进场（从外往里），透明淡出</td></tr>
-     *     <tr><th scope="row">ALL_LEFT_TOP_IN_RIGHT_BTM_OUT</th><td>左上进，右下出</td></tr>
+     *     <tr><th scope="row">ALL_CENTER_ZOOM</th><td>中间缩放</td></tr>
+     *     <tr><th scope="row">ALL_OUTSIDE_SCALE</th><td>外围缩放（从外往里）</td></tr>
+     *     <tr><th scope="row">ALL_LTOP_IN_RBOTTOM_OUT</th><td>左上进，右下出</td></tr>
      *     <tr><th scope="row">ALL_ROTATE_IN_FADE_OUT</th><td>旋转缩放进，透明淡出</td></tr>
      * </tbody>
      * </table>
@@ -253,15 +253,15 @@ public class WImagePreviewBuilder {
                 setInAnim(WAnim.IN_RIGHT_TO_LEFT, WAnim.OUT_RIGHT_TO_LEFT);
                 setOutAnim(WAnim.IN_LEFT_TO_RIGHT, WAnim.OUT_LEFT_TO_RIGHT);
                 break;
-            case WAnim.ALL_CENTER_IN_FADE_OUT:
+            case WAnim.ALL_CENTER_ZOOM:
                 setInAnim(WAnim.IN_CENTER_ZOOM, WAnim.OUT_FADE);
                 setOutAnim(WAnim.IN_OUTSIDE_SCALE, WAnim.OUT_CENTER_ZOOM);
                 break;
-            case WAnim.ALL_OUTSIDE_IN_FADE_OUT:
+            case WAnim.ALL_OUTSIDE_SCALE:
                 setInAnim(WAnim.IN_OUTSIDE_SCALE, WAnim.OUT_FADE);
-                setOutAnim(WAnim.IN_OUTSIDE_SCALE, WAnim.OUT_FADE);
+                setOutAnim(WAnim.IN_OUTSIDE_SCALE, WAnim.OUT_CENTER_ZOOM);
                 break;
-            case WAnim.ALL_LEFT_TOP_IN_RIGHT_BTM_OUT:
+            case WAnim.ALL_LTOP_IN_RBOTTOM_OUT:
                 setInAnim(WAnim.IN_LEFT_TOP_ZOOM, WAnim.OUT_RIGHT_BOTTOM);
                 setOutAnim(WAnim.IN_LEFT_TOP_ZOOM, WAnim.OUT_RIGHT_BOTTOM);
                 break;
@@ -295,7 +295,7 @@ public class WImagePreviewBuilder {
      * @return
      */
     public WImagePreviewBuilder setOutAnim(int enterAnim, int exitAnim) {
-        intent.putExtra(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, enterAnim);
+        intent.putExtra(KeyConst.PAGER2_PAGE_OUT_ENTER_ANIM, enterAnim);
         intent.putExtra(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, exitAnim);
         return this;
     }

@@ -88,6 +88,10 @@ public class WAnim {
      * 退场动画--中间缩放退出
      */
     public static final int OUT_CENTER_ZOOM = R.anim.out_center_zoom;
+    /**
+     * 退场动画--外围缩放
+     */
+    public static final int OUT_OUTSIDE_SCALE = R.anim.out_outside_scale;
 
     //----------------------------------------------------------------------------------------------
     //
@@ -111,17 +115,17 @@ public class WAnim {
      */
     public static final int ALL_RIGHT_IN_LEFT_OUT = 4;
     /**
-     * 进退场动画--中间缩放进场，透明淡出
+     * 进退场动画--中间缩放
      */
-    public static final int ALL_CENTER_IN_FADE_OUT = 5;
+    public static final int ALL_CENTER_ZOOM = 5;
     /**
-     * 进退场动画--外围缩放进场（从外往里），透明淡出
+     * 进退场动画--外围缩放（从外往里）
      */
-    public static final int ALL_OUTSIDE_IN_FADE_OUT = 6;
+    public static final int ALL_OUTSIDE_SCALE = 6;
     /**
      * 进退场动画--左上进，右下出
      */
-    public static final int ALL_LEFT_TOP_IN_RIGHT_BTM_OUT = 7;
+    public static final int ALL_LTOP_IN_RBOTTOM_OUT = 7;
     /**
      * 进退场动画--旋转缩放进，透明淡出
      */

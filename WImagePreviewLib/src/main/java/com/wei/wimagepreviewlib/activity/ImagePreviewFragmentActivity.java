@@ -161,7 +161,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         isShowClose = intent.getBooleanExtra(KeyConst.IS_SHOW_CLOSE, true);
         pageMargin = intent.getIntExtra(KeyConst.VIEW_PAGER2_PAGE_MARGIN, 10);
         offscreenPageLimit = intent.getIntExtra(KeyConst.VIEWPAGER2_OFFSCREEN_PAGE_LIMIT, ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
-        outPageEnterAnim = intent.getIntExtra(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, 0);
+        outPageEnterAnim = intent.getIntExtra(KeyConst.PAGER2_PAGE_OUT_ENTER_ANIM, 0);
         outPageExitAnim = intent.getIntExtra(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, 0);
         currentPosition = showPosition;
         // 监听器参数

@@ -2,11 +2,7 @@ package com.wei.wimagepreview;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.core.view.WindowCompat;
-
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Window;
 
 import com.bumptech.glide.Glide;
 import com.wei.wimagepreviewlib.WImagePreviewBuilder;
@@ -31,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
                     .setData(Arrays.asList(imageList))
                     .setPosition(0)
                     .setOffscreenPageLimit(1)
-                    .setAnim(WAnim.ALL_OUTSIDE_IN_FADE_OUT)
+                    .setAnim(WAnim.ALL_OUTSIDE_SCALE)
                     .start();
         });
     }
