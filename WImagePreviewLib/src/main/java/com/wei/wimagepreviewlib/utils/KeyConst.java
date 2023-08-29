@@ -23,6 +23,10 @@ public class KeyConst {
      */
     public static final String VIEWPAGER2_SHOW_NUM_INDICATOR = "_W_VIEWPAGER2_SHOW_NUM_INDICATOR_";
     /**
+     * 键值--是否允许无限循环滑动
+     */
+    public static final String VIEWPAGER2_IS_INFINITE_LOOP = "_W_VIEWPAGER2_IS_INFINITE_LOOP_";
+    /**
      * 键值--ViewPager2预加载个数
      */
     public static final String VIEWPAGER2_OFFSCREEN_PAGE_LIMIT = "_W_VIEWPAGER2_OFFSCREEN_PAGE_LIMIT";

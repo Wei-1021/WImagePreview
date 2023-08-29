@@ -34,7 +34,6 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapte
         this.mContext = context;
     }
 
-
     @NonNull
     @Override
     public imagePreviewAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -73,5 +72,4 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapte
             mImageView = itemView.findViewById(R.id.item_image_preview_view);
         }
     }
-
 }

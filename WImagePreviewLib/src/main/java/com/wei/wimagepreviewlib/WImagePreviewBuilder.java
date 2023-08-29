@@ -157,6 +157,17 @@ public class WImagePreviewBuilder {
     }
 
     /**
+     * 设置是否允许无限循环滑动
+     *
+     * @param isInfiniteLoop 是否允许无限循环滑动
+     * @return
+     */
+    public WImagePreviewBuilder setInfiniteLoop(boolean isInfiniteLoop) {
+        intent.putExtra(KeyConst.VIEWPAGER2_IS_INFINITE_LOOP, isInfiniteLoop);
+        return this;
+    }
+
+    /**
      * 设置ViewPager2页面间距。<br/>
      * {@link WImagePreviewBuilder#setPageMargin}和
      * {@link WImagePreviewBuilder#setPageTransformer}只能设置其中一个，

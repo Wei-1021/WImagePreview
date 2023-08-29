@@ -4,20 +4,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
@@ -27,8 +22,9 @@ import com.wei.wimagepreviewlib.adapter.ImagePreviewAdapter;
 import com.wei.wimagepreviewlib.exception.WImagePreviewException;
 import com.wei.wimagepreviewlib.listener.OnPageListener;
 import com.wei.wimagepreviewlib.utils.KeyConst;
-import com.wei.wimagepreviewlib.utils.WAnim;
+import com.wei.wimagepreviewlib.utils.WTools;
 import com.wei.wimagepreviewlib.utils.WeakDataHolder;
+
 import java.util.List;
 
 /**
@@ -57,17 +53,37 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private ImagePreviewAdapter imagePreviewAdapter;
     /**
+     * ViewPager2监听回调
+     */
+    private ViewPager2OnPageChangeCallback mOnPageChangeCallback;
+    /**
      * 页面监听器
      */
     private OnPageListener onPageListener;
     /**
-     * 当前图片定位
+     * 当前图片所展示的定位
      */
     private int currentPosition = 0;
+    /**
+     * 当前图片真实的定位
+     */
+    private int currentRealPosition = 0;
     /**
      * 图片集合
      */
     private List<Object> imageList;
+    /**
+     * 处理后的图片集合
+     */
+    private List<Object> handleImageList;
+    /**
+     * 图片集合长度
+     */
+    private int imgLen;
+    /**
+     * 处理后的图片集合长度
+     */
+    private int handleImgLen;
     /**
      * 设置当前显示的item定位
      */
@@ -88,6 +104,10 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      * 是否显示关闭按钮
      */
     private boolean isShowClose = true;
+    /**
+     * 是否允许无限循环滑动
+     */
+    private boolean isInfiniteLoop = true;
     /**
      * 是否显示数字指示器
      */
@@ -159,6 +179,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         isShowNumIndicator = intent.getBooleanExtra(KeyConst.VIEWPAGER2_SHOW_NUM_INDICATOR, true);
         isFullscreen = intent.getBooleanExtra(KeyConst.IS_FULLSCREEN, true);
         isShowClose = intent.getBooleanExtra(KeyConst.IS_SHOW_CLOSE, true);
+        isInfiniteLoop = intent.getBooleanExtra(KeyConst.VIEWPAGER2_IS_INFINITE_LOOP, true);
         pageMargin = intent.getIntExtra(KeyConst.VIEW_PAGER2_PAGE_MARGIN, 10);
         offscreenPageLimit = intent.getIntExtra(KeyConst.VIEWPAGER2_OFFSCREEN_PAGE_LIMIT, ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
         outPageEnterAnim = intent.getIntExtra(KeyConst.PAGER2_PAGE_OUT_ENTER_ANIM, 0);
@@ -169,7 +190,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         onPageListener = onPageListenerObj == null ? null : (OnPageListener) onPageListenerObj;
         // 页面翻页动画参数
         Object pageTransformerObj = WeakDataHolder.getInstance().getData(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER);
-        pageTransformer = pageTransformerObj == null ? null :(ViewPager2.PageTransformer) pageTransformerObj;
+        pageTransformer = pageTransformerObj == null ? null : (ViewPager2.PageTransformer) pageTransformerObj;
     }
 
     /**
@@ -188,18 +209,23 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         }
 
         // 初始化数字指示器
-        int imgLen = imageList.size();
+        imgLen = imageList.size();
         if (isShowNumIndicator) {
             textView.setText(getString(R.string.num_indicator_text, (showPosition + 1), imgLen));
         } else {
             textView.setVisibility(View.GONE);
         }
 
+        // 处理图片集合
+        handleImageList = WTools.setData(isInfiniteLoop, imageList);
+        handleImgLen = handleImageList.size();
+        currentRealPosition = WTools.getRealPosition(isInfiniteLoop, handleImgLen, showPosition);
+
         // ViewPager2配置
         viewPager2 = findViewById(R.id.image_view_pager_2);
-        imagePreviewAdapter = new ImagePreviewAdapter(ImagePreviewFragmentActivity.this, imageList);
+        imagePreviewAdapter = new ImagePreviewAdapter(ImagePreviewFragmentActivity.this, handleImageList);
         viewPager2.setAdapter(imagePreviewAdapter);
-        viewPager2.setCurrentItem(showPosition);
+        viewPager2.setCurrentItem(WTools.getRealPosition(isInfiniteLoop, handleImgLen, showPosition), false);
         viewPager2.setOrientation(showOrientation);
         viewPager2.setUserInputEnabled(showIsAllowMove);
         viewPager2.setOffscreenPageLimit(offscreenPageLimit);
@@ -210,43 +236,8 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         }
 
         // viewPager2滑动监听
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                // 获取ViewPager2是否允许移动
-                if (showIsAllowMove) {
-                    boolean isAllowMove = prefs.getBoolean(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
-                    viewPager2.setUserInputEnabled(isAllowMove);
-
-                    if (onPageListener != null) {
-                        onPageListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                    }
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                super.onPageScrollStateChanged(state);
-                if (onPageListener != null) {
-                    onPageListener.onPageScrollStateChanged(state);
-                }
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                currentPosition = position;
-
-                if (isShowNumIndicator) {
-                    textView.setText(getString(R.string.num_indicator_text, (currentPosition + 1), imgLen));
-                }
-                if (onPageListener != null) {
-                    onPageListener.onPageSelected(position);
-                }
-
-            }
-        });
+        mOnPageChangeCallback = new ViewPager2OnPageChangeCallback();
+        viewPager2.registerOnPageChangeCallback(mOnPageChangeCallback);
     }
 
     /**
@@ -290,6 +281,58 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
 //        }
     }
 
+    /**
+     * 页面变化监听
+     */
+    public class ViewPager2OnPageChangeCallback extends ViewPager2.OnPageChangeCallback {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            // 获取ViewPager2是否允许移动
+            if (showIsAllowMove) {
+                boolean isAllowMove = prefs.getBoolean(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
+                viewPager2.setUserInputEnabled(isAllowMove);
+
+                if (onPageListener != null) {
+                    onPageListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                }
+            }
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            super.onPageSelected(position);
+            currentPosition = WTools.getShowPosition(isInfiniteLoop, handleImgLen, position);
+            currentRealPosition = position;
+
+            if (isShowNumIndicator) {
+                textView.setText(getString(R.string.num_indicator_text, (currentPosition + 1), imgLen));
+            }
+            if (onPageListener != null) {
+                onPageListener.onPageSelected(position);
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            super.onPageScrollStateChanged(state);
+
+            if (isInfiniteLoop) {
+                if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                    if (currentRealPosition == 0) {
+                        viewPager2.setCurrentItem(imgLen, false);
+                    } else if (currentRealPosition == handleImgLen - 1) {
+                        viewPager2.setCurrentItem(1, false);
+                    }
+                }
+            }
+
+            if (onPageListener != null) {
+                onPageListener.onPageScrollStateChanged(state);
+            }
+        }
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         // 获取ViewPager2是否允许移动
@@ -314,5 +357,6 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             overridePendingTransition(outPageEnterAnim, outPageExitAnim);
         }
     }
+
 
 }
