@@ -33,39 +33,8 @@ public class MainActivity extends AppCompatActivity {
                     .setPosition(0)
                     .setOffscreenPageLimit(1)
                     .setInfiniteLoop(true)
-                    .setPageTransformer(PageTransformer.PAGE_TRANSFORM_ZOOM_OUT)
+                    .setPageTransformer(PageTransformer.PAGE_TRANSFORM_DEPTH)
                     .setAnim(WAnim.ALL_OUTSIDE_SCALE)
-                    .setOnPageListener(new OnPageListener() {
-                        @Override
-                        public void onOpen(int position) {
-                            super.onOpen(position);
-                            Log.i(TAG, "onOpen: " + position);
-                        }
-
-                        @Override
-                        public void onClick(Object o, int position) {
-                            super.onClick(o, position);
-                            Log.i(TAG, "onClick: " + position);
-                        }
-
-                        @Override
-                        public void onClose(Object o, int position) {
-                            super.onClose(o, position);
-                            Log.i(TAG, "onClose: " + position);
-                        }
-
-                        @Override
-                        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                            super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                            Log.i(TAG, "onPageScrolled: " + position);
-                        }
-
-                        @Override
-                        public void onPageSelected(int position) {
-                            super.onPageSelected(position);
-                            Log.i(TAG, "onPageSelected: " + position);
-                        }
-                    })
                     .start();
         });
     }

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.core.view.WindowCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -22,6 +24,7 @@ import com.wei.wimagepreviewlib.adapter.ImagePreviewAdapter;
 import com.wei.wimagepreviewlib.exception.WImagePreviewException;
 import com.wei.wimagepreviewlib.listener.OnPageListener;
 import com.wei.wimagepreviewlib.utils.KeyConst;
+import com.wei.wimagepreviewlib.utils.WConfig;
 import com.wei.wimagepreviewlib.utils.WTools;
 import com.wei.wimagepreviewlib.utils.WeakDataHolder;
 
@@ -136,13 +139,14 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor prefsEditor;
 
+    private static WeakDataHolder weakDataHolder;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.w_fragment_image_preview);
         try {
             textView = findViewById(R.id.image_view_pager_num_indicator);
-
             initParam();
             if (onPageListener != null) {
                 onPageListener.onOpen(showPosition);
@@ -153,13 +157,16 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
                 initStatusBar();
             }
         } catch (WImagePreviewException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        if (onPageListener != null) {
+            onPageListener.onClose(imageList.get(currentPosition), currentPosition);
+        }
         exitActivity();
     }
 
@@ -171,20 +178,22 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         prefs = getApplicationContext().getSharedPreferences(KeyConst.APP_SHARED_PREFERENCES, MODE_PRIVATE);
         prefsEditor = prefs.edit();
         intent = getIntent();
+        weakDataHolder = WeakDataHolder.getInstance();
 
         // 获取组件配置属性参数
-        showPosition = intent.getIntExtra(KeyConst.VIEWPAGER2_ITEM_POSITION, 0);
-        showOrientation = intent.getIntExtra(KeyConst.VIEWPAGER2_ORIENTATION, ViewPager2.ORIENTATION_HORIZONTAL);
-        showIsAllowMove = intent.getBooleanExtra(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
-        isShowNumIndicator = intent.getBooleanExtra(KeyConst.VIEWPAGER2_SHOW_NUM_INDICATOR, true);
-        isFullscreen = intent.getBooleanExtra(KeyConst.IS_FULLSCREEN, true);
-        isShowClose = intent.getBooleanExtra(KeyConst.IS_SHOW_CLOSE, true);
-        isInfiniteLoop = intent.getBooleanExtra(KeyConst.VIEWPAGER2_IS_INFINITE_LOOP, true);
-        pageMargin = intent.getIntExtra(KeyConst.VIEW_PAGER2_PAGE_MARGIN, 10);
-        offscreenPageLimit = intent.getIntExtra(KeyConst.VIEWPAGER2_OFFSCREEN_PAGE_LIMIT, ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
-        outPageEnterAnim = intent.getIntExtra(KeyConst.PAGER2_PAGE_OUT_ENTER_ANIM, 0);
-        outPageExitAnim = intent.getIntExtra(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, 0);
+        showPosition = (int) weakDataHolder.getData(KeyConst.VIEWPAGER2_ITEM_POSITION, WConfig.DEFAULT_ITEM_POSITION);
+        showOrientation = (int) weakDataHolder.getData(KeyConst.VIEWPAGER2_ORIENTATION, WConfig.DEFAULT_ORIENTATION);
+        showIsAllowMove = (boolean) weakDataHolder.getData(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, WConfig.DEFAULT_IS_ALLOW_MOVE);
+        isShowNumIndicator = (boolean) weakDataHolder.getData(KeyConst.VIEWPAGER2_SHOW_NUM_INDICATOR, WConfig.DEFAULT_SHOW_NUM_INDICATOR);
+        isFullscreen = (boolean) weakDataHolder.getData(KeyConst.IS_FULLSCREEN, WConfig.DEFAULT_IS_FULLSCREEN);
+        isShowClose = (boolean) weakDataHolder.getData(KeyConst.IS_SHOW_CLOSE, WConfig.DEFAULT_IS_SHOW_CLOSE);
+        isInfiniteLoop = (boolean) weakDataHolder.getData(KeyConst.VIEWPAGER2_IS_INFINITE_LOOP, WConfig.DEFAULT_IS_INFINITE_LOOP);
+        pageMargin = (int) weakDataHolder.getData(KeyConst.VIEW_PAGER2_PAGE_MARGIN, WConfig.DEFAULT_PAGE_MARGIN);
+        offscreenPageLimit = (int) weakDataHolder.getData(KeyConst.VIEWPAGER2_OFFSCREEN_PAGE_LIMIT, WConfig.DEFAULT_OFFSCREEN_PAGE_LIMIT);
+        outPageEnterAnim = (int) weakDataHolder.getData(KeyConst.PAGER2_PAGE_OUT_ENTER_ANIM, WConfig.DEFAULT_PAGE_OUT_ENTER_ANIM);
+        outPageExitAnim = (int) weakDataHolder.getData(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, WConfig.DEFAULT_PAGE_OUT_EXIT_ANIM);
         currentPosition = showPosition;
+
         // 监听器参数
         Object onPageListenerObj = WeakDataHolder.getInstance().getData(KeyConst.ON_PAGE_LISTENER);
         onPageListener = onPageListenerObj == null ? null : (OnPageListener) onPageListenerObj;
@@ -197,7 +206,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      * 初始化ViewPager2
      */
     private void initViewPager() {
-        imageList = (List<Object>) WeakDataHolder.getInstance().getData(KeyConst.IMAGE_URI_LIST);
+        imageList = (List<Object>) weakDataHolder.getData(KeyConst.IMAGE_URI_LIST);
         if (imageList == null || imageList.isEmpty()) {
             // 无法获取图片
             WImagePreviewException.setExceptionByType(this, WImagePreviewException.ExceptionType.IMAGE_LIST_EMPTY);
@@ -225,7 +234,12 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         viewPager2 = findViewById(R.id.image_view_pager_2);
         imagePreviewAdapter = new ImagePreviewAdapter(ImagePreviewFragmentActivity.this, handleImageList);
         viewPager2.setAdapter(imagePreviewAdapter);
-        viewPager2.setCurrentItem(WTools.getRealPosition(isInfiniteLoop, handleImgLen, showPosition), false);
+        int showItemPosition = WTools.getRealPosition(isInfiniteLoop, handleImgLen, showPosition);
+        if (isInfiniteLoop && showPosition == 0) {
+            viewPager2.setCurrentItem(showItemPosition, false);
+        }
+
+        viewPager2.setCurrentItem(showItemPosition, false);
         viewPager2.setOrientation(showOrientation);
         viewPager2.setUserInputEnabled(showIsAllowMove);
         viewPager2.setOffscreenPageLimit(offscreenPageLimit);
@@ -294,7 +308,8 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
                 viewPager2.setUserInputEnabled(isAllowMove);
 
                 if (onPageListener != null) {
-                    onPageListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                    onPageListener.onPageScrolled(WTools.getShowPosition(isInfiniteLoop, handleImgLen, position),
+                            positionOffset, positionOffsetPixels);
                 }
             }
         }
@@ -305,11 +320,12 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             currentPosition = WTools.getShowPosition(isInfiniteLoop, handleImgLen, position);
             currentRealPosition = position;
 
-            if (isShowNumIndicator) {
-                textView.setText(getString(R.string.num_indicator_text, (currentPosition + 1), imgLen));
+            if (showIsAllowMove) {
+                textView.setText(getString(R.string.num_indicator_text, currentPosition + 1, imgLen));
             }
+
             if (onPageListener != null) {
-                onPageListener.onPageSelected(position);
+                onPageListener.onPageSelected(currentPosition);
             }
         }
 

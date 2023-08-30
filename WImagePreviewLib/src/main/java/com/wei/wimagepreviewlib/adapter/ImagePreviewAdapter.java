@@ -1,7 +1,6 @@
 package com.wei.wimagepreviewlib.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +48,7 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapte
         Glide.with(mContext)
                 .load(mImageList.get(position))
                 .into(holder.mImageView);
-
+        Log.i("TAG", "onBindViewHolder-position: " + position);
         holder.mImageView.setOnLongClickListener(v -> {
             Log.i("TAG", "onLongClick: ");
             return false;

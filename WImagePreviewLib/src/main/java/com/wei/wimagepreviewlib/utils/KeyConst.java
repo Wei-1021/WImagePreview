@@ -41,7 +41,7 @@ public class KeyConst {
     /**
      * 键值--ViewPager2页面间距
      */
-    public static final String VIEW_PAGER2_PAGE_MARGIN = "_W_VIEW_PAGER2_PAGE_TRANSFORMER_";
+    public static final String VIEW_PAGER2_PAGE_MARGIN = "_W_VIEW_PAGER2_PAGE_MARGIN_";
     /**
      * 键值--ViewPager2页面切换动画
      */

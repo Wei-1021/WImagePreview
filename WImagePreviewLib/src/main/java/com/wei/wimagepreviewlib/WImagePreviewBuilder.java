@@ -28,10 +28,12 @@ public class WImagePreviewBuilder {
     private int imgListSize = 0;
     private int enterAnim;
     private int exitAnim;
+    private final WeakDataHolder weakDataHolder;
 
     private WImagePreviewBuilder(@NonNull Context context) {
         this.mContext = context;
-        intent = new Intent();
+        this.intent = new Intent();
+        this.weakDataHolder = WeakDataHolder.getInstance();
     }
 
     /**
@@ -68,7 +70,7 @@ public class WImagePreviewBuilder {
         imgListSize = imgList.size();
 
         // 改用WeakReference存储图片路径集合，防止因图片太多导致intent在传输时崩溃
-        WeakDataHolder.getInstance().saveData(KeyConst.IMAGE_URI_LIST, imgList);
+        weakDataHolder.saveData(KeyConst.IMAGE_URI_LIST, imgList);
 
         return this;
     }
@@ -90,7 +92,7 @@ public class WImagePreviewBuilder {
             throw new WImagePreviewException(msg + indexMsg, new ArrayIndexOutOfBoundsException());
         }
 
-        intent.putExtra(KeyConst.VIEWPAGER2_ITEM_POSITION, position);
+        weakDataHolder.saveData(KeyConst.VIEWPAGER2_ITEM_POSITION, position);
         return this;
     }
 
@@ -101,7 +103,7 @@ public class WImagePreviewBuilder {
      * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setShowNumIndicator(boolean isShowNumIndicator) {
-        intent.putExtra(KeyConst.VIEWPAGER2_SHOW_NUM_INDICATOR, isShowNumIndicator);
+        weakDataHolder.saveData(KeyConst.VIEWPAGER2_SHOW_NUM_INDICATOR, isShowNumIndicator);
         return this;
     }
 
@@ -119,7 +121,7 @@ public class WImagePreviewBuilder {
             throw new WImagePreviewException(msg, new IllegalArgumentException(String.valueOf(orientation)));
         }
 
-        intent.putExtra(KeyConst.VIEWPAGER2_ORIENTATION, orientation);
+        weakDataHolder.saveData(KeyConst.VIEWPAGER2_ORIENTATION, orientation);
         return this;
     }
 
@@ -130,7 +132,7 @@ public class WImagePreviewBuilder {
      * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setAllowMove(boolean isAllowImage) {
-        intent.putExtra(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, isAllowImage);
+        weakDataHolder.saveData(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, isAllowImage);
         return this;
     }
 
@@ -141,7 +143,7 @@ public class WImagePreviewBuilder {
      * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setFullscreen(boolean isFullscreen) {
-        intent.putExtra(KeyConst.IS_FULLSCREEN, isFullscreen);
+        weakDataHolder.saveData(KeyConst.IS_FULLSCREEN, isFullscreen);
         return this;
     }
 
@@ -152,7 +154,7 @@ public class WImagePreviewBuilder {
      * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setShowClose(boolean isShowClose) {
-        intent.putExtra(KeyConst.IS_SHOW_CLOSE, isShowClose);
+        weakDataHolder.saveData(KeyConst.IS_SHOW_CLOSE, isShowClose);
         return this;
     }
 
@@ -163,7 +165,7 @@ public class WImagePreviewBuilder {
      * @return
      */
     public WImagePreviewBuilder setInfiniteLoop(boolean isInfiniteLoop) {
-        intent.putExtra(KeyConst.VIEWPAGER2_IS_INFINITE_LOOP, isInfiniteLoop);
+        weakDataHolder.saveData(KeyConst.VIEWPAGER2_IS_INFINITE_LOOP, isInfiniteLoop);
         return this;
     }
 
@@ -177,7 +179,7 @@ public class WImagePreviewBuilder {
      * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setPageMargin(int pageMargin) {
-        intent.putExtra(KeyConst.VIEW_PAGER2_PAGE_MARGIN, pageMargin);
+        weakDataHolder.saveData(KeyConst.VIEW_PAGER2_PAGE_MARGIN, pageMargin);
         return this;
     }
 
@@ -206,7 +208,7 @@ public class WImagePreviewBuilder {
      * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setPageTransformer(ViewPager2.PageTransformer pageTransformer) {
-        WeakDataHolder.getInstance().saveData(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER, pageTransformer);
+        weakDataHolder.saveData(KeyConst.VIEW_PAGER2_PAGE_TRANSFORMER, pageTransformer);
         return this;
     }
 
@@ -217,7 +219,7 @@ public class WImagePreviewBuilder {
      * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setOffscreenPageLimit(int offscreenPageLimit) {
-        intent.putExtra(KeyConst.VIEWPAGER2_OFFSCREEN_PAGE_LIMIT, offscreenPageLimit);
+        weakDataHolder.saveData(KeyConst.VIEWPAGER2_OFFSCREEN_PAGE_LIMIT, offscreenPageLimit);
         return this;
     }
 
@@ -306,8 +308,8 @@ public class WImagePreviewBuilder {
      * @return
      */
     public WImagePreviewBuilder setOutAnim(int enterAnim, int exitAnim) {
-        intent.putExtra(KeyConst.PAGER2_PAGE_OUT_ENTER_ANIM, enterAnim);
-        intent.putExtra(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, exitAnim);
+        weakDataHolder.saveData(KeyConst.PAGER2_PAGE_OUT_ENTER_ANIM, enterAnim);
+        weakDataHolder.saveData(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, exitAnim);
         return this;
     }
 
@@ -318,7 +320,7 @@ public class WImagePreviewBuilder {
      * @return WImagePreviewBuilder
      */
     public WImagePreviewBuilder setOnPageListener(OnPageListener listener) {
-        WeakDataHolder.getInstance().saveData(KeyConst.ON_PAGE_LISTENER, listener);
+        weakDataHolder.saveData(KeyConst.ON_PAGE_LISTENER, listener);
         return this;
     }
 

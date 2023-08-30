@@ -24,29 +24,43 @@ public class WeakDataHolder {
         return instance;
     }
 
-    private Map<String, WeakReference<Object>> map = new HashMap<>();
+    private final Map<String, WeakReference<Object>> map = new HashMap<>();
 
     /**
      * 数据存储
      *
-     * @param id
+     * @param key
      * @param object
      */
-    public void saveData(String id, Object object) {
-        map.put(id, new WeakReference<>(object));
+    public void saveData(String key, Object object) {
+        map.put(key, new WeakReference<>(object));
     }
 
     /**
      * 获取数据
      *
-     * @param id
+     * @param key
      * @return
      */
-    public Object getData(String id) {
-        WeakReference<Object> weakReference = map.get(id);
+    public Object getData(String key) {
+        WeakReference<Object> weakReference = map.get(key);
         if (weakReference == null) {
             return null;
         }
-        return weakReference.get();
+
+        Object object = weakReference.get();
+        return object;
+    }
+
+    /**
+     * 获取数据
+     *
+     * @param key
+     * @param defaultValue 缺省
+     * @return
+     */
+    public Object getData(String key, Object defaultValue) {
+        Object object = getData(key);
+        return getData(key) == null ? defaultValue : object;
     }
 }

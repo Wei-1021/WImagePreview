@@ -11,9 +11,11 @@ import java.util.List;
 public class WTools {
 
     /**
-     * 设置图片集合数据
+     * 设置图片集合数据。
+     * 集合首尾各插入一条数据，头部插入原集合的最后一条数据，
+     * 尾部插入原集合的第一条数据；如[1,2,3]-->[3,1,2,3,1]
      *
-     * @param imageList
+     * @param imageList 未处理的图片集合
      * @return
      */
     public static List<Object> setData(List<Object> imageList) {
@@ -21,11 +23,14 @@ public class WTools {
     }
 
     /**
-     * 设置图片集合数据
+     * 设置图片集合数据。
+     * 若允许无限循环滚动，则集合首尾各插入一条数据，
+     * 头部插入原集合的最后一条数据，尾部插入原集合的第一条数据；
+     * 如[1,2,3]-->[3,1,2,3,1]
      *
      * @param isInfiniteLoop 是否无限循环滚动
-     * @param imageList
-     * @return
+     * @param imageList      未处理的图片集合
+     * @return 处理后的图片集合
      */
     public static List<Object> setData(boolean isInfiniteLoop, List<Object> imageList) {
         if (!isInfiniteLoop) {
@@ -90,15 +95,15 @@ public class WTools {
             return position;
         }
 
-        int realPosition;
+        int showPosition;
         if (position == 0) {
-            realPosition = listSize - 2;
+            showPosition = listSize - 3;
         } else if (position == listSize - 1) {
-            realPosition = 1;
+            showPosition = 0;
         } else {
-            realPosition = position - 1;
+            showPosition = position - 1;
         }
 
-        return realPosition;
+        return showPosition;
     }
 }
