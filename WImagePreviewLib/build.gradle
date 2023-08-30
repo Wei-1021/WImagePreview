@@ -30,7 +30,7 @@ android {
 afterEvaluate {
     publishing {
         // 当前依赖库的版本号
-        def versionName = "v1.2.2"
+        def versionName = "v1.3.0"
         publications {
             release(MavenPublication) {
                 from components.release // release
