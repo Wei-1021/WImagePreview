@@ -18,7 +18,7 @@ allprojects {
 ## 2.引入依赖
 ```
 dependencies {
-    implementation 'com.github.Wei-1021:WImagePreview:v1.2.2'
+    implementation 'com.github.Wei-1021:WImagePreview:v1.3.0'
 }
 ```
 
