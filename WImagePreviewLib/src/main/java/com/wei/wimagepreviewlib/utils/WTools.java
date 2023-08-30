@@ -88,7 +88,7 @@ public class WTools {
         }
 
         if (listSize == 1) {
-            return 1;
+            return 0;
         }
 
         if (!isInfiniteLoop) {
