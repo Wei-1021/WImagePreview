@@ -235,10 +235,6 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         imagePreviewAdapter = new ImagePreviewAdapter(ImagePreviewFragmentActivity.this, handleImageList);
         viewPager2.setAdapter(imagePreviewAdapter);
         int showItemPosition = WTools.getRealPosition(isInfiniteLoop, handleImgLen, showPosition);
-        if (isInfiniteLoop && showPosition == 0) {
-            viewPager2.setCurrentItem(showItemPosition, false);
-        }
-
         viewPager2.setCurrentItem(showItemPosition, false);
         viewPager2.setOrientation(showOrientation);
         viewPager2.setUserInputEnabled(showIsAllowMove);
@@ -324,7 +320,10 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
                 textView.setText(getString(R.string.num_indicator_text, currentPosition + 1, imgLen));
             }
 
-            if (onPageListener != null) {
+            Log.i("TAG", "onPageSelected-->position: " + position);
+            if (onPageListener != null &&
+                    position != 0 &&
+                    position != handleImgLen - 1) {
                 onPageListener.onPageSelected(currentPosition);
             }
         }
@@ -332,7 +331,6 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         @Override
         public void onPageScrollStateChanged(int state) {
             super.onPageScrollStateChanged(state);
-
             if (isInfiniteLoop) {
                 if (state == ViewPager2.SCROLL_STATE_IDLE) {
                     if (currentRealPosition == 0) {

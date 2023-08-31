@@ -8,13 +8,10 @@ import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+
+import androidx.annotation.Nullable;
 
 import com.wei.wimagepreviewlib.utils.BigDecimalUtil;
 import com.wei.wimagepreviewlib.utils.KeyConst;

@@ -43,7 +43,7 @@ public class WConfig {
     /**
      * 默认ViewPager2预加载个数
      */
-    public static final int DEFAULT_OFFSCREEN_PAGE_LIMIT = 2;
+    public static final int DEFAULT_OFFSCREEN_PAGE_LIMIT = 1;
     /**
      * 默认ViewPager2上一页面的进场动画
      */

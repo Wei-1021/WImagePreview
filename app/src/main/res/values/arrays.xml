@@ -4,8 +4,8 @@
         <item>@string/banner_image_1</item>
         <item>@string/banner_image_2</item>
         <item>@string/banner_image_3</item>
-        <item>@string/banner_image_3</item>
-        <item>@string/banner_image_3</item>
+        <item>@string/banner_image_2</item>
+        <item>@string/banner_image_1</item>
         <item>@string/banner_image_3</item>
     </string-array>
 </resources>

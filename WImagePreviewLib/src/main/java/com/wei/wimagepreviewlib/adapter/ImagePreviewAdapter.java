@@ -48,7 +48,6 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapte
         Glide.with(mContext)
                 .load(mImageList.get(position))
                 .into(holder.mImageView);
-        Log.i("TAG", "onBindViewHolder-position: " + position);
         holder.mImageView.setOnLongClickListener(v -> {
             Log.i("TAG", "onLongClick: ");
             return false;
