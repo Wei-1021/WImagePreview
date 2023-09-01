@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.wei.wimagepreviewlib.wight.ZoomImageView
+    <com.wei.wimagepreviewlib.wight.PhotoView
         android:id="@+id/item_image_preview_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_close_30" />
+        android:src="@drawable/ic_close_30"
+        android:scaleType="centerInside"/>
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.wei.wimagepreviewlib.wight;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Matrix;
@@ -9,12 +10,14 @@ import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+
 import androidx.appcompat.widget.AppCompatImageView;
 
 import androidx.annotation.Nullable;
 
 import com.wei.wimagepreviewlib.utils.BigDecimalUtil;
 import com.wei.wimagepreviewlib.utils.KeyConst;
+import com.wei.wimagepreviewlib.utils.WeakDataHolder;
 
 import java.math.BigDecimal;
 
@@ -125,9 +128,7 @@ public class ZoomImageView extends AppCompatImageView {
      */
     private int lastFingerNum = 0;
 
-
-    private static SharedPreferences prefs;
-    private static SharedPreferences.Editor prefsEditor;
+    private WeakDataHolder weakDataHolder;
 
     // ----------------------------------------------------------------------------------
     //
@@ -152,21 +153,19 @@ public class ZoomImageView extends AppCompatImageView {
 
     private void init(Context context) {
         this.context = context;
-
         setScaleType(ScaleType.MATRIX);
         matrix = new Matrix();
 
-        prefs = context.getApplicationContext().getSharedPreferences(KeyConst.APP_SHARED_PREFERENCES, MODE_PRIVATE);
-        prefsEditor = prefs.edit();
+        weakDataHolder = WeakDataHolder.getInstance();
     }
 
+    @SuppressLint("DrawAllocation")
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
         viewSize = new PointF(width, height);
-
         Drawable drawable = getDrawable();
         if (drawable != null) {
             imageSize = new PointF(drawable.getMinimumWidth(), drawable.getMinimumHeight());
@@ -201,7 +200,8 @@ public class ZoomImageView extends AppCompatImageView {
                 break;
             case MotionEvent.ACTION_UP:
                 actionUp(event);
-                prefsEditor.putBoolean(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true).apply();
+               weakDataHolder.saveData(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
+
 
                 break;
         }
@@ -221,9 +221,9 @@ public class ZoomImageView extends AppCompatImageView {
         if (event.getPointerCount() == 1) {
             // 当缩放倍数大于原尺寸时，禁止ViewPager2滑动切换视图，反之则允许
             if (originScale.x < doubleFingerScale) {
-                prefsEditor.putBoolean(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, false).apply();
+               weakDataHolder.saveData(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, false);
             } else {
-                prefsEditor.putBoolean(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true).apply();
+               weakDataHolder.saveData(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
             }
 
             // 设置一个点击的间隔时长，来判断是不是双击
@@ -252,7 +252,7 @@ public class ZoomImageView extends AppCompatImageView {
                 lastClickTime = System.currentTimeMillis();
             }
         } else if (event.getPointerCount() > 1){
-            prefsEditor.putBoolean(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, false).apply();
+           weakDataHolder.saveData(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, false);
         }
     }
 
@@ -264,7 +264,7 @@ public class ZoomImageView extends AppCompatImageView {
     private void actionPointerDown(MotionEvent event) {
         // 计算最初的两个手指之间的距离
         doublePointDistance = getDoubleFingerDistance(event);
-        prefsEditor.putBoolean(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, false).apply();
+       weakDataHolder.saveData(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, false);
     }
 
     /**
@@ -284,7 +284,7 @@ public class ZoomImageView extends AppCompatImageView {
             zoomInMode = ZoomMode.ORDINARY;
             showCenter();
         }
-        prefsEditor.putBoolean(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true).apply();
+       weakDataHolder.saveData(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
     }
 
     /**
@@ -310,7 +310,7 @@ public class ZoomImageView extends AppCompatImageView {
      */
     private void actionUp(MotionEvent event) {
         lastFingerNum = 0;
-        prefsEditor.putBoolean(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true).apply();
+       weakDataHolder.saveData(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
     }
 
     /**
@@ -319,7 +319,7 @@ public class ZoomImageView extends AppCompatImageView {
      * @param event
      */
     private void doublePointerScaleEvent(MotionEvent event) {
-        prefsEditor.putBoolean(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, false).apply();
+       weakDataHolder.saveData(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, false);
 
         // 判断当前是两个手指接触到屏幕才处理缩放事件
         // 如果此时缩放后的大小，大于等于设置的最大缩放的大小，就不处理
@@ -422,28 +422,31 @@ public class ZoomImageView extends AppCompatImageView {
      * 设置图片居中等比显示
      */
     private void showCenter() {
-        float scalex = viewSize.x / imageSize.x;
-        float scaley = viewSize.y / imageSize.y;
-        float scale = Math.min(scalex, scaley);
-        scaleImage(new PointF(scale, scale));
+        float scaleX = viewSize.x / imageSize.x;
+        float scaleY = viewSize.y / imageSize.y;
+        float scale = Math.min(scaleX, scaleY);
 
+        scaleImage(new PointF(scale, scale));
         // 移动图片，并保存最初的图片左上角（即原点）所在坐标
-        if (scalex < scaley) {
-            translationImage(new PointF(0, viewSize.y / 2 - scaleSize.y / 2));
+        if (scaleX < scaleY) {
             bitmapOriginPoint.x = 0;
             bitmapOriginPoint.y = viewSize.y / 2 - scaleSize.y / 2;
+            translationImage(new PointF(bitmapOriginPoint.x, bitmapOriginPoint.y));
         } else {
-            translationImage(new PointF(viewSize.x / 2 - scaleSize.x / 2, 0));
             bitmapOriginPoint.x = viewSize.x / 2 - scaleSize.x / 2;
             bitmapOriginPoint.y = 0;
+            translationImage(new PointF(bitmapOriginPoint.x, bitmapOriginPoint.y));
         }
-
         // 保存下最初的缩放比例
         originScale.set(scale, scale);
         doubleFingerScale = scale;
     }
 
 
+    /**
+     * 缩放图片
+     * @param scaleXY
+     */
     public void scaleImage(PointF scaleXY) {
         matrix.setScale(scaleXY.x, scaleXY.y);
         scaleSize.set(scaleXY.x * imageSize.x, scaleXY.y * imageSize.y);

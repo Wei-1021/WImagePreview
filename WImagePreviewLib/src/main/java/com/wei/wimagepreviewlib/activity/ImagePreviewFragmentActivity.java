@@ -136,9 +136,6 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private ViewPager2.PageTransformer pageTransformer;
 
-    private static SharedPreferences prefs;
-    private static SharedPreferences.Editor prefsEditor;
-
     private static WeakDataHolder weakDataHolder;
 
     @Override
@@ -174,9 +171,6 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      * 初始化参数
      */
     public void initParam() {
-        // 配置SharedPreferences
-        prefs = getApplicationContext().getSharedPreferences(KeyConst.APP_SHARED_PREFERENCES, MODE_PRIVATE);
-        prefsEditor = prefs.edit();
         intent = getIntent();
         weakDataHolder = WeakDataHolder.getInstance();
 
@@ -300,7 +294,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             super.onPageScrolled(position, positionOffset, positionOffsetPixels);
             // 获取ViewPager2是否允许移动
             if (showIsAllowMove) {
-                boolean isAllowMove = prefs.getBoolean(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
+                boolean isAllowMove = (boolean) weakDataHolder.getData(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
                 viewPager2.setUserInputEnabled(isAllowMove);
 
                 if (onPageListener != null) {
@@ -351,7 +345,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         // 获取ViewPager2是否允许移动
         if (showIsAllowMove) {
-            boolean isAllowMove = prefs.getBoolean(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
+            boolean isAllowMove = (boolean) weakDataHolder.getData(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, true);
             viewPager2.setUserInputEnabled(isAllowMove);
         }
 

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.wei.wimagepreviewlib.R;
-import com.wei.wimagepreviewlib.wight.ZoomImageView;
+import com.wei.wimagepreviewlib.wight.PhotoView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +48,6 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapte
         Glide.with(mContext)
                 .load(mImageList.get(position))
                 .into(holder.mImageView);
-        holder.mImageView.setOnLongClickListener(v -> {
-            Log.i("TAG", "onLongClick: ");
-            return false;
-        });
     }
 
     @Override
@@ -60,7 +56,8 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapte
     }
 
     static class imagePreviewAdapterHolder extends RecyclerView.ViewHolder {
-        ZoomImageView mImageView;
+
+        PhotoView mImageView;
 
         RelativeLayout mContainer;
 
@@ -68,6 +65,9 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapte
             super(itemView);
             mContainer = itemView.findViewById(R.id.item_image_preview_container);
             mImageView = itemView.findViewById(R.id.item_image_preview_view);
+            //调用方法
+            mImageView.enable();
+            mImageView.enableRotate();
         }
     }
 }
