@@ -35,4 +35,13 @@
         android:src="@drawable/ic_close_white_30"
         android:visibility="visible" />
 
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="bottom|right"
+        android:background="@drawable/background_translucent_0"
+        android:textColor="@color/white"
+        android:text="· · ·"/>
+
 </FrameLayout>
