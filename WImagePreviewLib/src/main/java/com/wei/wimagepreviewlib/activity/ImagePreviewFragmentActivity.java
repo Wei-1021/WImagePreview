@@ -175,18 +175,18 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         weakDataHolder = WeakDataHolder.getInstance();
 
         // 获取组件配置属性参数
-        showPosition = (int) weakDataHolder.getData(KeyConst.VIEWPAGER2_ITEM_POSITION, WConfig.DEFAULT_ITEM_POSITION);
-        showOrientation = (int) weakDataHolder.getData(KeyConst.VIEWPAGER2_ORIENTATION, WConfig.DEFAULT_ORIENTATION);
-        showIsAllowMove = (boolean) weakDataHolder.getData(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, WConfig.DEFAULT_IS_ALLOW_MOVE);
+        showIsAllowMove    = (boolean) weakDataHolder.getData(KeyConst.IS_ALLOW_MOVE_VIEW_PAGER2, WConfig.DEFAULT_IS_ALLOW_MOVE);
         isShowNumIndicator = (boolean) weakDataHolder.getData(KeyConst.VIEWPAGER2_SHOW_NUM_INDICATOR, WConfig.DEFAULT_SHOW_NUM_INDICATOR);
-        isFullscreen = (boolean) weakDataHolder.getData(KeyConst.IS_FULLSCREEN, WConfig.DEFAULT_IS_FULLSCREEN);
-        isShowClose = (boolean) weakDataHolder.getData(KeyConst.IS_SHOW_CLOSE, WConfig.DEFAULT_IS_SHOW_CLOSE);
-        isInfiniteLoop = (boolean) weakDataHolder.getData(KeyConst.VIEWPAGER2_IS_INFINITE_LOOP, WConfig.DEFAULT_IS_INFINITE_LOOP);
-        pageMargin = (int) weakDataHolder.getData(KeyConst.VIEW_PAGER2_PAGE_MARGIN, WConfig.DEFAULT_PAGE_MARGIN);
+        isFullscreen       = (boolean) weakDataHolder.getData(KeyConst.IS_FULLSCREEN, WConfig.DEFAULT_IS_FULLSCREEN);
+        isShowClose        = (boolean) weakDataHolder.getData(KeyConst.IS_SHOW_CLOSE, WConfig.DEFAULT_IS_SHOW_CLOSE);
+        isInfiniteLoop     = (boolean) weakDataHolder.getData(KeyConst.VIEWPAGER2_IS_INFINITE_LOOP, WConfig.DEFAULT_IS_INFINITE_LOOP);
+        showPosition       = (int) weakDataHolder.getData(KeyConst.VIEWPAGER2_ITEM_POSITION, WConfig.DEFAULT_ITEM_POSITION);
+        showOrientation    = (int) weakDataHolder.getData(KeyConst.VIEWPAGER2_ORIENTATION, WConfig.DEFAULT_ORIENTATION);
+        pageMargin         = (int) weakDataHolder.getData(KeyConst.VIEW_PAGER2_PAGE_MARGIN, WConfig.DEFAULT_PAGE_MARGIN);
         offscreenPageLimit = (int) weakDataHolder.getData(KeyConst.VIEWPAGER2_OFFSCREEN_PAGE_LIMIT, WConfig.DEFAULT_OFFSCREEN_PAGE_LIMIT);
-        outPageEnterAnim = (int) weakDataHolder.getData(KeyConst.PAGER2_PAGE_OUT_ENTER_ANIM, WConfig.DEFAULT_PAGE_OUT_ENTER_ANIM);
-        outPageExitAnim = (int) weakDataHolder.getData(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, WConfig.DEFAULT_PAGE_OUT_EXIT_ANIM);
-        currentPosition = showPosition;
+        outPageEnterAnim   = (int) weakDataHolder.getData(KeyConst.PAGER2_PAGE_OUT_ENTER_ANIM, WConfig.DEFAULT_PAGE_OUT_ENTER_ANIM);
+        outPageExitAnim    = (int) weakDataHolder.getData(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, WConfig.DEFAULT_PAGE_OUT_EXIT_ANIM);
+        currentPosition    = showPosition;
 
         // 监听器参数
         Object onPageListenerObj = WeakDataHolder.getInstance().getData(KeyConst.ON_PAGE_LISTENER);
@@ -205,11 +205,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             // 无法获取图片
             WImagePreviewException.setExceptionByType(this, WImagePreviewException.ExceptionType.IMAGE_LIST_EMPTY);
         }
-        Object firstImg = imageList.get(0);
-        if (!(firstImg instanceof Uri || firstImg instanceof String)) {
-            // 图片类型不正确， URI and String
-            WImagePreviewException.setExceptionByType(this, WImagePreviewException.ExceptionType.IMAGE_TYPE_INVALID);
-        }
+        WImagePreviewException.setExceptionImage(this, imageList.get(0));
 
         // 初始化数字指示器
         imgLen = imageList.size();
@@ -365,6 +361,8 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             overridePendingTransition(outPageEnterAnim, outPageExitAnim);
         }
     }
+
+
 
 
 }

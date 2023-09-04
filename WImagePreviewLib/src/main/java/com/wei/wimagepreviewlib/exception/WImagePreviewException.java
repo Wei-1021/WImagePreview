@@ -3,6 +3,7 @@ package com.wei.wimagepreviewlib.exception;
 import android.content.Context;
 
 import com.wei.wimagepreviewlib.R;
+import com.wei.wimagepreviewlib.utils.WTools;
 
 import java.io.IOException;
 
@@ -92,6 +93,24 @@ public class WImagePreviewException extends RuntimeException {
                 throw new WImagePreviewException(new IllegalArgumentException());
             default:
                 break;
+        }
+    }
+
+    /**
+     * 判断当前文件对象是否为支持的图片类型，不是则抛出异常
+     *
+     * @param context
+     * @param img
+     */
+    public static void setExceptionImage(Context context, Object img) {
+        if (!WTools.isSupportImage(img)) {
+            String[] imageTypes = context.getResources().getStringArray(R.array.support_image_type);
+            String msg = context.getString(R.string.exception_image_type_invalid) +
+                    img.getClass().getName() + " is not supported, " +
+                    "Only support:" +
+                    String.join(",", imageTypes);
+
+            throw new WImagePreviewException(msg);
         }
     }
 

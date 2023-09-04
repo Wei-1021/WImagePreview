@@ -68,8 +68,6 @@ public class WImagePreviewBuilder {
         }
 
         imgListSize = imgList.size();
-
-        // 改用WeakReference存储图片路径集合，防止因图片太多导致intent在传输时崩溃
         weakDataHolder.saveData(KeyConst.IMAGE_URI_LIST, imgList);
 
         return this;

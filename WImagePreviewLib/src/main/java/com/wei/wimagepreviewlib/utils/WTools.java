@@ -1,5 +1,13 @@
 package com.wei.wimagepreviewlib.utils;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+
+import com.wei.wimagepreviewlib.R;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,5 +113,21 @@ public class WTools {
         }
 
         return showPosition;
+    }
+
+    /**
+     * 判断当前文件对象是否为支持的图片类型
+     *
+     * @param img 图片对象
+     * @return
+     */
+    public static boolean isSupportImage(Object img) {
+        return img instanceof String ||
+                img instanceof Uri ||
+                img instanceof Bitmap ||
+                img instanceof File ||
+                img instanceof Drawable ||
+                img instanceof Integer ||
+                img instanceof byte[];
     }
 }
