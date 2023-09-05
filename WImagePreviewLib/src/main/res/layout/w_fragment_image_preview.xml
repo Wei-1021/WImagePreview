@@ -27,7 +27,7 @@
         android:id="@+id/image_view_pager_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|right"
+        android:layout_gravity="top|end"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/background_translucent_0"
@@ -35,13 +35,15 @@
         android:src="@drawable/ic_close_white_30"
         android:visibility="visible" />
 
-    <Button
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="30dp"
-        android:layout_gravity="bottom|right"
-        android:background="@drawable/background_translucent_0"
-        android:textColor="@color/white"
-        android:text="· · ·"/>
+    <ImageView
+        android:id="@+id/image_view_pager_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="20dp"
+        android:layout_gravity="bottom|end"
+        android:padding="10dp"
+        android:background="@drawable/ic_more_horiz_white_24"
+        android:visibility="visible" />
 
 </FrameLayout>

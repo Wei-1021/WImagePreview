@@ -1,24 +1,28 @@
 package com.wei.wimagepreviewlib.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.WindowCompat;
 import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.wei.wimagepreviewlib.R;
 import com.wei.wimagepreviewlib.adapter.ImagePreviewAdapter;
 import com.wei.wimagepreviewlib.exception.WImagePreviewException;
@@ -46,11 +50,15 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     /**
      * 底部数字指示器组件
      */
-    private TextView textView;
+    private TextView numIndicatorTextView;
     /**
      * 关闭按钮
      */
     private ImageView closeBtn;
+    /**
+     * 菜单按钮
+     */
+    private ImageView menuBtn;
     /**
      * 图片预览ViewPager2适配器
      */
@@ -108,6 +116,10 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private boolean isShowClose = true;
     /**
+     * 是否显示菜单按钮
+     */
+    private boolean isShowMenu = true;
+    /**
      * 是否允许无限循环滑动
      */
     private boolean isInfiniteLoop = true;
@@ -143,12 +155,13 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.w_fragment_image_preview);
         try {
-            textView = findViewById(R.id.image_view_pager_num_indicator);
+            numIndicatorTextView = findViewById(R.id.image_view_pager_num_indicator);
             initParam();
             if (onPageListener != null) {
                 onPageListener.onOpen(showPosition);
             }
             initClose();
+            initMenu();
             initViewPager();
             if (isFullscreen) {
                 initStatusBar();
@@ -179,6 +192,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         isShowNumIndicator = (boolean) weakDataHolder.getData(KeyConst.VIEWPAGER2_SHOW_NUM_INDICATOR, WConfig.DEFAULT_SHOW_NUM_INDICATOR);
         isFullscreen       = (boolean) weakDataHolder.getData(KeyConst.IS_FULLSCREEN, WConfig.DEFAULT_IS_FULLSCREEN);
         isShowClose        = (boolean) weakDataHolder.getData(KeyConst.IS_SHOW_CLOSE, WConfig.DEFAULT_IS_SHOW_CLOSE);
+        isShowMenu         = (boolean) weakDataHolder.getData(KeyConst.IS_SHOW_MENU, WConfig.DEFAULT_IS_SHOW_MENU);
         isInfiniteLoop     = (boolean) weakDataHolder.getData(KeyConst.VIEWPAGER2_IS_INFINITE_LOOP, WConfig.DEFAULT_IS_INFINITE_LOOP);
         showPosition       = (int) weakDataHolder.getData(KeyConst.VIEWPAGER2_ITEM_POSITION, WConfig.DEFAULT_ITEM_POSITION);
         showOrientation    = (int) weakDataHolder.getData(KeyConst.VIEWPAGER2_ORIENTATION, WConfig.DEFAULT_ORIENTATION);
@@ -210,9 +224,9 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         // 初始化数字指示器
         imgLen = imageList.size();
         if (isShowNumIndicator) {
-            textView.setText(getString(R.string.num_indicator_text, (showPosition + 1), imgLen));
+            numIndicatorTextView.setText(getString(R.string.num_indicator_text, (showPosition + 1), imgLen));
         } else {
-            textView.setVisibility(View.GONE);
+            numIndicatorTextView.setVisibility(View.GONE);
         }
 
         // 处理图片集合
@@ -244,18 +258,69 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      * 初始化关闭按钮
      */
     private void initClose() {
-        if (isShowClose) {
-            closeBtn = findViewById(R.id.image_view_pager_close);
-            closeBtn.setOnClickListener(view -> {
-                if (onPageListener != null) {
-                    onPageListener.onClose(imageList.get(currentPosition), currentPosition);
-                }
-
-                exitActivity();
-            });
-        } else {
+        closeBtn = findViewById(R.id.image_view_pager_close);
+        if (!isShowClose) {
             closeBtn.setVisibility(View.GONE);
+            return;
         }
+
+        closeBtn.setOnClickListener(view -> {
+            if (onPageListener != null) {
+                onPageListener.onClose(imageList.get(currentPosition), currentPosition);
+            }
+
+            exitActivity();
+        });
+    }
+
+    /**
+     * 初始化菜单按钮
+     */
+    private void initMenu() {
+        menuBtn = findViewById(R.id.image_view_pager_menu);
+        if (!isShowMenu) {
+            menuBtn.setVisibility(View.GONE);
+            return;
+        }
+
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(ImagePreviewFragmentActivity.this);
+        LinearLayout linearLayout = new LinearLayout(this);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        layoutParams.setMargins(10, 10, 10, 10);
+        linearLayout.setLayoutParams(layoutParams);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        LinearLayout.LayoutParams saveTextViewParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, WConfig.MENU_ITEM_HEIGHT);
+        saveTextViewParams.gravity = Gravity.CENTER;
+        TextView saveTextView = new TextView(this);
+        saveTextView.setLayoutParams(saveTextViewParams);
+        saveTextView.setTextSize(16);
+        saveTextView.setText("保存");
+        saveTextView.setGravity(Gravity.CENTER);
+        saveTextView.setOnClickListener(v -> {
+        });
+        linearLayout.addView(saveTextView);
+
+        LinearLayout.LayoutParams closeTextViewParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, WConfig.MENU_ITEM_HEIGHT);
+        closeTextViewParams.gravity = Gravity.CENTER;
+        TextView closeTextView = new TextView(this);
+        closeTextView.setLayoutParams(closeTextViewParams);
+        closeTextView.setTextSize(16);
+        closeTextView.setText("关闭");
+        closeTextView.setGravity(Gravity.CENTER);
+        closeTextView.setOnClickListener(v -> {
+            bottomSheetDialog.dismiss();
+        });
+        linearLayout.addView(closeTextView);
+
+        bottomSheetDialog.setContentView(linearLayout);
+        menuBtn.setOnClickListener(view -> {
+            bottomSheetDialog.show();
+        });
     }
 
     /**
@@ -307,7 +372,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             currentRealPosition = position;
 
             if (showIsAllowMove) {
-                textView.setText(getString(R.string.num_indicator_text, currentPosition + 1, imgLen));
+                numIndicatorTextView.setText(getString(R.string.num_indicator_text, currentPosition + 1, imgLen));
             }
 
             Log.i("TAG", "onPageSelected-->position: " + position);
@@ -363,6 +428,13 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     }
 
 
+    public static class MenuBottomDialogFragment extends BottomSheetDialogFragment {
+        @Nullable
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            return super.onCreateView(inflater, container, savedInstanceState);
+        }
+    }
 
 
 }

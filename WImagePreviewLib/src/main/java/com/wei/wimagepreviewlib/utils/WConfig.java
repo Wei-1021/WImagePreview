@@ -33,6 +33,10 @@ public class WConfig {
      */
     public static final boolean DEFAULT_IS_SHOW_CLOSE = true;
     /**
+     * 默认是否显示菜单按钮
+     */
+    public static final boolean DEFAULT_IS_SHOW_MENU = true;
+    /**
      * 默认是否允许无限循环滑动
      */
     public static final boolean DEFAULT_IS_INFINITE_LOOP = true;
@@ -52,4 +56,8 @@ public class WConfig {
      * 默认ViewPager2页面退场动画
      */
     public static final int DEFAULT_PAGE_OUT_EXIT_ANIM = 0;
+    /**
+     * 菜单对话框各项的高度
+     */
+    public static final int MENU_ITEM_HEIGHT = 100;
 }

@@ -95,17 +95,6 @@ public class WImagePreviewBuilder {
     }
 
     /**
-     * 设置是否显示数字指示器
-     *
-     * @param isShowNumIndicator
-     * @return WImagePreviewBuilder
-     */
-    public WImagePreviewBuilder setShowNumIndicator(boolean isShowNumIndicator) {
-        weakDataHolder.saveData(KeyConst.VIEWPAGER2_SHOW_NUM_INDICATOR, isShowNumIndicator);
-        return this;
-    }
-
-    /**
      * 设置滚动方向
      *
      * @param orientation 方向； <br/>
@@ -120,6 +109,17 @@ public class WImagePreviewBuilder {
         }
 
         weakDataHolder.saveData(KeyConst.VIEWPAGER2_ORIENTATION, orientation);
+        return this;
+    }
+
+    /**
+     * 设置是否显示数字指示器
+     *
+     * @param isShowNumIndicator
+     * @return WImagePreviewBuilder
+     */
+    public WImagePreviewBuilder setShowNumIndicator(boolean isShowNumIndicator) {
+        weakDataHolder.saveData(KeyConst.VIEWPAGER2_SHOW_NUM_INDICATOR, isShowNumIndicator);
         return this;
     }
 
@@ -153,6 +153,18 @@ public class WImagePreviewBuilder {
      */
     public WImagePreviewBuilder setShowClose(boolean isShowClose) {
         weakDataHolder.saveData(KeyConst.IS_SHOW_CLOSE, isShowClose);
+        return this;
+    }
+
+
+    /**
+     * 是否显示菜单按钮
+     *
+     * @param isShowMenu
+     * @return WImagePreviewBuilder
+     */
+    public WImagePreviewBuilder setShowMenu(boolean isShowMenu) {
+        weakDataHolder.saveData(KeyConst.IS_SHOW_MENU, isShowMenu);
         return this;
     }
 

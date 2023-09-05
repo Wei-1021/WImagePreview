@@ -107,7 +107,7 @@ public class WImagePreviewException extends RuntimeException {
             String[] imageTypes = context.getResources().getStringArray(R.array.support_image_type);
             String msg = context.getString(R.string.exception_image_type_invalid) +
                     img.getClass().getName() + " is not supported, " +
-                    "Only support:" +
+                    "only support:" +
                     String.join(",", imageTypes);
 
             throw new WImagePreviewException(msg);
