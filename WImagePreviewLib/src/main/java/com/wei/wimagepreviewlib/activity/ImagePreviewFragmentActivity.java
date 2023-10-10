@@ -10,14 +10,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.WindowCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -25,6 +29,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.wei.wimagepreviewlib.R;
 import com.wei.wimagepreviewlib.adapter.ImagePreviewAdapter;
+import com.wei.wimagepreviewlib.adapter.MenuRecyclerViewAdapter;
+import com.wei.wimagepreviewlib.entity.WMenuItemInfo;
 import com.wei.wimagepreviewlib.exception.WImagePreviewException;
 import com.wei.wimagepreviewlib.listener.OnPageListener;
 import com.wei.wimagepreviewlib.utils.KeyConst;
@@ -32,6 +38,7 @@ import com.wei.wimagepreviewlib.utils.WConfig;
 import com.wei.wimagepreviewlib.utils.WTools;
 import com.wei.wimagepreviewlib.utils.WeakDataHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,6 +71,10 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private ImagePreviewAdapter imagePreviewAdapter;
     /**
+     * 更多菜单适配器
+     */
+    private MenuRecyclerViewAdapter menuRecyclerViewAdapter;
+    /**
      * ViewPager2监听回调
      */
     private ViewPager2OnPageChangeCallback mOnPageChangeCallback;
@@ -82,11 +93,11 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     /**
      * 图片集合
      */
-    private List<Object> imageList;
+    private List<Object> imageList = new ArrayList<>();
     /**
      * 处理后的图片集合
      */
-    private List<Object> handleImageList;
+    private List<Object> handleImageList = new ArrayList<>();
     /**
      * 图片集合长度
      */
@@ -95,6 +106,13 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      * 处理后的图片集合长度
      */
     private int handleImgLen;
+
+    private static WeakDataHolder weakDataHolder;
+
+    //--------------------------------------------------------------------------------------------------------------------------
+    // 构建参数
+    //--------------------------------------------------------------------------------------------------------------------------
+
     /**
      * 设置当前显示的item定位
      */
@@ -144,11 +162,13 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private int outPageExitAnim;
     /**
+     * 更多菜单
+     */
+    private List<WMenuItemInfo> menuItemInfoList;
+    /**
      * 页面切换动画
      */
     private ViewPager2.PageTransformer pageTransformer;
-
-    private static WeakDataHolder weakDataHolder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -161,8 +181,8 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
                 onPageListener.onOpen(showPosition);
             }
             initClose();
-            initMenu();
             initViewPager();
+            initMenu();
             if (isFullscreen) {
                 initStatusBar();
             }
@@ -278,48 +298,29 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private void initMenu() {
         menuBtn = findViewById(R.id.image_view_pager_menu);
+        RecyclerView menuRecyclerView = findViewById(R.id.image_view_pager_menu_recyclerView);
+        menuRecyclerView.setVisibility(View.GONE);
+
         if (!isShowMenu) {
             menuBtn.setVisibility(View.GONE);
             return;
         }
 
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(ImagePreviewFragmentActivity.this);
-        LinearLayout linearLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        layoutParams.setMargins(10, 10, 10, 10);
-        linearLayout.setLayoutParams(layoutParams);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        menuItemInfoList = (List<WMenuItemInfo>) weakDataHolder.getData(KeyConst.MORE_MENU, WConfig.DEFAULT_MORE_MENU);
 
-        LinearLayout.LayoutParams saveTextViewParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, WConfig.MENU_ITEM_HEIGHT);
-        saveTextViewParams.gravity = Gravity.CENTER;
-        TextView saveTextView = new TextView(this);
-        saveTextView.setLayoutParams(saveTextViewParams);
-        saveTextView.setTextSize(16);
-        saveTextView.setText("保存");
-        saveTextView.setGravity(Gravity.CENTER);
-        saveTextView.setOnClickListener(v -> {
-        });
-        linearLayout.addView(saveTextView);
 
-        LinearLayout.LayoutParams closeTextViewParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, WConfig.MENU_ITEM_HEIGHT);
-        closeTextViewParams.gravity = Gravity.CENTER;
-        TextView closeTextView = new TextView(this);
-        closeTextView.setLayoutParams(closeTextViewParams);
-        closeTextView.setTextSize(16);
-        closeTextView.setText("关闭");
-        closeTextView.setGravity(Gravity.CENTER);
-        closeTextView.setOnClickListener(v -> {
-            bottomSheetDialog.dismiss();
-        });
-        linearLayout.addView(closeTextView);
-
-        bottomSheetDialog.setContentView(linearLayout);
         menuBtn.setOnClickListener(view -> {
-            bottomSheetDialog.show();
+            menuRecyclerViewAdapter = new MenuRecyclerViewAdapter(menuItemInfoList, imageList.get(currentPosition), currentPosition);
+            menuRecyclerView.setAdapter(menuRecyclerViewAdapter);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            menuRecyclerView.setLayoutManager(linearLayoutManager);
+
+            menuRecyclerView.setVisibility(View.VISIBLE);
+
+//            FrameLayout.LayoutParams marginLayoutParams = new FrameLayout.LayoutParams(menuRecyclerView.getLayoutParams());
+//            marginLayoutParams.bottomMargin = 50;
+//            menuRecyclerView.setLayoutParams(marginLayoutParams);
+
         });
     }
 

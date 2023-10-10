@@ -74,10 +74,13 @@ public class KeyConst {
      * 键值--是否显示关闭按钮
      */
     public static final String IS_SHOW_CLOSE = "_W_IS_SHOW_CLOSE_";
-
     /**
      * 键值--是否显示菜单按钮
      */
     public static final String IS_SHOW_MENU = "_W_IS_SHOW_MENU_";
+    /**
+     * 键值--更多菜单
+     */
+    public static final String MORE_MENU = "_W_MORE_MENU";
 
 }

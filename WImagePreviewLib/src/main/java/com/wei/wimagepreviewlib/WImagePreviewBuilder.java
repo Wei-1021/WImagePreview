@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.wei.wimagepreviewlib.activity.ImagePreviewFragmentActivity;
+import com.wei.wimagepreviewlib.entity.WMenuItemInfo;
 import com.wei.wimagepreviewlib.exception.WImagePreviewException;
 import com.wei.wimagepreviewlib.listener.OnPageListener;
 import com.wei.wimagepreviewlib.transformer.PageTransformer;
@@ -234,6 +235,17 @@ public class WImagePreviewBuilder {
     }
 
     /**
+     * 更多菜单
+     *
+     * @param menuItemInfoList
+     * @return
+     */
+    public WImagePreviewBuilder setMoreMenu(List<WMenuItemInfo> menuItemInfoList) {
+        weakDataHolder.saveData(KeyConst.MORE_MENU, menuItemInfoList);
+        return this;
+    }
+
+    /**
      * 组件进出场动画。预设了八种进出场动画的组合，
      * 若这八种预设的动画效果不满足您的需求，可以使用{@link WImagePreviewBuilder#setInAnim}和
      * {@link WImagePreviewBuilder#setOutAnim}自由搭配。<br/>
@@ -291,6 +303,8 @@ public class WImagePreviewBuilder {
             case WAnim.ALL_ROTATE_IN_FADE_OUT:
                 setInAnim(WAnim.IN_ROTATE_SCALE_MOVE, WAnim.OUT_FADE);
                 setOutAnim(WAnim.IN_ROTATE_SCALE_MOVE, WAnim.OUT_FADE);
+                break;
+            default:
                 break;
         }
 

@@ -22,7 +22,7 @@ import java.util.List;
  *
  * @author weizhanjie
  */
-public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapter.imagePreviewAdapterHolder> {
+public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapter.ImagePreviewAdapterHolder> {
 
     private Context mContext;
 
@@ -35,8 +35,8 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapte
 
     @NonNull
     @Override
-    public imagePreviewAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new imagePreviewAdapterHolder(
+    public ImagePreviewAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ImagePreviewAdapterHolder(
                 LayoutInflater.from(
                         parent.getContext()
                 ).inflate(R.layout.w_item_image_preview, parent, false)
@@ -44,7 +44,7 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull imagePreviewAdapterHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ImagePreviewAdapterHolder holder, int position) {
         Glide.with(mContext)
                 .load(mImageList.get(position))
                 .into(holder.mImageView);
@@ -55,13 +55,13 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<ImagePreviewAdapte
         return mImageList == null ? 0 : mImageList.size();
     }
 
-    static class imagePreviewAdapterHolder extends RecyclerView.ViewHolder {
+    static class ImagePreviewAdapterHolder extends RecyclerView.ViewHolder {
 
         PhotoView mImageView;
 
         RelativeLayout mContainer;
 
-        public imagePreviewAdapterHolder(@NonNull View itemView) {
+        public ImagePreviewAdapterHolder(@NonNull View itemView) {
             super(itemView);
             mContainer = itemView.findViewById(R.id.item_image_preview_container);
             mImageView = itemView.findViewById(R.id.item_image_preview_view);

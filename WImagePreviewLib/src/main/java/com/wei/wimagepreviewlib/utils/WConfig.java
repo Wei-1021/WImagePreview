@@ -2,6 +2,11 @@ package com.wei.wimagepreviewlib.utils;
 
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.wei.wimagepreviewlib.entity.WMenuItemInfo;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 配置参数
  *
@@ -56,6 +61,10 @@ public class WConfig {
      * 默认ViewPager2页面退场动画
      */
     public static final int DEFAULT_PAGE_OUT_EXIT_ANIM = 0;
+    /**
+     *
+     */
+    public static final List<WMenuItemInfo> DEFAULT_MORE_MENU = new ArrayList<>();
     /**
      * 菜单对话框各项的高度
      */
