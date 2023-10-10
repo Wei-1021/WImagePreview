@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.Log;
+import android.view.View;
 
 import com.wei.wimagepreviewlib.R;
 
@@ -129,5 +131,16 @@ public class WTools {
                 img instanceof Drawable ||
                 img instanceof Integer ||
                 img instanceof byte[];
+    }
+
+    public static boolean isTouchPointInView(View view, int x, int y) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int left = location[0];
+        int top = location[1];
+        int right = left + view.getMeasuredWidth();
+        int bottom = top + view.getMeasuredHeight();
+
+        return (top <= y && y <= bottom) && x >= left && x <= right;
     }
 }

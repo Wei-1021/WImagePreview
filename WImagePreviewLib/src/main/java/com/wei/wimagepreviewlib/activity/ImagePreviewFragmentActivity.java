@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -66,6 +68,10 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      * 菜单按钮
      */
     private ImageView menuBtn;
+    /**
+     * 更多菜单RecyclerView
+     */
+    private RecyclerView menuRecyclerView;
     /**
      * 图片预览ViewPager2适配器
      */
@@ -298,7 +304,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private void initMenu() {
         menuBtn = findViewById(R.id.image_view_pager_menu);
-        RecyclerView menuRecyclerView = findViewById(R.id.image_view_pager_menu_recyclerView);
+        menuRecyclerView = findViewById(R.id.image_view_pager_menu_recyclerView);
         menuRecyclerView.setVisibility(View.GONE);
 
         if (!isShowMenu) {
@@ -316,12 +322,18 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             menuRecyclerView.setLayoutManager(linearLayoutManager);
 
             menuRecyclerView.setVisibility(View.VISIBLE);
-
-//            FrameLayout.LayoutParams marginLayoutParams = new FrameLayout.LayoutParams(menuRecyclerView.getLayoutParams());
-//            marginLayoutParams.bottomMargin = 50;
-//            menuRecyclerView.setLayoutParams(marginLayoutParams);
-
+            Animation animation = AnimationUtils.loadAnimation(this, R.anim.in_bottom_to_top);
+            menuRecyclerView.setAnimation(animation);
         });
+
+        menuRecyclerView.setOnFlingListener(new RecyclerView.OnFlingListener() {
+            @Override
+            public boolean onFling(int velocityX, int velocityY) {
+                return false;
+            }
+        });
+
+        menuRecyclerView.setOnFocusChangeListener((v, hasFocus) -> Log.i("TAG", "onFocusChange: " + hasFocus));
     }
 
     /**
@@ -413,6 +425,20 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
 
         if (onPageListener != null) {
             onPageListener.onClick(imageList.get(currentPosition), currentPosition);
+        }
+
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            // 获取点击坐标
+            int x = (int) ev.getRawX();
+            int y = (int) ev.getRawY();
+            // 若点击位置在menuRecyclerView之外，则隐藏menuRecyclerView
+            if (!WTools.isTouchPointInView((View) menuRecyclerView, x, y)) {
+                if (menuRecyclerView.getVisibility() == View.VISIBLE) {
+                    Animation animation = AnimationUtils.loadAnimation(this, R.anim.out_top_to_bottom);
+                    menuRecyclerView.setAnimation(animation);
+                    menuRecyclerView.setVisibility(View.GONE);
+                }
+            }
         }
 
         return super.dispatchTouchEvent(ev);
