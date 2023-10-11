@@ -35,9 +35,18 @@ import com.wei.wimagepreviewlib.utils.WeakDataHolder;
  */
 public class PhotoView extends AppCompatImageView {
 
+    /**
+     * 最小旋转角度
+     */
     private final static int MIN_ROTATE = 35;
+    /**
+     * 动画时长
+     */
     private final static int ANIMA_DURING = 340;
-    private final static float MAX_SCALE = 3f;
+    /**
+     * 最大缩放倍数
+     */
+    private final static float MAX_SCALE = 5f;
 
     private int mMinRotate;
     private int mAnimaDuring;
@@ -834,9 +843,15 @@ public class PhotoView extends AppCompatImageView {
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (hasMultiTouch) return false;
-            if (!imgLargeWidth && !imgLargeHeight) return false;
-            if (mTranslate.isRuning) return false;
+            if (hasMultiTouch) {
+                return false;
+            }
+            if (!imgLargeWidth && !imgLargeHeight) {
+                return false;
+            }
+            if (mTranslate.isRuning) {
+                return false;
+            }
 
             float vx = velocityX;
             float vy = velocityY;
@@ -853,10 +868,12 @@ public class PhotoView extends AppCompatImageView {
                 float toDegrees = (int) (mDegrees / 90) * 90;
                 float remainder = mDegrees % 90;
 
-                if (remainder > 45)
+                if (remainder > 45) {
                     toDegrees += 90;
-                else if (remainder < -45)
+                }
+                else if (remainder < -45) {
                     toDegrees -= 90;
+                }
 
                 mTranslate.withRotate((int) mDegrees, (int) toDegrees);
 
@@ -879,20 +896,24 @@ public class PhotoView extends AppCompatImageView {
             }
 
             if (canScrollHorizontallySelf(distanceX)) {
-                if (distanceX < 0 && mImgRect.left - distanceX > mWidgetRect.left)
+                if (distanceX < 0 && mImgRect.left - distanceX > mWidgetRect.left) {
                     distanceX = mImgRect.left;
-                if (distanceX > 0 && mImgRect.right - distanceX < mWidgetRect.right)
+                }
+                if (distanceX > 0 && mImgRect.right - distanceX < mWidgetRect.right) {
                     distanceX = mImgRect.right - mWidgetRect.right;
+                }
 
                 mAnimaMatrix.postTranslate(-distanceX, 0);
                 mTranslateX -= distanceX;
             } else if (imgLargeWidth || hasMultiTouch || hasOverTranslate) {
                 checkRect();
                 if (!hasMultiTouch) {
-                    if (distanceX < 0 && mImgRect.left - distanceX > mCommonRect.left)
+                    if (distanceX < 0 && mImgRect.left - distanceX > mCommonRect.left) {
                         distanceX = resistanceScrollByX(mImgRect.left - mCommonRect.left, distanceX);
-                    if (distanceX > 0 && mImgRect.right - distanceX < mCommonRect.right)
+                    }
+                    if (distanceX > 0 && mImgRect.right - distanceX < mCommonRect.right) {
                         distanceX = resistanceScrollByX(mImgRect.right - mCommonRect.right, distanceX);
+                    }
                 }
 
                 mTranslateX -= distanceX;
@@ -978,10 +999,12 @@ public class PhotoView extends AppCompatImageView {
 
     public boolean canScrollHorizontallySelf(float direction) {
         if (mImgRect.width() <= mWidgetRect.width()) return false;
-        if (direction < 0 && Math.round(mImgRect.left) - direction >= mWidgetRect.left)
+        if (direction < 0 && Math.round(mImgRect.left) - direction >= mWidgetRect.left) {
             return false;
-        if (direction > 0 && Math.round(mImgRect.right) - direction <= mWidgetRect.right)
+        }
+        if (direction > 0 && Math.round(mImgRect.right) - direction <= mWidgetRect.right) {
             return false;
+        }
         return true;
     }
 
@@ -1273,7 +1296,6 @@ public class PhotoView extends AppCompatImageView {
     }
 
     private static void getLocation(View target, int[] position) {
-
         position[0] += target.getLeft();
         position[1] += target.getTop();
 
@@ -1281,7 +1303,9 @@ public class PhotoView extends AppCompatImageView {
         while (viewParent instanceof View) {
             final View view = (View) viewParent;
 
-            if (view.getId() == android.R.id.content) return;
+            if (view.getId() == android.R.id.content) {
+                return;
+            }
 
             position[0] -= view.getScrollX();
             position[1] -= view.getScrollY();

@@ -2,9 +2,13 @@ package com.wei.wimagepreview;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 
 import com.bumptech.glide.Glide;
 import com.wei.wimagepreviewlib.WImagePreviewBuilder;
@@ -13,6 +17,8 @@ import com.wei.wimagepreviewlib.listener.OnMenuItemListener;
 import com.wei.wimagepreviewlib.listener.OnPageListener;
 import com.wei.wimagepreviewlib.transformer.PageTransformer;
 import com.wei.wimagepreviewlib.utils.WAnim;
+import com.wei.wimagepreviewlib.wight.WIconText;
+import com.wei.wimagepreviewlib.wight.WRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        WIconText wIconText = findViewById(R.id.wicon_text_1);
+        wIconText.setTextSize(30);
+        wIconText.setTextColor(Color.WHITE);
+        wIconText.setText(com.wei.wimagepreviewlib.R.string.icon_folder_open);
+
         AppCompatImageView imageView = findViewById(R.id.image_view);
         Glide.with(this)
                 .load(getString(R.string.banner_image_1))
@@ -36,14 +47,15 @@ public class MainActivity extends AppCompatActivity {
 
             List<WMenuItemInfo> wMenuItemInfoList = new ArrayList<>();
             WMenuItemInfo wMenuItemInfo1 = new WMenuItemInfo();
+            wMenuItemInfo1.setIcon(getString(com.wei.wimagepreviewlib.R.string.icon_download));
             wMenuItemInfo1.setName("保存");
-            wMenuItemInfo1.setIcon(getDrawable(com.wei.wimagepreviewlib.R.drawable.ic_close_30));
             wMenuItemInfo1.setOnMenuItemListener(new OnMenuItemListener() {
                 @Override
-                public void onClick(View v, Object imgObj, int position) {
-                    super.onClick(v, imgObj, position);
+                public void onClick(WRecyclerView recyclerView, Object imgObj, int position) {
+                    super.onClick(recyclerView, imgObj, position);
 
                     Log.i(TAG, "onClick: " + imgObj + ", " + position);
+                    recyclerView.setInvisible();
                 }
             });
             wMenuItemInfoList.add(wMenuItemInfo1);

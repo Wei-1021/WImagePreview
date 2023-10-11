@@ -2,20 +2,13 @@ package com.wei.wimagepreviewlib.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,11 +16,9 @@ import androidx.annotation.Nullable;
 import androidx.core.view.WindowCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.wei.wimagepreviewlib.R;
 import com.wei.wimagepreviewlib.adapter.ImagePreviewAdapter;
@@ -39,6 +30,8 @@ import com.wei.wimagepreviewlib.utils.KeyConst;
 import com.wei.wimagepreviewlib.utils.WConfig;
 import com.wei.wimagepreviewlib.utils.WTools;
 import com.wei.wimagepreviewlib.utils.WeakDataHolder;
+import com.wei.wimagepreviewlib.wight.WIconText;
+import com.wei.wimagepreviewlib.wight.WRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +45,8 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
 
     private Intent intent;
 
+    private Typeface typeface;
+
     /**
      * ViewPager2组件
      */
@@ -63,15 +58,15 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     /**
      * 关闭按钮
      */
-    private ImageView closeBtn;
+    private WIconText closeBtn;
     /**
      * 菜单按钮
      */
-    private ImageView menuBtn;
+    private WIconText menuBtn;
     /**
      * 更多菜单RecyclerView
      */
-    private RecyclerView menuRecyclerView;
+    private WRecyclerView menuRecyclerView;
     /**
      * 图片预览ViewPager2适配器
      */
@@ -176,9 +171,14 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private ViewPager2.PageTransformer pageTransformer;
 
+    public Typeface getTypeface() {
+        return typeface;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        typeface = Typeface.createFromAsset(getAssets(), "icon/ant_design_iconfont.ttf");
         setContentView(R.layout.w_fragment_image_preview);
         try {
             numIndicatorTextView = findViewById(R.id.image_view_pager_num_indicator);
@@ -226,6 +226,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         offscreenPageLimit = (int) weakDataHolder.getData(KeyConst.VIEWPAGER2_OFFSCREEN_PAGE_LIMIT, WConfig.DEFAULT_OFFSCREEN_PAGE_LIMIT);
         outPageEnterAnim   = (int) weakDataHolder.getData(KeyConst.PAGER2_PAGE_OUT_ENTER_ANIM, WConfig.DEFAULT_PAGE_OUT_ENTER_ANIM);
         outPageExitAnim    = (int) weakDataHolder.getData(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, WConfig.DEFAULT_PAGE_OUT_EXIT_ANIM);
+        menuItemInfoList = (List<WMenuItemInfo>) weakDataHolder.getData(KeyConst.MORE_MENU, WConfig.DEFAULT_MORE_MENU);
         currentPosition    = showPosition;
 
         // 监听器参数
@@ -285,6 +286,9 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private void initClose() {
         closeBtn = findViewById(R.id.image_view_pager_close);
+        closeBtn.setTextColor(Color.WHITE);
+        closeBtn.setTextSize(25);
+        closeBtn.setText(R.string.icon_close);
         if (!isShowClose) {
             closeBtn.setVisibility(View.GONE);
             return;
@@ -304,6 +308,10 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private void initMenu() {
         menuBtn = findViewById(R.id.image_view_pager_menu);
+        menuBtn.setTextColor(Color.WHITE);
+        menuBtn.setTextSize(30);
+        menuBtn.setText(R.string.icon_ellipsis);
+
         menuRecyclerView = findViewById(R.id.image_view_pager_menu_recyclerView);
         menuRecyclerView.setVisibility(View.GONE);
 
@@ -312,28 +320,20 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             return;
         }
 
-        menuItemInfoList = (List<WMenuItemInfo>) weakDataHolder.getData(KeyConst.MORE_MENU, WConfig.DEFAULT_MORE_MENU);
-
-
+        initMenuRecyclerViewAdapter();
         menuBtn.setOnClickListener(view -> {
-            menuRecyclerViewAdapter = new MenuRecyclerViewAdapter(menuItemInfoList, imageList.get(currentPosition), currentPosition);
-            menuRecyclerView.setAdapter(menuRecyclerViewAdapter);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-            menuRecyclerView.setLayoutManager(linearLayoutManager);
-
-            menuRecyclerView.setVisibility(View.VISIBLE);
-            Animation animation = AnimationUtils.loadAnimation(this, R.anim.in_bottom_to_top);
-            menuRecyclerView.setAnimation(animation);
+            menuRecyclerView.setVisible();
         });
+    }
 
-        menuRecyclerView.setOnFlingListener(new RecyclerView.OnFlingListener() {
-            @Override
-            public boolean onFling(int velocityX, int velocityY) {
-                return false;
-            }
-        });
-
-        menuRecyclerView.setOnFocusChangeListener((v, hasFocus) -> Log.i("TAG", "onFocusChange: " + hasFocus));
+    /**
+     * 初始化功能菜单适配器
+     */
+    private void initMenuRecyclerViewAdapter() {
+        menuRecyclerViewAdapter = new MenuRecyclerViewAdapter(menuItemInfoList, menuRecyclerView,
+                imageList.get(currentPosition), currentPosition);
+        menuRecyclerView.setAdapter(menuRecyclerViewAdapter);
+        menuRecyclerView.setLayoutManager(new LinearLayoutManager(ImagePreviewFragmentActivity.this));
     }
 
     /**
@@ -347,16 +347,6 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         WindowCompat.setDecorFitsSystemWindows(window, false);
         WindowCompat.getInsetsController(window, window.getDecorView())
                 .setAppearanceLightNavigationBars(true);
-
-//        // 设置透明状态栏
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-////            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-//            // 实现状态栏图标(文字颜色暗色为View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
-//            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            window.setStatusBarColor(Color.TRANSPARENT);
-//        }
     }
 
     /**
@@ -386,9 +376,10 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
 
             if (showIsAllowMove) {
                 numIndicatorTextView.setText(getString(R.string.num_indicator_text, currentPosition + 1, imgLen));
+
+                initMenuRecyclerViewAdapter();
             }
 
-            Log.i("TAG", "onPageSelected-->position: " + position);
             if (onPageListener != null &&
                     position != 0 &&
                     position != handleImgLen - 1) {
@@ -434,9 +425,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             // 若点击位置在menuRecyclerView之外，则隐藏menuRecyclerView
             if (!WTools.isTouchPointInView((View) menuRecyclerView, x, y)) {
                 if (menuRecyclerView.getVisibility() == View.VISIBLE) {
-                    Animation animation = AnimationUtils.loadAnimation(this, R.anim.out_top_to_bottom);
-                    menuRecyclerView.setAnimation(animation);
-                    menuRecyclerView.setVisibility(View.GONE);
+                    menuRecyclerView.setInvisible();
                 }
             }
         }

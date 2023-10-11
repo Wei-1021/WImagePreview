@@ -13,4 +13,11 @@
         android:layout_height="200dp"
         tools:ignore="MissingConstraints" />
 
+    <com.wei.wimagepreviewlib.wight.WIconText
+        android:id="@+id/wicon_text_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

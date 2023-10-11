@@ -17,7 +17,15 @@ public class WMenuItemInfo {
      */
     private String name;
 
-    private Drawable icon;
+    /**
+     * 字体图标
+     */
+    private String icon;
+
+    /**
+     * 图片图标
+     */
+    private Drawable iconDraw;
 
     private Integer textColor;
 
@@ -35,12 +43,20 @@ public class WMenuItemInfo {
         this.name = name;
     }
 
-    public Drawable getIcon() {
+    public String getIcon() {
         return icon;
     }
 
-    public void setIcon(Drawable icon) {
+    public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public Drawable getIconDraw() {
+        return iconDraw;
+    }
+
+    public void setIconDraw(Drawable iconDraw) {
+        this.iconDraw = iconDraw;
     }
 
     public Integer getTextColor() {

@@ -16,4 +16,42 @@
     <string name="exception_array_index_size">Index: %1$d, size: %2$d;</string>
     <!-- 未知参数 -->
     <string name="exception_illegal_argument">Illegal argument: %s;</string>
+
+    <!-- 字体图标 -->
+    <string name="icon_close">&#xe889;</string>
+    <string name="icon_check">&#xe886;</string>
+    <string name="icon_ellipsis">&#xe887;</string>
+    <string name="icon_menu">&#xe871;</string>
+    <string name="icon_right">&#xe856;</string>
+    <string name="icon_left">&#xe857;</string>
+    <string name="icon_up">&#xe858;</string>
+    <string name="icon_down">&#xe859;</string>
+    <string name="icon_xe857">&#xe84f;</string>
+    <string name="icon_setting">&#xe7a3;</string>
+    <string name="icon_setting_fill">&#xe923;</string>
+    <string name="icon_login">&#xe9a2;</string>
+    <string name="icon_logout">&#xe7a1;</string>
+    <string name="icon_search">&#xe9a0;</string>
+    <string name="icon_message">&#xe79d;</string>
+    <string name="icon_reload">&#xe79b;</string>
+    <string name="icon_sync">&#xe797;</string>
+    <string name="icon_download">&#xe868;</string>
+    <string name="icon_cloud_download">&#xe829;</string>
+    <string name="icon_user">&#xe7ce;</string>
+    <string name="icon_time_circle">&#xe791;</string>
+    <string name="icon_reload_time">&#xe79c;</string>
+    <string name="icon_clear">&#xe9ab;</string>
+    <string name="icon_folder">&#xe810;</string>
+    <string name="icon_folder_open">&#xe811;</string>
+    <string name="icon_folder_add">&#xe812;</string>
+    <string name="icon_folder_fill">&#xe8e7;</string>
+    <string name="icon_folder_open_fill">&#xe8e8;</string>
+    <string name="icon_folder_add_fill">&#xe8e6;</string>
+    <string name="icon_info_circle">&#xe783;</string>
+    <string name="icon_home">&#xe801;</string>
+    <string name="icon_home_fill">&#xe904;</string>
+    <string name="icon_like">&#xe805;</string>
+    <string name="icon_unlike">&#xe806;</string>
+    <string name="icon_lock">&#xe808;</string>
+    <string name="icon_unlock">&#xe807;</string>
 </resources>
