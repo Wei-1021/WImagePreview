@@ -28,6 +28,7 @@ import com.wei.wimagepreviewlib.exception.WImagePreviewException;
 import com.wei.wimagepreviewlib.listener.OnPageListener;
 import com.wei.wimagepreviewlib.utils.KeyConst;
 import com.wei.wimagepreviewlib.utils.WConfig;
+import com.wei.wimagepreviewlib.utils.WIcon;
 import com.wei.wimagepreviewlib.utils.WTools;
 import com.wei.wimagepreviewlib.utils.WeakDataHolder;
 import com.wei.wimagepreviewlib.wight.WIconText;
@@ -288,7 +289,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         closeBtn = findViewById(R.id.image_view_pager_close);
         closeBtn.setTextColor(Color.WHITE);
         closeBtn.setTextSize(25);
-        closeBtn.setText(R.string.icon_close);
+        closeBtn.setText(R.string.w_icon_close);
         if (!isShowClose) {
             closeBtn.setVisibility(View.GONE);
             return;
@@ -310,7 +311,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         menuBtn = findViewById(R.id.image_view_pager_menu);
         menuBtn.setTextColor(Color.WHITE);
         menuBtn.setTextSize(30);
-        menuBtn.setText(R.string.icon_ellipsis);
+        menuBtn.setText(R.string.w_icon_ellipsis);
 
         menuRecyclerView = findViewById(R.id.image_view_pager_menu_recyclerView);
         menuRecyclerView.setVisibility(View.GONE);

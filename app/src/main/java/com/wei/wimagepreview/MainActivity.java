@@ -17,6 +17,7 @@ import com.wei.wimagepreviewlib.listener.OnMenuItemListener;
 import com.wei.wimagepreviewlib.listener.OnPageListener;
 import com.wei.wimagepreviewlib.transformer.PageTransformer;
 import com.wei.wimagepreviewlib.utils.WAnim;
+import com.wei.wimagepreviewlib.utils.WIcon;
 import com.wei.wimagepreviewlib.wight.WIconText;
 import com.wei.wimagepreviewlib.wight.WRecyclerView;
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         WIconText wIconText = findViewById(R.id.wicon_text_1);
         wIconText.setTextSize(30);
         wIconText.setTextColor(Color.WHITE);
-        wIconText.setText(com.wei.wimagepreviewlib.R.string.icon_folder_open);
+        wIconText.setText(WIcon.ANT_FILE_TEXT);
 
         AppCompatImageView imageView = findViewById(R.id.image_view);
         Glide.with(this)
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
             List<WMenuItemInfo> wMenuItemInfoList = new ArrayList<>();
             WMenuItemInfo wMenuItemInfo1 = new WMenuItemInfo();
-            wMenuItemInfo1.setIcon(getString(com.wei.wimagepreviewlib.R.string.icon_download));
+            wMenuItemInfo1.setIcon(WIcon.ANT_DOWNLOAD);
             wMenuItemInfo1.setName("保存");
             wMenuItemInfo1.setOnMenuItemListener(new OnMenuItemListener() {
                 @Override
