@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         WIconText wIconText = findViewById(R.id.wicon_text_1);
         wIconText.setTextSize(30);
         wIconText.setTextColor(Color.WHITE);
-        wIconText.setText(WIcon.ANT_FILE_TEXT);
+        wIconText.setIconTextString(WIcon.ANT_FILE_TEXT);
 
         AppCompatImageView imageView = findViewById(R.id.image_view);
         Glide.with(this)
@@ -52,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
             wMenuItemInfo1.setName("保存");
             wMenuItemInfo1.setOnMenuItemListener(new OnMenuItemListener() {
                 @Override
-                public void onClick(WRecyclerView recyclerView, Object imgObj, int position) {
-                    super.onClick(recyclerView, imgObj, position);
+                public void onClick(WRecyclerView recyclerView, Object obj, int position) {
+                    super.onClick(recyclerView, obj, position);
 
-                    Log.i(TAG, "onClick: " + imgObj + ", " + position);
+                    Log.i(TAG, "onClick: " + obj + ", " + position);
                     recyclerView.setInvisible();
                 }
             });

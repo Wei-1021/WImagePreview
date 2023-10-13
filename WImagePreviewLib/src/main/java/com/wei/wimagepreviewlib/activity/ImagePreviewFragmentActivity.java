@@ -289,7 +289,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         closeBtn = findViewById(R.id.image_view_pager_close);
         closeBtn.setTextColor(Color.WHITE);
         closeBtn.setTextSize(25);
-        closeBtn.setText(R.string.w_icon_close);
+        closeBtn.setIconTextString(WIcon.ANT_CLOSE);
         if (!isShowClose) {
             closeBtn.setVisibility(View.GONE);
             return;
@@ -311,7 +311,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         menuBtn = findViewById(R.id.image_view_pager_menu);
         menuBtn.setTextColor(Color.WHITE);
         menuBtn.setTextSize(30);
-        menuBtn.setText(R.string.w_icon_ellipsis);
+        menuBtn.setIconTextString(WIcon.ANT_ELLIPSIS);
 
         menuRecyclerView = findViewById(R.id.image_view_pager_menu_recyclerView);
         menuRecyclerView.setVisibility(View.GONE);

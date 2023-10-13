@@ -1,8 +1,7 @@
 package com.wei.wimagepreviewlib.entity;
 
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.view.View;
+import com.wei.wimagepreviewlib.utils.*;
 
 import com.wei.wimagepreviewlib.listener.OnMenuItemListener;
 
@@ -18,7 +17,7 @@ public class WMenuItemInfo {
     private String name;
 
     /**
-     * 字体图标
+     * 字体图标，可以使用{@link WIcon}图标常量类，也可以使用自定义的图标库（必须是{@code &#x***;}的格式）
      */
     private String icon;
 

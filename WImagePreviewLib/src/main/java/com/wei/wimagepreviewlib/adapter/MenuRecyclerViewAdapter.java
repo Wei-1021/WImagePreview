@@ -76,7 +76,7 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<MenuRecyclerVi
 
         public void bind(WMenuItemInfo wMenuItemInfo, WRecyclerView recyclerView, Object objectImg, int position) {
             if (wMenuItemInfo != null) {
-                menuLabelIcon.setText(wMenuItemInfo.getIcon());
+                menuLabelIcon.setIconTextString(wMenuItemInfo.getIcon());
                 menuLabel.setText(wMenuItemInfo.getName());
                 if (wMenuItemInfo.getTextColor() != null) {
                     menuLabel.setTextColor(wMenuItemInfo.getTextColor());
