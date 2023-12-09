@@ -31,26 +31,29 @@ public class WIconText extends androidx.appcompat.widget.AppCompatTextView {
         FONT_AWESOME
     }
 
+    public static final String ANT_DESIGN_PATH = "icon/ant_design_iconfont.ttf";
+    public static final String FONT_AWESOME_PATH = "icon/fa-regular-400.ttf";
+
     private Context mContext;
 
     public WIconText(@NonNull Context context) {
         super(context);
         this.mContext = context;
-        Typeface typeface = Typeface.createFromAsset(context.getAssets(), "icon/ant_design_iconfont.ttf");
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(), ANT_DESIGN_PATH);
         setTypeface(typeface);
     }
 
     public WIconText(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
-        Typeface typeface = Typeface.createFromAsset(context.getAssets(), "icon/ant_design_iconfont.ttf");
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(), ANT_DESIGN_PATH);
         setTypeface(typeface);
     }
 
     public WIconText(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.mContext = context;
-        Typeface typeface = Typeface.createFromAsset(context.getAssets(), "icon/ant_design_iconfont.ttf");
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(), ANT_DESIGN_PATH);
         setTypeface(typeface);
     }
 
@@ -62,10 +65,10 @@ public class WIconText extends androidx.appcompat.widget.AppCompatTextView {
      */
     public void setFontType(WIconText.FontType fontType) {
         if (FontType.ANT_DESIGN == fontType) {
-            Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "icon/ant_design_iconfont.ttf");
+            Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), ANT_DESIGN_PATH);
             setTypeface(typeface);
         } else if (FontType.FONT_AWESOME == fontType) {
-            Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "icon/fa-regular-400.ttf");
+            Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), FONT_AWESOME_PATH);
             setTypeface(typeface);
         }
     }
@@ -76,6 +79,6 @@ public class WIconText extends androidx.appcompat.widget.AppCompatTextView {
      * @param iconTextString icon编码字符（{@code &#x***;}格式的字符串）
      */
     public void setIconTextString(String iconTextString) {
-        setText(Html.fromHtml(iconTextString, Html.FROM_HTML_MODE_COMPACT));
+        super.setText(Html.fromHtml(iconTextString, Html.FROM_HTML_MODE_COMPACT));
     }
 }

@@ -21,6 +21,7 @@ import java.util.List;
 
 /**
  * 图片预览构建类
+ * @author weizhanjie
  */
 public class WImagePreviewBuilder {
 
@@ -85,7 +86,7 @@ public class WImagePreviewBuilder {
             String msg = mContext.getString(R.string.exception_array_out_of_bounds);
             String indexMsg = mContext.getString(R.string.exception_array_index, position);
             throw new WImagePreviewException(msg + indexMsg, new ArrayIndexOutOfBoundsException(-1));
-        } else if (position > imgListSize) {
+        } else if (position >= imgListSize) {
             String msg = mContext.getString(R.string.exception_array_out_of_bounds);
             String indexMsg = mContext.getString(R.string.exception_array_index_size, position, imgListSize);
             throw new WImagePreviewException(msg + indexMsg, new ArrayIndexOutOfBoundsException());

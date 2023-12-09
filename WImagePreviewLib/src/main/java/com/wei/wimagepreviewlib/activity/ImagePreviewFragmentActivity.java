@@ -179,7 +179,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        typeface = Typeface.createFromAsset(getAssets(), "icon/ant_design_iconfont.ttf");
+        typeface = Typeface.createFromAsset(getAssets(), WIconText.ANT_DESIGN_PATH);
         setContentView(R.layout.w_fragment_image_preview);
         try {
             numIndicatorTextView = findViewById(R.id.image_view_pager_num_indicator);
@@ -227,7 +227,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         offscreenPageLimit = (int) weakDataHolder.getData(KeyConst.VIEWPAGER2_OFFSCREEN_PAGE_LIMIT, WConfig.DEFAULT_OFFSCREEN_PAGE_LIMIT);
         outPageEnterAnim   = (int) weakDataHolder.getData(KeyConst.PAGER2_PAGE_OUT_ENTER_ANIM, WConfig.DEFAULT_PAGE_OUT_ENTER_ANIM);
         outPageExitAnim    = (int) weakDataHolder.getData(KeyConst.PAGER2_PAGE_OUT_EXIT_ANIM, WConfig.DEFAULT_PAGE_OUT_EXIT_ANIM);
-        menuItemInfoList = (List<WMenuItemInfo>) weakDataHolder.getData(KeyConst.MORE_MENU, WConfig.DEFAULT_MORE_MENU);
+        menuItemInfoList   = (List<WMenuItemInfo>) weakDataHolder.getData(KeyConst.MORE_MENU, WConfig.DEFAULT_MORE_MENU);
         currentPosition    = showPosition;
 
         // 监听器参数
@@ -322,9 +322,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         }
 
         initMenuRecyclerViewAdapter();
-        menuBtn.setOnClickListener(view -> {
-            menuRecyclerView.setVisible();
-        });
+        menuBtn.setOnClickListener(view -> menuRecyclerView.setVisible());
     }
 
     /**
