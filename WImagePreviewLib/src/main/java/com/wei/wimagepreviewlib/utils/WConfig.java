@@ -2,6 +2,7 @@ package com.wei.wimagepreviewlib.utils;
 
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.wei.wimagepreviewlib.WImagePreviewBuilder;
 import com.wei.wimagepreviewlib.entity.WMenuItemInfo;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
  * @author weizhanjie
  */
 public class WConfig {
+
     /**
      * 默认的图片定位
      */
@@ -40,7 +42,7 @@ public class WConfig {
     /**
      * 默认是否显示菜单按钮
      */
-    public static final boolean DEFAULT_IS_SHOW_MENU = true;
+    public static final boolean DEFAULT_IS_SHOW_MENU = false;
     /**
      * 默认是否允许无限循环滑动
      */

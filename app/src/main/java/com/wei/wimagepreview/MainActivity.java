@@ -47,10 +47,7 @@ public class MainActivity extends AppCompatActivity {
             String[] imageList = getResources().getStringArray(R.array.image_list);
 
             List<WMenuItemInfo> wMenuItemInfoList = new ArrayList<>();
-            WMenuItemInfo wMenuItemInfo1 = new WMenuItemInfo();
-            wMenuItemInfo1.setIcon(WIcon.ANT_DOWNLOAD);
-            wMenuItemInfo1.setName("保存");
-            wMenuItemInfo1.setOnMenuItemListener(new OnMenuItemListener() {
+            WMenuItemInfo wMenuItemInfo1 = new WMenuItemInfo("保存", WIcon.ANT_DOWNLOAD, new OnMenuItemListener() {
                 @Override
                 public void onClick(WRecyclerView recyclerView, Object obj, int position) {
                     super.onClick(recyclerView, obj, position);

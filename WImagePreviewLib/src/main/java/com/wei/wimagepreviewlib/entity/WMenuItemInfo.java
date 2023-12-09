@@ -34,6 +34,59 @@ public class WMenuItemInfo {
 
     private OnMenuItemListener onMenuItemListener;
 
+    public WMenuItemInfo() {
+
+    }
+
+    public WMenuItemInfo(String name, OnMenuItemListener onMenuItemListener) {
+        this.name = name;
+        this.onMenuItemListener = onMenuItemListener;
+    }
+
+    public WMenuItemInfo(String name, String icon, OnMenuItemListener onMenuItemListener) {
+        this.name = name;
+        this.icon = icon;
+        this.onMenuItemListener = onMenuItemListener;
+    }
+
+    public WMenuItemInfo(String name,
+                         String icon,
+                         Integer textColor,
+                         OnMenuItemListener onMenuItemListener) {
+        this.name = name;
+        this.icon = icon;
+        this.textColor = textColor;
+        this.onMenuItemListener = onMenuItemListener;
+    }
+
+    public WMenuItemInfo(String name,
+                         String icon,
+                         Integer textColor,
+                         Integer backgroundColor,
+                         OnMenuItemListener onMenuItemListener) {
+        this.name = name;
+        this.icon = icon;
+        this.textColor = textColor;
+        this.backgroundColor = backgroundColor;
+        this.onMenuItemListener = onMenuItemListener;
+    }
+
+    public WMenuItemInfo(String name,
+                         String icon,
+                         Drawable iconDraw,
+                         Integer textColor,
+                         Drawable background,
+                         Integer backgroundColor,
+                         OnMenuItemListener onMenuItemListener) {
+        this.name = name;
+        this.icon = icon;
+        this.iconDraw = iconDraw;
+        this.textColor = textColor;
+        this.background = background;
+        this.backgroundColor = backgroundColor;
+        this.onMenuItemListener = onMenuItemListener;
+    }
+
     public String getName() {
         return name;
     }
