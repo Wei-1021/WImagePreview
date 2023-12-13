@@ -67,24 +67,32 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<MenuRecyclerVi
 
         private final WIconText menuLabelIcon;
         private final WIconText menuLabel;
-
         public AdapterHolder(@NonNull View itemView) {
             super(itemView);
-            menuLabelIcon = itemView.findViewById(R.id.menu_label_icon);
-            menuLabel = itemView.findViewById(R.id.menu_label);
+            this.menuLabelIcon = itemView.findViewById(R.id.menu_label_icon);
+            this.menuLabel = itemView.findViewById(R.id.menu_label);
         }
 
         public void bind(WMenuItemInfo wMenuItemInfo, WRecyclerView recyclerView, Object objectImg, int position) {
             if (wMenuItemInfo != null) {
+                if (wMenuItemInfo.getIconFontType() != null) {
+                    menuLabelIcon.setFontType(wMenuItemInfo.getIconFontType());
+                } else if (wMenuItemInfo.getTypeface() != null) {
+                    menuLabelIcon.setTypeface(wMenuItemInfo.getTypeface());
+                }
                 menuLabelIcon.setIconTextString(wMenuItemInfo.getIcon());
+
                 menuLabel.setText(wMenuItemInfo.getName());
                 if (wMenuItemInfo.getTextColor() != null) {
+                    menuLabelIcon.setTextColor(wMenuItemInfo.getTextColor());
                     menuLabel.setTextColor(wMenuItemInfo.getTextColor());
                 }
-                if (wMenuItemInfo.getBackground() != null) {
-                    menuLabel.setBackground(wMenuItemInfo.getBackground());
+                if (wMenuItemInfo.getBackgroundColor() != null) {
+                    super.itemView.setBackgroundColor(wMenuItemInfo.getBackgroundColor());
+                } else if (wMenuItemInfo.getBackground() != null) {
+                    super.itemView.setBackground(wMenuItemInfo.getBackground());
                 }
-                menuLabel.setOnClickListener(v -> wMenuItemInfo.getOnMenuItemListener().onClick(recyclerView, objectImg, position));
+                menuLabel.setOnClickListener(v -> wMenuItemInfo.getOnMenuItemListener().onClick(recyclerView, super.itemView, objectImg, position));
             } else {
                 menuLabel.setText(NO_VALUE);
             }

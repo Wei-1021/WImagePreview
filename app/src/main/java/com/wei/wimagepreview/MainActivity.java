@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
             List<WMenuItemInfo> wMenuItemInfoList = new ArrayList<>();
             WMenuItemInfo wMenuItemInfo1 = new WMenuItemInfo("保存", WIcon.ANT_DOWNLOAD, new OnMenuItemListener() {
                 @Override
-                public void onClick(WRecyclerView recyclerView, Object obj, int position) {
-                    super.onClick(recyclerView, obj, position);
+                public void onClick(WRecyclerView recyclerView, View itemView, Object obj, int position) {
+                    super.onClick(recyclerView, itemView, obj, position);
 
                     Log.i(TAG, "onClick: " + obj + ", " + position);
                     recyclerView.setInvisible();

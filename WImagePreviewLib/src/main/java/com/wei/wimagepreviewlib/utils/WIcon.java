@@ -13,8 +13,8 @@ import com.wei.wimagepreviewlib.wight.WIconText;
  * @author weizhanjie
  */
 public class WIcon {
-    /****************************************************************************/
-    /* Ant DeSign                                                             /
+    /****************************************************************************
+    /* Ant DeSign
     /****************************************************************************/
     public static final String ANT_HEAT_MAP = "&#xe83b;";
     public static final String ANT_CODESANDBOX = "&#xe93b;";
@@ -616,8 +616,8 @@ public class WIcon {
     public static final String ANT_GOLD = "&#xe83a;";
     public static final String ANT_SKYPE = "&#xe93a;";
 
-    /****************************************************************************/
-    /* Font Awesome                                                              /
+    /****************************************************************************
+    /* Font Awesome
     /****************************************************************************/
     public static final String FA_GLASS = "&#xf000;";
     public static final String FA_MUSIC = "&#xf001;";

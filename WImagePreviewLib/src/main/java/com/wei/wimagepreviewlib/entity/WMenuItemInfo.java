@@ -1,9 +1,11 @@
 package com.wei.wimagepreviewlib.entity;
 
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import com.wei.wimagepreviewlib.utils.*;
 
 import com.wei.wimagepreviewlib.listener.OnMenuItemListener;
+import com.wei.wimagepreviewlib.wight.WIconText;
 
 /**
  * 预览界面--菜单功能实体
@@ -20,6 +22,14 @@ public class WMenuItemInfo {
      * 字体图标，可以使用{@link WIcon}图标常量类，也可以使用自定义的图标库（必须是{@code &#x***;}的格式）
      */
     private String icon;
+    /**
+     * 字体图标库（默认Ant Design字体图标库）
+     */
+    private WIconText.FontType iconFontType;
+    /**
+     * 自定义字体图标库
+     */
+    private Typeface typeface;
 
     /**
      * 图片图标
@@ -133,6 +143,22 @@ public class WMenuItemInfo {
 
     public void setBackgroundColor(Integer backgroundColor) {
         this.backgroundColor = backgroundColor;
+    }
+
+    public WIconText.FontType getIconFontType() {
+        return iconFontType;
+    }
+
+    public void setIconFontType(WIconText.FontType iconFontType) {
+        this.iconFontType = iconFontType;
+    }
+
+    public Typeface getTypeface() {
+        return typeface;
+    }
+
+    public void setTypeface(Typeface typeface) {
+        this.typeface = typeface;
     }
 
     public OnMenuItemListener getOnMenuItemListener() {

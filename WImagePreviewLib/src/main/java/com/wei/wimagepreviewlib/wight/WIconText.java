@@ -58,18 +58,24 @@ public class WIconText extends androidx.appcompat.widget.AppCompatTextView {
     }
 
     /**
-     * 设置字体图标库类型
+     * 设置字体图标库类型。<br>
+     * WIconText继承自AppCompatTextView，
+     * 因此可以直接使用{@link #setTypeface(Typeface tf)}自定义字体图标库
      *
      * @param fontType {@link com.wei.wimagepreviewlib.wight.WIconText.FontType#ANT_DESIGN}：Ant Design字体图标库；<br/>
      *                 {@link com.wei.wimagepreviewlib.wight.WIconText.FontType#FONT_AWESOME}：Font Awesome字体图标库
      */
     public void setFontType(WIconText.FontType fontType) {
-        if (FontType.ANT_DESIGN == fontType) {
-            Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), ANT_DESIGN_PATH);
-            setTypeface(typeface);
-        } else if (FontType.FONT_AWESOME == fontType) {
-            Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), FONT_AWESOME_PATH);
-            setTypeface(typeface);
+        switch (fontType) {
+            case ANT_DESIGN:
+                setTypeface(Typeface.createFromAsset(mContext.getAssets(), ANT_DESIGN_PATH));
+                break;
+            case FONT_AWESOME:
+                setTypeface(Typeface.createFromAsset(mContext.getAssets(), FONT_AWESOME_PATH));
+                break;
+            default:
+                setTypeface(Typeface.createFromAsset(mContext.getAssets(), ANT_DESIGN_PATH));
+                break;
         }
     }
 
