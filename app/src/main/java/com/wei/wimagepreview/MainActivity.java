@@ -65,13 +65,21 @@ public class MainActivity extends AppCompatActivity {
                     .setInfiniteLoop(true)
                     .setPageTransformer(PageTransformer.PAGE_TRANSFORM_DEPTH)
                     .setAnim(WAnim.ALL_OUTSIDE_SCALE)
+                    .setShowMenu(true)
                     .setMoreMenu(wMenuItemInfoList)
                     .setOnPageListener(new OnPageListener() {
                         @Override
+                        public void onClick(Object o, int position) {
+                            super.onClick(o, position);
+//                            Log.i(TAG, "onClick: " + position);
+                        }
+
+                        @Override
                         public void onPageSelected(int position) {
                             super.onPageSelected(position);
-                            Log.i(TAG, "onPageSelected: " + position);
+//                            Log.i(TAG, "onPageSelected: " + position);
                         }
+
                     })
                     .start();
         });

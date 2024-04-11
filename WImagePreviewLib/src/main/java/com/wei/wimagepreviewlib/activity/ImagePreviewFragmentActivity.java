@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,6 +56,14 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      */
     private ViewPager2 viewPager2;
     /**
+     * 顶部导航栏
+     */
+    private LinearLayout topBarLinearLayout;
+    /**
+     * 底部导航栏
+     */
+    private LinearLayout bottomBarLinearLayout;
+    /**
      * 底部数字指示器组件
      */
     private TextView numIndicatorTextView;
@@ -84,6 +95,10 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
      * 页面监听器
      */
     private OnPageListener onPageListener;
+    /**
+     * 手势识别探测器
+     */
+    private GestureDetector mDetector;
     /**
      * 当前图片所展示的定位
      */
@@ -183,6 +198,8 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         setContentView(R.layout.w_fragment_image_preview);
         try {
             numIndicatorTextView = findViewById(R.id.image_view_pager_num_indicator);
+            topBarLinearLayout = findViewById(R.id.image_view_pager_top_bar);
+            bottomBarLinearLayout = findViewById(R.id.image_view_pager_bottom_bar);
             initParam();
             if (onPageListener != null) {
                 onPageListener.onOpen(showPosition);
@@ -193,6 +210,8 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             if (isFullscreen) {
                 initStatusBar();
             }
+
+            mDetector = new GestureDetector(ImagePreviewFragmentActivity.this, mGestureListener);
         } catch (WImagePreviewException e) {
             e.printStackTrace();
         }
@@ -289,7 +308,7 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         closeBtn = findViewById(R.id.image_view_pager_close);
         closeBtn.setTextColor(Color.WHITE);
         closeBtn.setTextSize(25);
-        closeBtn.setIconTextString(WIcon.ANT_CLOSE);
+        closeBtn.setIconTextString(WIcon.ANT_LEFT);
         if (!isShowClose) {
             closeBtn.setVisibility(View.GONE);
             return;
@@ -312,12 +331,13 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         menuBtn.setTextColor(Color.WHITE);
         menuBtn.setTextSize(30);
         menuBtn.setIconTextString(WIcon.ANT_ELLIPSIS);
+        menuBtn.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
 
         menuRecyclerView = findViewById(R.id.image_view_pager_menu_recyclerView);
-        menuRecyclerView.setVisibility(View.GONE);
+        menuRecyclerView.setVisibility(View.INVISIBLE);
 
         if (!isShowMenu) {
-            menuBtn.setVisibility(View.GONE);
+            menuBtn.setVisibility(View.INVISIBLE);
             return;
         }
 
@@ -417,7 +437,10 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
             onPageListener.onClick(imageList.get(currentPosition), currentPosition);
         }
 
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+        mDetector.onTouchEvent(ev);
+
+        int evAction = ev.getAction();
+        if (evAction == MotionEvent.ACTION_DOWN) {
             // 获取点击坐标
             int x = (int) ev.getRawX();
             int y = (int) ev.getRawY();
@@ -428,7 +451,6 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
                 }
             }
         }
-
         return super.dispatchTouchEvent(ev);
     }
 
@@ -442,6 +464,32 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         }
     }
 
+    /**
+     * 切换顶部和底部特定导航栏的可见模式
+     */
+    private void topBottomBarVisibility() {
+        if (topBarLinearLayout.getVisibility() == View.VISIBLE) {
+            topBarLinearLayout.setVisibility(View.GONE);
+            topBarLinearLayout.setAnimation(AnimationUtils.loadAnimation(
+                    ImagePreviewFragmentActivity.this, R.anim.out_bottom_to_top));
+        } else if (topBarLinearLayout.getVisibility() == View.GONE) {
+            topBarLinearLayout.setVisibility(View.VISIBLE);
+            topBarLinearLayout.setAnimation(AnimationUtils.loadAnimation(
+                    ImagePreviewFragmentActivity.this, R.anim.in_top_to_bottom));
+        }
+
+        if (bottomBarLinearLayout.getVisibility() == View.VISIBLE) {
+            bottomBarLinearLayout.setVisibility(View.GONE);
+            bottomBarLinearLayout.setAnimation(AnimationUtils.loadAnimation(
+                    ImagePreviewFragmentActivity.this, R.anim.out_top_to_bottom));
+        } else if (bottomBarLinearLayout.getVisibility() == View.GONE) {
+            bottomBarLinearLayout.setVisibility(View.VISIBLE);
+            bottomBarLinearLayout.setAnimation(AnimationUtils.loadAnimation(
+                    ImagePreviewFragmentActivity.this, R.anim.in_bottom_to_top));
+        }
+
+    }
+
 
     public static class MenuBottomDialogFragment extends BottomSheetDialogFragment {
         @Nullable
@@ -451,5 +499,19 @@ public class ImagePreviewFragmentActivity extends FragmentActivity {
         }
     }
 
-
+    /**
+     * 手势监听事件
+     */
+    private GestureDetector.OnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
+        /**
+         * 单击确认事件（用于区分双击事件）
+         * @param e The down motion event of the single-tap.
+         * @return
+         */
+        @Override
+        public boolean onSingleTapConfirmed(@NonNull MotionEvent e) {
+            topBottomBarVisibility();
+            return super.onSingleTapConfirmed(e);
+        }
+    };
 }

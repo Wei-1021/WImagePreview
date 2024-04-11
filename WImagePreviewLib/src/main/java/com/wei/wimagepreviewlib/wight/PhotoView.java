@@ -42,7 +42,7 @@ public class PhotoView extends AppCompatImageView {
     /**
      * 动画时长
      */
-    private final static int ANIMA_DURING = 340;
+    private final static int ANIMA_DURING = 300;
     /**
      * 最大缩放倍数
      */

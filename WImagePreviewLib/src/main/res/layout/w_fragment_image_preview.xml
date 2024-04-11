@@ -12,36 +12,82 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <TextView
-        android:id="@+id/image_view_pager_num_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_marginBottom="50dp"
-        android:text="0/0"
-        android:textColor="@color/white"
-        android:textAlignment="center"
-        tools:ignore="RtlCompat" />
+    <LinearLayout
+        android:id="@+id/image_view_pager_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#55000000">
+        <com.wei.wimagepreviewlib.wight.WIconText
+            android:id="@+id/image_view_pager_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="35dp"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:visibility="visible" />
 
-    <com.wei.wimagepreviewlib.wight.WIconText
-        android:id="@+id/image_view_pager_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="20dp"
-        android:padding="8dp"
-        android:visibility="visible" />
+        <com.wei.wimagepreviewlib.wight.WIconText
+            android:id="@+id/image_view_top_bar_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:layout_weight="3"
+            android:visibility="visible" />
 
-    <com.wei.wimagepreviewlib.wight.WIconText
-        android:id="@+id/image_view_pager_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_gravity="bottom|end"
-        android:padding="20dp"
-        android:visibility="visible" />
+
+        <com.wei.wimagepreviewlib.wight.WIconText
+            android:id="@+id/image_view_top_bar_other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="35dp"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/image_view_pager_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_gravity="bottom"
+        android:gravity="center_vertical"
+        android:background="#55000000">
+        <com.wei.wimagepreviewlib.wight.WIconText
+            android:id="@+id/image_view_bottom_bar_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/image_view_pager_num_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0/0"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:textAlignment="center"/>
+
+        <com.wei.wimagepreviewlib.wight.WIconText
+            android:id="@+id/image_view_pager_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:visibility="visible" />
+    </LinearLayout>
+
 
     <com.wei.wimagepreviewlib.wight.WRecyclerView
         android:id="@+id/image_view_pager_menu_recyclerView"
