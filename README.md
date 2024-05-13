@@ -15,10 +15,10 @@ allprojects {
     }
 }
 ```
-## 2.引入依赖
+## 2.引入依赖(最新的版本查看上面的jitpack标签，因为有时候会忘记更新文档)
 ```
 dependencies {
-    implementation 'com.github.Wei-1021:WImagePreview:1.4.2'
+    implementation 'com.github.Wei-1021:WImagePreview:1.4.3'
 }
 ```
 
