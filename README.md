@@ -1,5 +1,5 @@
 # WImagePreview
-本项目是基于ViewPager2构建的一个Android图片预览组件\
+本项目是基于ViewPager2构建的一个Android图片预览组件，解决显示大尺寸图片和大批量图片时带来的性能问题\
 [![](https://jitpack.io/v/Wei-1021/WImagePreview.svg)](https://jitpack.io/#Wei-1021/WImagePreview)\
 仓库：\
 [![](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Wei-1021/WImagePreview)
