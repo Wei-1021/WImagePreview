@@ -351,6 +351,7 @@ public class WImagePreviewBuilder {
 
     public void start() {
         intent.setClass(mContext, ImagePreviewFragmentActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
         if (enterAnim != 0 && exitAnim != 0) {
             ((Activity) mContext).overridePendingTransition(enterAnim, exitAnim);

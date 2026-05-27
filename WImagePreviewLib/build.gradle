@@ -25,12 +25,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    publishing {
+        singleVariant("release")
+    }
 }
 
 afterEvaluate {
     publishing {
         // 当前依赖库的版本号
-        def versionName = "1.4.2"
+        def versionName = "1.4.3"
         publications {
             release(MavenPublication) {
                 from components.release // release

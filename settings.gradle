@@ -1,5 +1,8 @@
 pluginManagement {
     repositories {
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://jitpack.io' }
+        google { url 'https://maven.aliyun.com/repository/google' }
         google()
         mavenCentral()
         gradlePluginPortal()
@@ -12,6 +15,8 @@ dependencyResolutionManagement {
             url "https://jitpack.io"
             allowInsecureProtocol = true // 如果 url 为 http 协议，需要添加此项；https 可不用
         }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        google { url 'https://maven.aliyun.com/repository/google' }
         google()
         mavenCentral()
     }
